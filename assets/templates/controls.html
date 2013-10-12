@@ -1,0 +1,35 @@
+<div id="bus-id">
+  <div id="bus-number">
+    <h2>{{route.shortName}}<span></span></h2>
+  </div>
+  <div id="route-selector"></div>
+</div>
+
+<div id="bus-direction-wrapper">
+  <div id="bus-number">
+    <div>
+      {{#each route.directions}}
+        <a class="route" data-direction="{{directionId}}">
+          {{destination}}
+        </a>
+      {{/each}}
+    </div>
+  </div>
+  <div id="via-text">
+    <p><i>{{route.description}}</i></p>
+  </div>
+</div>
+
+<div id="misc-info">
+
+  <div class="tracking-status {{#if live}}live{{else}}offline{{/if}}">
+    <p>{{#if live}}Live{{else}}Offline{{/if}}</p>
+  </div>
+
+  <div class="fave-route" id="fave-route-not">
+      <p>Favorite</p>
+  </div>
+<!--   <div class="fave-route" id="fave-route-selected">
+      <p>Favorite</p>
+  </div> -->
+</div>
