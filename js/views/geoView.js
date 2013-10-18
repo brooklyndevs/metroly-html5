@@ -11,11 +11,11 @@ define([
 
 
   var GeoView = Backbone.View.extend({
-    el: '#geoContainer',
+    el: '.geoContainer',
     template: H.compile(controlsTpl),
 
     events: {
-      'click .geoBtn': 'toggleActive'
+      'click #geo-btn': 'toggleActive'
     },
 
     initialize: function () {
