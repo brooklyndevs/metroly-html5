@@ -1,224 +1,37 @@
-/* Edit below */
-/*-----CSS Reset ----------------------------------------------- */
-* { margin: 0; padding: 0;}
-ul, li { list-style-type: none;}
-
-/*-----FONTS ----------------------------------------------- */
-h1, h2, h3, h4, h5, h6, a, p
-{   font-family: Helvetica, Sans-Serif;
-    }
-
-a:link {color:#ffffff;text-decoration:none;}
-a:visited {color:#ffffff;text-decoration:none;}
-a:hover { color:#ffffff; text-decoration:none; cursor:pointer;}
-a:active{color:#ffffff;text-decoration:none; cursor:pointer;}
-
-header
-{   color:#ffffff;
-    font-size:1.125em;
-    }
-
-#control-panel #bus-id h2 /*Bus ID - Small letter*/
-{   color:#ffffff;
-    font-size:3.2em;
-    }
-
-#control-panel #bus-id h2 span /*Bus ID - Large number*/
-{   font-size:1.66em;
-    line-height:1.3em;
-    }
-
-#control-panel p,
-#control-panel a
-{   display:inline;
-    font-size: 1.125em;
-    font-weight:normal;
-    color:#ffffff;
-    }
-
-#control-panel #bus-direction-wrapper #via-text i /*style for "via" text*/
-{   color:#555555;
-    }
-
-/*-----CSS ----------------------------------------------- */
-html, body
-{   height:100%;
-    width:100%;
-    overflow: hidden;
+html, body {
+    padding: 0;
+    margin: 0;
+    /*overflow: hidden;*/
 }
 
-header
-{   display:block;
-    position:absolute;
-    z-index:1000;
-    height:55px;
-    width:100%;
-    background-color:#121212;
-    opacity:.965;
-    }
-
-header #header-wrapper
-{   display:block;
-    max-width:1250px;
-    height:auto;
-    position:absolute;
-    left:65px;
-    margin-left:auto;
-    margin-right:auto;
-    }
-
-#header-logo
-{   width:300px;
-    float:left;
-    padding:15px;
-    }
-
-header #nav-tabs
-{   display:inline;
-    float:right;
-    margin-left:700px;
-    }
-
-header #nav-tabs li
-{   display:inline;
-    float:left;
-    padding:15px;
-    }
-
-#control-panel
-{   display:block;
-    position:absolute;
-    left:65px;
-    top:110px;
-    background-color:#121212;
-    width:300px;
-    height:450px;
-    z-index:999;
-    opacity:.965;
-    }
-
-#control-panel #bus-id
-{   display:block;
-    width:100%;
-    height:25%;
-    background-color:#006cb7;
-    position:relative;
-    }
-
-#control-panel #bus-id #bus-number
-{   display:block;
-    margin:0 20px;
-    float:left;
-    }
-
-#route-selector
-{   display:block;
-    float:right;
-    background-image:url('../images/icon_list.png');
-    background-position:20px center;
-    background-repeat:no-repeat;
-    width:25%;
-    height:100%;
-    }
-
-#bus-direction-wrapper
-{   display:block;
-    }
-
-#control-panel #bus-direction-wrapper .route
-{   display:block;
-    width:auto;
-    padding-left:60px;
-    padding-top:12.5%;
-    padding-bottom:12.5%;
-    background-position:20px center;
-    background-repeat:no-repeat;
-    background-image:url('../images/icon_circle_empty.png');
-    color:#555555;
-    }
-
-#control-panel #bus-direction-wrapper .route-selected
-{   background-image:url('../images/icon_circle_selected.png');
-    color:#ffffff;
-    }
-
-#via-text
-{   display:block;
-    margin-left:55px;
-    position:absolute;
-    bottom:15%;
-    }
-
-#misc-info
-{   display:block;
-    width:100%;
-    height:12.5%;
-    position:absolute;
-    bottom:0;
-    border-color:#fff;
-    border-style:solid;
-    border-width:1px;
-    border-bottom:none;
-    border-right:none;
-    border-left:none;
-    }
-
-.tracking-status,
-.fave-route
-{   display:block;
-    width:90px;
-    padding:17px 0 17px 60px;
-    background-position:20px center;
-    background-repeat:no-repeat;
-    float:left;
-    }
-
-.live {
-    background-image:url('../images/icon_live.png');
+#main-header {
+    z-index: 2;
+    background: #333;
+    color: #fff;
 }
 
-.offline {
-    background-image:url('../images/icon_offline.png');
+#main-header a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-#fave-route-not   /*Not fav icon*/
-{   background-image:url('../images/icon_add_empty.png');
-    opacity: 0.1;
-    }
+#main-header a:hover {
+    background: #c0c0c0;
+}
 
-#fave-route-selected  /*Yes Fav icon*/
-{   display:none; background-image:url('../images/icon_add_selected.png');
-    }
+.btn {
+    display: block;
+    margin-top: 20px;
+    max-width: 25px;
+    height: 20px;
+    background: white;
+    color: black;
+}
 
-#map-wrapper
-{   height: 100%;
-    width: 100%;
-    }
-
-#map-wrapper #map
-{   height: 100%;
-    width: 100%;
-    }
-/*-----Hover/Active States ----------------------------------------------- */
-
-#control-panel #bus-direction-wrapper .route:hover,
-#control-panel #misc-info .tracking-status:hover,
-#control-panel #misc-info .fave-route:hover
-{   background-color:#222222;
-    cursor:pointer;
-    }
-
-#control-panel #bus-direction-wrapper .route:active,
-#control-panel #misc-info .tracking-status:active,
-#control-panel #misc-info .fave-route:active
-{   background-color:#252525;
-    cursor:pointer;
-    }
-
-#control-panel #bus-id #route-selector:hover
-{   cursor:pointer;
-    }
-
-#control-panel #bus-id #route-selector:active
-{  cursor:pointer;
-    }
+/* XX If possible, remove through leaflet */
+.leaflet-control-container {
+    display: none;
+}
