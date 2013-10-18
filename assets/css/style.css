@@ -24,9 +24,9 @@ html, body {
 
 .btn {
     display: block;
-    margin-top: 20px;
+    margin-top: 8px;
     max-width: 25px;
-    height: 20px;
+/*    height: 20px;*/
     background: white;
     color: black;
 }
@@ -44,4 +44,31 @@ html, body {
 /* XX If possible, remove through leaflet */
 .leaflet-control-container {
     display: none;
+}
+
+.footer-absolute{
+    position:absolute;
+    left:0px;
+    bottom:0px;
+    height:50px;
+    width:100%;
+
+}
+/*#main-footer {
+    z-index: 2;
+    background: #333;
+    color: #fff;
+}
+*/
+#main-footer a {
+    color: #000000;
+    text-decoration: none;
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#main-footer a:hover {
+    background: #333;
+    color:white;
 }
