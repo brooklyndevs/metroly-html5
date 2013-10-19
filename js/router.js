@@ -1,7 +1,11 @@
 /*global define */
 
-define(['jquery', 'backbone', 'application'], function ($, Backbone, App) {
+define(['jquery', 'backbone', 'application', 'domReady'], function ($, Backbone, App, domReady) {
   "use strict";
+
+  domReady(function () {
+    require(['metrolyUi']);
+  });
 
   var Router, self = this;
 
@@ -18,9 +22,9 @@ define(['jquery', 'backbone', 'application'], function ($, Backbone, App) {
     var app = new App();
 
     $(function () {
-    
-    	app.selectBus('b63');
-    	
+
+    	app.selectBus('b61');
+
       router.on('route:selectBus', function (busline) {
         app.selectBus(busline);
       });

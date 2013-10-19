@@ -8,7 +8,10 @@ require.config({
     handlebars: '../assets/libs/handlebars',
     leaflet: '../assets/libs/leaflet/leaflet',
     busesnyc: '../assets/libs/busesNYC',
-    shortpoll: 'helpers/poller'
+    shortpoll: 'helpers/poller',
+    metrolySideNav: 'https://rawgithub.com/brooklyndevs/metroly-ui/master/src/js/side-nav', // XX Put inside of metroly-ui
+    metrolyUi: 'https://rawgithub.com/brooklyndevs/metroly-ui/master/metroly-ui',
+    storage: 'services/storage'
   },
   shim: {
     backbone: {
@@ -31,6 +34,10 @@ require.config({
     shortpoll: {
       deps: ['jquery'],
       exports: 'ShortPoll'
+    },
+    metrolyUi: {
+      deps: ['metrolySideNav'], // XX Put this into metrolyui
+      exports: 'MetrolyUi'
     }
   }
 });

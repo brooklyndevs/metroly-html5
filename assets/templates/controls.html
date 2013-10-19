@@ -1,35 +1,13 @@
-<div id="bus-id">
-  <div id="bus-number">
-    <h2>{{route.shortName}}<span></span></h2>
-  </div>
-  <div id="route-selector"></div>
+<div class="col-1">
+  <a href="#" id='menu-btn' class='btn side-nav-toggle center center-text'>M</a>
 </div>
 
-<div id="bus-direction-wrapper">
-  <div id="bus-number">
-    <div>
-      {{#each route.directions}}
-        <a class="route" data-direction="{{directionId}}">
-          {{destination}}
-        </a>
-      {{/each}}
-    </div>
-  </div>
-  <div id="via-text">
-    <p><i>{{route.description}}</i></p>
-  </div>
-</div>
+<h1 class='col-10 center-text'>{{route.shortName}}</h1>
 
-<div id="misc-info">
+<div id='app-controls' class="col-1"></div>
 
-  <div class="tracking-status {{#if live}}live{{else}}offline{{/if}}">
-    <p>{{#if live}}Live{{else}}Offline{{/if}}</p>
-  </div>
-
-  <div class="fave-route" id="fave-route-not">
-      <p>Favorite</p>
-  </div>
-<!--   <div class="fave-route" id="fave-route-selected">
-      <p>Favorite</p>
-  </div> -->
+<div class='col-12'>
+  {{#each route.directions}}
+    <a href="#" class="col-6 center-text route" data-direction="{{directionId}}">{{destination}}</a>
+  {{/each}}
 </div>

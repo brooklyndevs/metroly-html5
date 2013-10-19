@@ -19,7 +19,7 @@ html, body {
 }
 
 #main-header a:hover {
-    background: #c0c0c0;
+    /*background: #c0c0c0;*/
 }
 
 .btn {
@@ -39,6 +39,10 @@ html, body {
     background: #A0E6FF;
     height: 1200px;
     width: 150px;
+}
+
+.fav-active {
+    background: orange;
 }
 
 /* XX If possible, remove through leaflet */

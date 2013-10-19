@@ -7,7 +7,11 @@ define([
   'backbone',
   'handlebars',
   'text!../../assets/templates/controls.html',
-], function ($, _, Backbone, H, controlsTpl) {
+  'views/favoriteView',
+  'storage'
+], function ($, _, Backbone, H, controlsTpl, FavoriteView, Storage) {
+
+  var storage = new Storage('buses');
 
   var Helpers = {
     visuallySelectRoute: function (jqTarget) {
@@ -17,19 +21,26 @@ define([
   };
 
   var ControlsView = Backbone.View.extend({
-    el: '#control-panel',
+    el: '#main-header',
     template: H.compile(controlsTpl),
 
     events: {
       'click .route': 'selectDirection',
-      'click .tracking-status': 'toggleLive'
+      'click .tracking-status': 'toggleLive',
     },
 
     initialize: function () {
       this.model.on('change:bus', this.render, this);
       this.model.on('change:route', this.render, this);
       this.model.on('change:live', this.render, this);
+    },
 
+    favorite: function (e) {
+      var selectedBus = this.model.get('bus');
+      storage.toggle(selectedBus, selectedBus);
+      storage.save();
+
+      console.log('State of storage: ', storage.data);
     },
 
     toggleLive: function (e) {
@@ -56,6 +67,15 @@ define([
       this.$el.html(html);
 
       Helpers.visuallySelectRoute($('[data-direction="0"]'));
+
+      var isFav = storage.contains(this.model.get('bus'));
+      this.favoriteBtn = new FavoriteView({
+        el: "#app-controls",
+        model: new (Backbone.Model.extend({ defaults: {isActive: isFav}}))
+      });
+      this.favoriteBtn.model.on('change:isActive', this.favorite, this);
+      this.favoriteBtn.render();
+
       return this;
     }
   });

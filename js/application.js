@@ -7,7 +7,7 @@ define([
   'views/controlsView',
   'models/mapModel',
   'views/geoView',
-  'models/geoModel'
+  'models/geoModel',
 ], function (Backbone, MapView, ControlsView, MapModel, GeoView, GeoModel) {
   "use strict";
 
@@ -15,7 +15,7 @@ define([
     apiKey = '36ad9e86-f0b4-4831-881c-55c8d44473b3',
     mapModel = new MapModel({apiKey: apiKey}),
     controlsView = new ControlsView({model: mapModel}),
-    mapView = new MapView({model: mapModel}),    
+    mapView = new MapView({model: mapModel}),
     geoModel = new GeoModel(),
     geoView = new GeoView({model: geoModel});
 
