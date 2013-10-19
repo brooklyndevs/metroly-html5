@@ -25,9 +25,9 @@ html, body {
 .btn {
     display: block;
     margin-top: 8px;
-    max-width: 35px;
+    width: 35px;
 /*    height: 20px;*/
-    background: white;
+    background: #aaa;
     color: black;
 }
 
@@ -50,14 +50,6 @@ html, body {
     display: none;
 }
 
-.footer-absolute{
-    position:absolute;
-    left:0px;
-    bottom:0px;
-    height:50px;
-    width:100%;
-
-}
 
 .left{
     float:left;
@@ -65,16 +57,30 @@ html, body {
 .right{
     float:right;
 }
-
-#main-footer a {
-    color: #000000;
+.disabled {
+   pointer-events: none;
+   cursor: default;
+}
+#liveContainer{
+    position:absolute;
+    left:30px;
+    bottom:30px;
+    width:80px;
+}
+#geoContainer{
+    position:absolute;
+    right:50px;
+    bottom:30px;
+    width:50px;
+}
+#liveContainer a, #geoContainer a{
+    width:100%;
+    padding:10px;
     text-decoration: none;
-    display: block;
-    padding-top: 10px;
-    padding-bottom: 10px;
+
+}
+#liveContainer a:hover, #geoContainer a:hover{
+    color:white;
+    background:#333;
 }
 
-#main-footer a:hover {
-    background: #333;
-    color:white;
-}

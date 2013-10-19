@@ -132,6 +132,8 @@ define([
       this.model.onBusesChanged(this.showBuses, this);
       this.model.on('change:route', this.cacheRoute, this);
       this.model.on('change:direction', this.changeDirection, this);
+
+      this.initGeoLocate();
     },
 
     initMap: function () {
@@ -141,6 +143,54 @@ define([
       this.ensureMapHeight();
       cloudmadeTiles.addTo(this.map);
       this.map.setMaxBounds(maxBounds);
+    },
+
+    initGeoLocate: function (){
+      var self = this;
+      this.map.on("locationerror", function() {
+        console.log("Location error");
+        // L.circle(locations.brooklyn, 100, circleOptions).addTo(this.map);
+      });
+
+      this.map.on("locationfound", function(locData) {
+        console.log("Location found");
+
+        var lat = locData.latlng.lat;
+        var lng = locData.latlng.lng;
+        // var myIcon = L.divIcon({className: 'leaflet-div-icon'});
+        // L.marker([lat, lng], {icon: myIcon}).bindPopup("You are here!").addTo(self.map);
+        self.geoCircle1 = L.circle([lat, lng], 10, {
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.8
+        }).addTo(self.map);
+
+        self.geoCircle2  = L.circle([lat, lng], 400, {
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.1
+        }).addTo(self.map);
+
+        $("#geo-btn").removeClass("disabled");
+      });
+    },
+
+    addGeoLocate: function (){
+      console.log("Add Geo");
+      $("#geo-btn").addClass("disabled");
+      this.map.locate({
+        setView: true,
+        maxZoom: 15,
+        watch: false
+      });
+    },
+
+    removeGeoLocate: function (){
+      console.log("Remove Geo");
+      if(this.geoCircle1 && this.geoCircle1){
+        this.map.removeLayer(this.geoCircle1);
+        this.map.removeLayer(this.geoCircle2);
+      }
     },
 
     ensureMapHeight: function () {
