@@ -46,14 +46,7 @@ html, body {
     display: none;
 }
 
-.footer-absolute{
-    position:absolute;
-    left:0px;
-    bottom:0px;
-    height:50px;
-    width:100%;
 
-}
 
 .left{
     float:left;
@@ -62,15 +55,26 @@ html, body {
     float:right;
 }
 
-#main-footer a {
-    color: #000000;
+#liveContainer{
+    position:absolute;
+    left:50px;
+    bottom:30px;
+    height:50px;
+    width:50px;
+}
+#geoContainer{
+    position:absolute;
+    right:50px;
+    bottom:30px;
+    height:50px;
+    width:50px;
+}
+#liveContainer a, #geoContainer a{
+    padding:10px;
     text-decoration: none;
-    display: block;
-    padding-top: 10px;
-    padding-bottom: 10px;
+}
+#liveContainer a:hover, #geoContainer a:hover{
+    color:white;
+    background:#333;
 }
 
-#main-footer a:hover {
-    background: #333;
-    color:white;
-}
