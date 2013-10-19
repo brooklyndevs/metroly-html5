@@ -8,7 +8,7 @@ define([
 
   var LiveModel = Backbone.Model.extend({
     defaults: {
-      active: false
+      active: true
     },
 
     initialize: function () {

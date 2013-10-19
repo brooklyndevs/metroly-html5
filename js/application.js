@@ -28,9 +28,10 @@ define([
 
     initialize: function () {
       geoModel.on('change:active', this.geoLocate);
+      liveModel.on('change:active', this.liveClicked);
     },
     geoLocate: function (){
-      console.log("From application view change active");
+      console.log("From GEO application view change active");
       if(geoModel.get("active")){
         mapView.addGeoLocate();
         // if (!this.poll) {
@@ -43,6 +44,16 @@ define([
       }else{
         //this.poll.stop();
         mapView.removeGeoLocate();
+      }
+      
+    },
+    liveClicked: function (){
+      console.log("From LIVE application view change active");
+
+      if(liveModel.get("active")){
+        mapView.startBusTracking();
+      }else{
+        mapView.poll.stop();
       }
       
     },
