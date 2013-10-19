@@ -11,8 +11,7 @@ define([
     defaults: {
       bus: undefined,
       direction: 0,
-      route: {},
-      live: true
+      route: {}
     },
 
     initialize: function () {
@@ -41,11 +40,7 @@ define([
         self.set('route', route);
       });
     },
-
-    toggleLive: function () {
-      this.set('live', !this.get('live'));
-    },
-
+    
     onBusesChanged: function (cb, ctx) {
       this.busesChangedCbs.push(_.bind(cb, ctx));
     },

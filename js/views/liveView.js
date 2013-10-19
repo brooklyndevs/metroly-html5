@@ -6,20 +6,20 @@ define([
   'underscore',
   'backbone',
   'handlebars',
-  'text!../../assets/templates/geoBtn.html',
+  'text!../../assets/templates/liveBtn.html',
 ], function ($, _, Backbone, H, controlsTpl) {
 
 
-  var GeoView = Backbone.View.extend({
-    el: '#geoContainer',
+  var LiveView = Backbone.View.extend({
+    el: '#liveContainer',
     template: H.compile(controlsTpl),
 
     events: {
-      'click #geo-btn': 'toggleActive'
+      'click #live-btn': 'toggleActive'
     },
 
     initialize: function () {
-      console.log("Geo view Created");
+      console.log("Live view Created");
       this.model.on('change:active', this.render, this);
       this.render();
     },
@@ -42,5 +42,5 @@ define([
     }
   });
 
-  return GeoView;
+  return LiveView;
 });

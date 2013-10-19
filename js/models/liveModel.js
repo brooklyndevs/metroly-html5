@@ -6,22 +6,22 @@ define([
   'backbone',
 ], function (_, Backbone) {
 
-  var GeoModel = Backbone.Model.extend({
+  var LiveModel = Backbone.Model.extend({
     defaults: {
       active: false
     },
 
     initialize: function () {
-      console.log("Geo Model Created");
+      console.log("Live Model Created");
 
     },
 
     toggleActive: function () {
-      console.log("Geo BTN Clicked");
+      console.log("Live BTN Clicked");
       this.set('active', !this.get('active'));
     }
 
   });
 
-  return GeoModel;
+  return LiveModel;
 });

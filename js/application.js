@@ -7,8 +7,10 @@ define([
   'views/controlsView',
   'models/mapModel',
   'views/geoView',
-  'models/geoModel'
-], function (Backbone, MapView, ControlsView, MapModel, GeoView, GeoModel) {
+  'models/geoModel',
+  'views/liveView',
+  'models/liveModel'
+], function (Backbone, MapView, ControlsView, MapModel, GeoView, GeoModel, LiveView, LiveModel) {
   "use strict";
 
   var AppView,
@@ -17,15 +19,33 @@ define([
     controlsView = new ControlsView({model: mapModel}),
     mapView = new MapView({model: mapModel}),    
     geoModel = new GeoModel(),
-    geoView = new GeoView({model: geoModel});
+    geoView = new GeoView({model: geoModel}),
+    liveModel = new LiveModel(),
+    liveView = new LiveView({model: liveModel});
 
 
   AppView = Backbone.View.extend({
 
     initialize: function () {
-
+      geoModel.on('change:active', this.geoLocate);
     },
-
+    geoLocate: function (){
+      console.log("From application view change active");
+      if(geoModel.get("active")){
+        mapView.addGeoLocate();
+        // if (!this.poll) {
+        //   this.poll = new ShortPoll(5000);
+        // }
+        // this.poll.start(function(){
+        //   mapView.addGeoLocate();
+        //   mapView.removeGeoLocate();
+        // });
+      }else{
+        //this.poll.stop();
+        mapView.removeGeoLocate();
+      }
+      
+    },
     selectBus: function (bus) {
       mapModel.set('bus', bus);
     },
