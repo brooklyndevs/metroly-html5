@@ -18,10 +18,13 @@ html, body {
     padding-bottom: 10px;
 }
 
-#header-wrapper a:hover {
-    /*background: #c0c0c0;*/
+#route-wrapper a:hover {
+    background: #c0c0c0;
 }
-
+#header-info h1{
+    /*background: #c0c0c0;*/
+    margin-top:15px;
+}
 .btn {
     display: block;
     margin-top: 8px;
