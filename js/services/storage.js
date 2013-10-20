@@ -21,6 +21,11 @@ define([], function () {
     this.data = getFromLocalStorage(collName);
   };
 
+  Storage.get = function (collName) {
+    var storage = new Storage(collName);
+    return storage.data;
+  };
+
   Storage.prototype.toggle = function (name, data) {
     if (this.data[name]) {
       this.remove(name);

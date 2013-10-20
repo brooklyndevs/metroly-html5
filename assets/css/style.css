@@ -4,13 +4,13 @@ html, body {
     overflow: hidden;
 }
 
-#main-header {
+#header-wrapper {
     z-index: 2;
     background: #333;
     color: #fff;
 }
 
-#main-header a {
+#header-wrapper a {
     color: #fff;
     text-decoration: none;
     display: block;
@@ -18,7 +18,7 @@ html, body {
     padding-bottom: 10px;
 }
 
-#main-header a:hover {
+#header-wrapper a:hover {
     /*background: #c0c0c0;*/
 }
 

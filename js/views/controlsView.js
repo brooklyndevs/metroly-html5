@@ -11,7 +11,7 @@ define([
   'storage'
 ], function ($, _, Backbone, H, controlsTpl, FavoriteView, Storage) {
 
-  var storage = new Storage('buses');
+  var storage = new Storage('favBuses');
 
   var Helpers = {
     visuallySelectRoute: function (jqTarget) {
@@ -21,7 +21,7 @@ define([
   };
 
   var ControlsView = Backbone.View.extend({
-    el: '#main-header',
+    el: '#header-wrapper',
     template: H.compile(controlsTpl),
 
     events: {
