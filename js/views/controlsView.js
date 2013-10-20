@@ -32,7 +32,6 @@ define([
     initialize: function () {
       this.model.on('change:bus', this.render, this);
       this.model.on('change:route', this.render, this);
-      this.model.on('change:live', this.render, this);
     },
 
     favorite: function (e) {
@@ -43,11 +42,8 @@ define([
       console.log('State of storage: ', storage.data);
     },
 
-    toggleLive: function (e) {
-      this.model.toggleLive();
-    },
-
     selectDirection: function (e) {
+      e.preventDefault();
       var target = $(e.target),
         direction = target.data('direction');
 
@@ -61,7 +57,6 @@ define([
       var html, ctx = {};
       ctx.route = this.model.get('route');
       ctx.direction = this.model.get('direction');
-      ctx.live = this.model.get('live');
 
       html = this.template(ctx);
       this.$el.html(html);

@@ -23,7 +23,7 @@ define(['jquery', 'backbone', 'application', 'domReady'], function ($, Backbone,
 
     $(function () {
 
-    	app.selectBus('b61');
+    	app.selectBus('b63');
 
       router.on('route:selectBus', function (busline) {
         app.selectBus(busline);

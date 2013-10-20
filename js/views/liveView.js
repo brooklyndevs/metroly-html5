@@ -15,7 +15,8 @@ define([
     template: H.compile(controlsTpl),
 
     events: {
-      'click #live-btn': 'toggleActive'
+      'click #live-btn': 'toggleActive',
+      'click .liveTime': 'setLiveTime'
     },
 
     initialize: function () {
@@ -29,11 +30,19 @@ define([
       this.model.toggleActive();
     },
 
+    setLiveTime: function (e) {
+      e.preventDefault();
+      var t = e.target.attributes["data-time"].value;
+      this.model.setLiveTime(t);
+      $("#live-btn").click();
+    },
+
     render: function () {
       var html, ctx = {};
 
       ctx.active = this.model.get('active');
-
+      ctx.time = this.model.get('time');
+      
       html = this.template(ctx);
 
       this.$el.html(html);
