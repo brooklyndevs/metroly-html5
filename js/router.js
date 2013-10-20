@@ -1,11 +1,7 @@
 /*global define */
 
-define(['jquery', 'backbone', 'application', 'domReady'], function ($, Backbone, App, domReady) {
+define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, domReady, appState) {
   "use strict";
-
-  domReady(function () {
-    require(['metrolyUi']);
-  });
 
   var Router, self = this;
 
@@ -18,29 +14,32 @@ define(['jquery', 'backbone', 'application', 'domReady'], function ($, Backbone,
   });
 
   Router.initialize = function () {
-    var router = new Router();
-    var app = new App();
 
-    $(function () {
+    appState.init(function () {
 
-    	app.selectBus('b63');
+      console.log('Storage settings: ', appState.getSettings());
+      console.log('Storage buses: ', appState.getBuses());
 
-      router.on('route:selectBus', function (busline) {
-        app.selectBus(busline);
+      console.log('Before requiring APP');
+
+      require(['application'], function (App) {
+        console.log('App required');
+        var app = new App();
+        app.selectBus('b63');
+
+        domReady(function () {
+          require(['metrolyUi']);
+        });
+
+        Backbone.history.start({pushState: false});
       });
-
-      router.on('route:selectDirection', function (bus, dir) {
-        app.selectBus(bus);
-        app.selectDirection(dir);
-      });
-
-      router.on('route:default', function (action) {
-        app.toHomeState();
-      });
+      console.log('After requiring APP');
     });
-
-    Backbone.history.start({pushState: false});
   };
 
   return Router;
 });
+
+
+
+
