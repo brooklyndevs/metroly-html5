@@ -36,9 +36,8 @@ define([
 
     favorite: function (e) {
       var selectedBus = this.model.get('bus');
-      storage.toggle(selectedBus, selectedBus);
+      storage.data[selectedBus].favorite = !storage.data[selectedBus].favorite;
       storage.save();
-
       console.log('State of storage: ', storage.data);
     },
 
@@ -63,7 +62,7 @@ define([
 
       Helpers.visuallySelectRoute($('[data-direction="0"]'));
 
-      var isFav = storage.contains(this.model.get('bus'));
+      var isFav = storage.data[this.model.get('bus')].favorite;
       this.favoriteBtn = new FavoriteView({
         el: "#app-controls",
         model: new (Backbone.Model.extend({ defaults: {isActive: isFav}}))

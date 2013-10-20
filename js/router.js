@@ -7,52 +7,61 @@ define(['jquery', 'backbone', 'application', 'domReady', 'storage'], function ($
     require(['metrolyUi']);
   });
 
-  var initAppState = function () {
-    var CHECK_UPDATES_DAYS = 3;
+  var needsUpdate = function () {
+    var CHECK_UPDATES_DAYS = 0;
     var appInfo = Storage.get('appInfo'),
-      lastUpdated = appInfo.data.last_updated;
-    if (!lastUpdated || (new Date(lastUpdated)) >= (Date.getDate() - CHECK_UPDATES_DAYS)) {
-      console.log('Checking for updated information');
+      lastUpdated,
+      expiration = new Date();
+
+    if (appInfo.data.last_updated) {
+     lastUpdated = new Date(appInfo.data.last_updated);
+     expiration.setDate(lastUpdated.getDate() + CHECK_UPDATES_DAYS);
     }
+
+    return !lastUpdated || lastUpdated >= expiration;
   };
 
-  // XX TODO Find a better place to put this.
-  /* Query for available buses and save them to localStorage.
-   * There's no need to do this on every startup, so let's do it
-   * on the first time this app runs and then every X days.
-   */
-  var queryAvailableBuses = function () {
-    console.log('Querying available buses');
+  /* Query for available buses and save them to localStorage */
+  var queryAvailableBuses = function (cb) {
     var appInfo = Storage.get('appInfo');
-    if (!appInfo.data.buses_updated) {
-      // It's the first run ever.
-      var busQuery = $.ajax({
-        url: 'http://www.metrolyapp.com/v1/buses/nyc?callback=?',
-        dataType: 'jsonp'
+
+    var busQuery = $.ajax({
+      url: 'http://www.metrolyapp.com/v1/buses/nyc?callback=?',
+      dataType: 'jsonp'
+    });
+
+    busQuery.done(function (buses) {
+      var busList = {};
+      buses.forEach(function (bus) {
+        busList[bus.name.toLowerCase()] = {name: bus.name, color: bus.color, recent: false, favorite: false};
       });
 
-      busQuery.done(function (buses) {
-        var busList = {};
-        buses.forEach(function (bus) {
-          busList[bus.name.toLowerCase()] = {name: bus.name, color: bus.color, recent: false, favorite: false};
-        });
-
-        var k, buses = Storage.get('buses');
-        for (k in busList) {
-          if (!buses[k]) {
-            buses.data[k] = busList[k];
-          }
+      var k, buses = Storage.get('buses');
+      for (k in busList) {
+        if (!buses[k]) {
+          buses.data[k] = busList[k];
         }
+      }
 
-        buses.save();
-        appInfo.insert('last_updated', new Date());
-        appInfo.save();
+      buses.save();
+      appInfo.insert('last_updated', new Date());
+      appInfo.save();
+      cb && cb();
+    });
 
-      });
+    busQuery.fail(function (err) {
+      console.log('failed to get it ', err);
+      cb && cb();
+    });
+  };
 
-      busQuery.fail(function (err) {
-        console.log('failed to get it ', err);
-      });
+  var initAppState = function (cb) {
+    if (needsUpdate()) {
+      console.log('Needs an update');
+      queryAvailableBuses(cb);
+    } else {
+      console.log('Up to date');
+      cb && cb();
     }
   };
 
@@ -67,14 +76,12 @@ define(['jquery', 'backbone', 'application', 'domReady', 'storage'], function ($
   });
 
   Router.initialize = function () {
+    initAppState();
     var router = new Router();
     var app = new App();
 
     $(function () {  // TODO Move this into domReady(function () {...})
-
-      initAppState();
-
-    	app.selectBus('b63');
+      app.selectBus('b63');
 
       router.on('route:selectBus', function (busline) {
         app.selectBus(busline);
@@ -91,6 +98,7 @@ define(['jquery', 'backbone', 'application', 'domReady', 'storage'], function ($
     });
 
     Backbone.history.start({pushState: false});
+
   };
 
   return Router;
