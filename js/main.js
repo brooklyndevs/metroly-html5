@@ -88,6 +88,12 @@ require(['domReady', 'accordion'], function (domReady, Accordion) {
     // Probably should require MapView first, and THEN load this script
     setTimeout(function() {
 
+      // Fixes .side-nav overflow
+      var section_height = document.querySelector("section.page").clientHeight + "px";
+      document.querySelector(".side-nav").style.height = section_height;
+      //console.log("Height is set to:", section_height);
+
+
       var accordion = new Accordion();
 
       accordion.
