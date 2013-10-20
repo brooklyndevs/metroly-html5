@@ -18,7 +18,6 @@ time, mark, audio, video {
   font-size: 100%;
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
-  overflow: hidden;
   vertical-align: baseline;
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -44,6 +43,9 @@ table {
 }
 
 /* -- Start Stylin' -- */
+html, body {
+    overflow: hidden;
+}
 #header-wrapper {
     z-index: 2;
     background: #333;
