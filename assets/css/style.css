@@ -130,12 +130,12 @@ html, body {
 }
 
 /*BUBBLE CSS*/
-.hide{
+/*.hide{
     display: none;
 }
 .show{
     display:inline;
-}
+}*/
 .liveBubble {
     background-color: #aaa;
     border: 1px solid #c8c8c8;
@@ -144,6 +144,7 @@ html, body {
     position: absolute;
     bottom:50px;
     right:-60px;
+    display:none;
 }
 .liveBubble ul li{
 /*    height:50px;*/
