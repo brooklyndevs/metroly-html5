@@ -74,7 +74,7 @@ define(['jquery', 'backbone', 'application', 'domReady', 'storage'], function ($
 
       initAppState();
 
-    	app.selectBus('b61');
+    	app.selectBus('b63');
 
       router.on('route:selectBus', function (busline) {
         app.selectBus(busline);

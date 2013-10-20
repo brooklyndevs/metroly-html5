@@ -20,6 +20,7 @@ define([
 
     favBtnClicked: function (e) {
       var isActive = this.model.get('isActive');
+      e.preventDefault();
       this.model.set('isActive', !isActive);
       this.render();
     },

@@ -1,6 +1,14 @@
+<div class="liveBubble {{#if active}}show{{else}}hide{{/if}}">
+	<div class="arrow bottom"></div>
+	<ul>
+		<li><a href="#" class="btn center center-text liveTime" data-time="30">Every 30 sec.</a></li>
+		<li><a href="#" class="btn center center-text liveTime" data-time="60">Every 60 sec.</a></li>
+		<li><a href="#" class="btn center center-text liveTime" data-time="">Never (Offline)</a></li>
+	</ul>
+</div>
 <a href="#" id='live-btn' class='btn center center-text'>
-	{{#if active}}
-		Live
+	{{#if time}} 
+		({{time}}) Live
 	{{else}}
 		Offline
 	{{/if}}

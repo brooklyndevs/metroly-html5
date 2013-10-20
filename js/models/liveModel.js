@@ -8,7 +8,8 @@ define([
 
   var LiveModel = Backbone.Model.extend({
     defaults: {
-      active: true
+      active: true,
+      time:30
     },
 
     initialize: function () {
@@ -19,8 +20,13 @@ define([
     toggleActive: function () {
       console.log("Live BTN Clicked");
       this.set('active', !this.get('active'));
-    }
+      this.set('time', this.get("time"));
+    },
 
+    setLiveTime: function (time) {
+      console.log("Time: ", time);
+      this.set('time', time);
+    }
   });
 
   return LiveModel;
