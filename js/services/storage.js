@@ -5,7 +5,7 @@ define([], function () {
   };
 
   var getFromLocalStorage = function (name) {
-    return JSON.parse(localStorage.getItem(name));
+    return JSON.parse(localStorage.getItem(name)) || {};
   };
 
   var Storage = function (collName) {
@@ -23,7 +23,7 @@ define([], function () {
 
   Storage.get = function (collName) {
     var storage = new Storage(collName);
-    return storage.data;
+    return storage;
   };
 
   Storage.prototype.toggle = function (name, data) {
@@ -36,6 +36,7 @@ define([], function () {
 
   Storage.prototype.insert = function (name, data) {
     this.data[name] = data;
+    console.log('Inserted ', data, 'into ', this.data[name]);
   };
 
   Storage.prototype.remove = function (name) {
@@ -44,6 +45,7 @@ define([], function () {
 
   Storage.prototype.save = function () {
     saveToLocalStorage({name: this.name, data: this.data});
+    console.log('Saved to localStorage');
   };
 
   Storage.prototype.contains = function (name) {
