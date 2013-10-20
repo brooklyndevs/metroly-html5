@@ -9,9 +9,12 @@ define([
   'views/geoView',
   'models/geoModel',
   'views/liveView',
-  'models/liveModel'
-], function (Backbone, MapView, ControlsView, MapModel, GeoView, GeoModel, LiveView, LiveModel) {
+  'models/liveModel',
+  'views/accordionView'
+], function (Backbone, MapView, ControlsView, MapModel, GeoView, GeoModel, LiveView, LiveModel, AccordionView) {
   "use strict";
+
+  console.log('inside of Application.js');
 
   var AppView,
     apiKey = '36ad9e86-f0b4-4831-881c-55c8d44473b3',

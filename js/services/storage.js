@@ -34,9 +34,12 @@ define([], function () {
     }
   };
 
+  Storage.prototype.find = function (name) {
+    return this.data[name];
+  };
+
   Storage.prototype.insert = function (name, data) {
     this.data[name] = data;
-    console.log('Inserted ', data, 'into ', this.data[name]);
   };
 
   Storage.prototype.remove = function (name) {
@@ -45,11 +48,16 @@ define([], function () {
 
   Storage.prototype.save = function () {
     saveToLocalStorage({name: this.name, data: this.data});
-    console.log('Saved to localStorage');
+    console.log('Saved to localStorage for ', this.name);
+    this.reload();
   };
 
   Storage.prototype.contains = function (name) {
     return !!this.data[name];
+  };
+
+  Storage.prototype.reload = function () {
+    this.data = getFromLocalStorage(this.name);
   };
 
   return Storage;

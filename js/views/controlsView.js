@@ -8,10 +8,10 @@ define([
   'handlebars',
   'text!../../assets/templates/controls.html',
   'views/favoriteView',
-  'storage'
-], function ($, _, Backbone, H, controlsTpl, FavoriteView, Storage) {
+  'appState'
+], function ($, _, Backbone, H, controlsTpl, FavoriteView, appState) {
 
-  var storage = Storage.get('buses');
+  var storage = appState.getBuses();
 
   var Helpers = {
     visuallySelectRoute: function (jqTarget) {
@@ -36,6 +36,7 @@ define([
 
     favorite: function (e) {
       var selectedBus = this.model.get('bus');
+      console.log('SelectedBus: ', selectedBus);
       storage.data[selectedBus].favorite = !storage.data[selectedBus].favorite;
       storage.save();
       console.log('State of storage: ', storage.data);
