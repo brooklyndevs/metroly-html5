@@ -48,8 +48,8 @@ define([], function () {
 
   Storage.prototype.save = function () {
     saveToLocalStorage({name: this.name, data: this.data});
-    console.log('Saved to localStorage for ', this.name);
-    this.reload();
+    console.log('Saved to localStorage for ', this.name, ' data: ', this.data);
+    // this.reload();
   };
 
   Storage.prototype.contains = function (name) {
