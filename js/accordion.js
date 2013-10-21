@@ -241,10 +241,32 @@
 
     Group.prototype.getItemsHTML = function () {
         var self = this,
-            itemsHTML = "";
+            itemsHTML = "",
+            itemClass = "";
+
         self.items.forEach(function (item) {
-            itemsHTML += "<li class='";
-            itemsHTML += self.params.group_item_single_class + " " + item.class + "'>";
+            itemsHTML += "<li ";
+            
+            itemClass = self.params.group_item_single_class + " " + (item.class || "");
+
+            if (self.data.listItemProperties) {
+                
+                var itemProperties = self.data.listItemProperties(item);
+
+                for (var property in itemProperties) {
+                    if (itemProperties.hasOwnProperty(property)) {
+                        if (property === "class") {
+                            itemClass += (" " + itemProperties[property]);
+                            continue;
+                        }
+                        //console.log("Property is:", property,"='", itemProperties[property], "'");
+                        itemsHTML += (" " + property + "='" + itemProperties[property] + "' ");
+                    }
+                }
+            }
+
+            itemClass = (" class='" + itemClass + "'");
+            itemsHTML += (itemClass + ">");
             if (self.data.itemText) {
                 itemsHTML += self.data.itemText(item);
             } else {
@@ -304,11 +326,11 @@
             document.querySelector("#" + self.name + "_" + self.params.group_item_class).childNodes,
             function (i) {
                 i.style.display = display;
-                if (display === "block") {
+                //if (display === "block") {
                     //console.log("#" + self.name + "_" + self.params.group_item_class);
-                    i.style["-webkit-animation"] = "fadeIn 1s";
-                    i.style["animation"] = "fadeIn 1s";
-                }
+                    //i.style["-webkit-animation"] = "fadeIn 1s";
+                    //i.style["animation"] = "fadeIn 1s";
+                //}
             });
 
         return this;
@@ -395,15 +417,35 @@
     SearchGroup.prototype.getSearchItemsHTML = function (value) {
         var self = this,
             items = this.getMatchedItems(value),
-            matches = [];
+            matches = [],
+            itemClass = "";
 
-        items.forEach(function (i) {
-            var match = "";
-            match += "<li class='" + self.params.search_group_item_single_class + " " + i.class + "'>";
+        items.forEach(function (item) {
+            var match = "<li";
+
+            itemClass = self.params.search_group_item_single_class + " " + (item.class || "");
+
+            if (self.data.listItemProperties) {
+
+                var itemProperties = self.data.listItemProperties(item);
+
+                for (var property in itemProperties) {
+                    if (itemProperties.hasOwnProperty(property)) {
+                        if (property === "class") { 
+                            itemClass += (" " + itemProperties[property]);
+                            continue;
+                        }
+                        match += (" " + property + "='" + itemProperties[property] + "'");
+                    }
+                }
+            }
+            itemClass = (" class='" + itemClass + "'");
+            match += itemClass + ">";
+
             if (self.data.itemText) {
-                match += self.data.itemText(i);
+                match += self.data.itemText(item);
             } else {
-                match += i.name;
+                match += item.name;
             }
             match += "</li>";
             if (!(self.data.maxDisplay && matches.length >= self.data.maxDisplay)) matches.push(match);

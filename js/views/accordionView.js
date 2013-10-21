@@ -41,6 +41,7 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         name: "Search",
         data: buses,
         itemText: generateLink,
+        listItemProperties: function (e) { return { style: "border-left-color:" + e.color }; },
         maxDisplay: 6
       }).
       // Adds a "Group"
@@ -49,7 +50,8 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         data: buses,
         // Pick items that have recent property
         callback: function (e) { return e.recent; },
-        itemText: generateLink
+        itemText: generateLink,
+        listItemProperties: function (e) { return { style: "border-left-color:" + e.color }; },
       }).
       // Adds a "Group"
       addGroup({
@@ -57,13 +59,15 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         data: buses,
         // Pick items that have favorite property
         callback: function (e) { return e.favorite; },
-        itemText: generateLink
+        itemText: generateLink,
+        listItemProperties: function (e) { return { style: "border-left-color:" + e.color }; },
       }).
       // Adds a "Group"
       addGroup({
         name: "All",
         data: buses,
-        itemText: generateLink
+        itemText: generateLink,
+        listItemProperties: function (e) { return { style: "border-left-color:" + e.color }; },
         // Picks all items. By default callback is:
         // callback: function (e) { return e; }
       }).
