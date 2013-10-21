@@ -77,12 +77,10 @@ html, body {
 }
 
 .side-nav {
-    /* XX Placeholder styling */
     position: absolute;
     left: 0;
     top: 0;
     background: #A0E6FF;
-    /*height: 1200px;*/
     width: 150px;
 }
 
