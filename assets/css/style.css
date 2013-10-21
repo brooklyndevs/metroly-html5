@@ -46,9 +46,14 @@ table {
 html, body {
     overflow: hidden;
 }
+
+p, li, a {
+    font-size: 14px;
+    line-height: 21px;
+}
+
 #header-wrapper {
     z-index: 2;
-    /*background: #333;*/
     color: #fff;
 }
 
@@ -56,18 +61,18 @@ html, body {
     color: #fff;
     text-decoration: none;
     display: block;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    /*padding-top: 10px;*/
+    /*padding-bottom: 10px;*/
 }
 
-#route-wrapper {
-    /*background-color: #313131;*/
+#route-wrapper,
+#live-btn {
+    background:rgba(27, 27, 27, 0.9);
 }
 
 #route-wrapper .route {
-    background:rgba(27, 27, 27, 0.9);
-    font-size: 14px;
-    line-height: 40px;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 #route-wrapper .route:hover {
@@ -92,24 +97,37 @@ html, body {
 .btn {
     display: block;
     /*margin-top: 8px;*/
-    width: 35px;
-/*    height: 20px;*/
-    background: #aaa;
-    color: black;
+    width: auto;
+    /*height: 20px;*/
+    /*background: #aaa;*/
+    color: #ffffff;
 }
 
 #menu-btn,
 #fav-btn {
     position: absolute;
     top: 20px;
+    width: 40px;
+    height: 40px;
 }
 
 #menu-btn {
     left: 20px;
+    background-repeat: no-repeat;
+    background-position: 4px 4px;
+    background-image: url("../images/icon-list.svg");
+    border: 1px solid #ffffff;
 }
 
 #fav-btn {
+    background-image: url("../images/fav-sprite.svg");
+    background-repeat: no-repeat;
     right: 20px;
+    background-position: 4px 4px;
+}
+
+.fav-active {
+    background: orange;
 }
 
 .side-nav {
@@ -120,9 +138,6 @@ html, body {
     width: 150px;
 }
 
-.fav-active {
-    background: orange;
-}
 
 /* XX If possible, remove through leaflet */
 .leaflet-control-container {
@@ -147,7 +162,7 @@ html, body {
     bottom:20px;
 }
 #liveContainer{
-    left:50px;
+    left:20px;
     width:80px;
 }
 #geoContainer{
@@ -171,7 +186,7 @@ html, body {
     text-align: center;
     position: absolute;
     bottom:50px;
-    right:-60px;
+    right:-90px;
     display:none;
 }
 .liveBubble ul li{
@@ -181,7 +196,7 @@ html, body {
 .liveBubble ul li a{
     color:white;
     background:rgba(27, 27, 27, 0.9);
-    border: 1px solid black;
+    border-top: 1px solid black;
     margin-top:0px;
 }
 .liveBubble .arrow {
@@ -193,5 +208,5 @@ html, body {
     border-color: rgba(27, 27, 27, 0.9) transparent transparent transparent;
     border-width: 8px 8px 0px 8px;
     bottom: -8px;
-    left:70px;
+    left:12px;
 }
