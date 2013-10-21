@@ -35,19 +35,8 @@ define([
     },
     geoLocate: function (){
       console.log("From GEO application view change active");
-      if(geoModel.get("active")){
-        mapView.addGeoLocate();
-        // if (!this.poll) {
-        //   this.poll = new ShortPoll(5000);
-        // }
-        // this.poll.start(function(){
-        //   mapView.addGeoLocate();
-        //   mapView.removeGeoLocate();
-        // });
-      }else{
-        //this.poll.stop();
-        mapView.removeGeoLocate();
-      }
+      mapView.removeGeoLocate();
+      mapView.addGeoLocate();
       
     },
     liveClicked: function (){

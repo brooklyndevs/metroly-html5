@@ -65,8 +65,7 @@ p, li, a {
     /*padding-bottom: 10px;*/
 }
 
-#route-wrapper,
-#live-btn {
+#route-wrapper{
     background:rgba(27, 27, 27, 0.9);
 }
 
@@ -172,7 +171,7 @@ p, li, a {
     width:100%;
     padding:10px;
     text-decoration: none;
-
+    background:rgba(27, 27, 27, 0.9);
 }
 #liveContainer a:hover, #geoContainer a:hover{
     color:white;

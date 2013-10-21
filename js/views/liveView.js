@@ -29,15 +29,17 @@ define([
       e.preventDefault();
       // this.model.toggleActive();
       $("#live-btn").addClass("disabled");
-      $( ".liveBubble" ).slideToggle("slow", function(){
+      $( ".liveBubble" ).slideToggle("fast", function(){
           $("#live-btn").removeClass("disabled");
       });
     },
 
     setLiveTime: function (e) {
       e.preventDefault();
+      console.log("here");
       var t = e.target.attributes["data-time"].value;
       this.model.setLiveTime(t);
+      this.render();
     },
 
     render: function () {
