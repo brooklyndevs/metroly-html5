@@ -48,7 +48,7 @@ html, body {
 }
 #header-wrapper {
     z-index: 2;
-    background: #333;
+    /*background: #333;*/
     color: #fff;
 }
 
@@ -60,20 +60,56 @@ html, body {
     padding-bottom: 10px;
 }
 
-#route-wrapper a:hover {
-    background: #c0c0c0;
+#route-wrapper {
+    /*background-color: #313131;*/
 }
+
+#route-wrapper .route {
+    background:rgba(27, 27, 27, 0.9);
+    font-size: 14px;
+    line-height: 40px;
+}
+
+#route-wrapper .route:hover {
+    background: #000000;
+}
+
+#header-info {
+    height: 80px;
+    background: #006CB7;
+    position: relative;
+}
+
 #header-info h1{
-    /*background: #c0c0c0;*/
-    margin-top:15px;
+    font-size: 40px;
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    margin: 20px auto;
+    width: 100%;
 }
+
 .btn {
     display: block;
-    margin-top: 8px;
+    /*margin-top: 8px;*/
     width: 35px;
 /*    height: 20px;*/
     background: #aaa;
     color: black;
+}
+
+#menu-btn,
+#fav-btn {
+    position: absolute;
+    top: 20px;
+}
+
+#menu-btn {
+    left: 20px;
+}
+
+#fav-btn {
+    right: 20px;
 }
 
 .side-nav {
@@ -106,20 +142,23 @@ html, body {
    pointer-events: none;
    cursor: default;
 }
-#liveContainer{
+
+#liveContainer,
+#geoContainer {
     position:absolute;
-    left:30px;
-    bottom:30px;
+    right:20px;
+    bottom:20px;
+}
+#liveContainer{
+    left:20px;
     width:80px;
 }
 #geoContainer{
-    position:absolute;
-    right:50px;
-    bottom:30px;
+    right:20px;
     width:50px;
 }
 #liveContainer a, #geoContainer a{
-    width:100%;
+    /*width:100%;*/
     padding:10px;
     text-decoration: none;
 
