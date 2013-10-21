@@ -114,16 +114,15 @@ p, li, a {
 #menu-btn {
     left: 20px;
     background-repeat: no-repeat;
-    background-position: 4px 4px;
-    background-image: url("../images/icon-list.svg");
-    border: 1px solid #ffffff;
+    background-position: 0 0;
+    background-image: url("../images/icon-list-sprite.svg");
 }
 
 #fav-btn {
-    background-image: url("../images/fav-sprite.svg");
+    background-image: url("../images/icon-fav-sprite.svg");
     background-repeat: no-repeat;
     right: 20px;
-    background-position: 4px 4px;
+    background-position: 0 0;
 }
 
 .fav-active {
