@@ -28,7 +28,10 @@ define([
     toggleActive: function (e) {
       e.preventDefault();
       // this.model.toggleActive();
-      $( ".liveBubble" ).slideToggle("slow");
+      $("#live-btn").addClass("disabled");
+      $( ".liveBubble" ).slideToggle("slow", function(){
+          $("#live-btn").removeClass("disabled");
+      });
     },
 
     setLiveTime: function (e) {
