@@ -19,8 +19,8 @@ define([
     initialize: function () { },
 
     favBtnClicked: function (e) {
-      var isActive = this.model.get('isActive');
       e.preventDefault();
+      var isActive = this.model.get('isActive');
       this.model.set('isActive', !isActive);
       this.render();
     },

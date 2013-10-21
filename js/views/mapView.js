@@ -202,9 +202,9 @@ define([
       this.model.set('bus', bus);
     },
 
-    startBusTracking: function () {
+    startBusTracking: function (time) {
       if (!this.poll) {
-        this.poll = new ShortPoll(13 * 1000);
+        this.poll = new ShortPoll(time*1000);
       }
       var getBuses = _.bind(this.model.getBuses, this.model);
       this.poll.start(getBuses);
@@ -241,7 +241,7 @@ define([
       }
 
       this.busLayer.addTo(this.map);
-      this.startBusTracking();
+      this.startBusTracking(30);
     },
 
     cacheRoute: function () {

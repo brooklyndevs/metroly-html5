@@ -8,10 +8,10 @@ define([
   'handlebars',
   'text!../../assets/templates/controls.html',
   'views/favoriteView',
-  'storage'
-], function ($, _, Backbone, H, controlsTpl, FavoriteView, Storage) {
+  'appState'
+], function ($, _, Backbone, H, controlsTpl, FavoriteView, appState) {
 
-  var storage = new Storage('favBuses');
+  var storage = appState.getBuses();
 
   var Helpers = {
     visuallySelectRoute: function (jqTarget) {
@@ -32,22 +32,18 @@ define([
     initialize: function () {
       this.model.on('change:bus', this.render, this);
       this.model.on('change:route', this.render, this);
-      this.model.on('change:live', this.render, this);
     },
 
     favorite: function (e) {
       var selectedBus = this.model.get('bus');
-      storage.toggle(selectedBus, selectedBus);
+      console.log('SelectedBus: ', selectedBus);
+      storage.data[selectedBus].favorite = !storage.data[selectedBus].favorite;
       storage.save();
-
       console.log('State of storage: ', storage.data);
     },
 
-    toggleLive: function (e) {
-      this.model.toggleLive();
-    },
-
     selectDirection: function (e) {
+      e.preventDefault();
       var target = $(e.target),
         direction = target.data('direction');
 
@@ -61,14 +57,13 @@ define([
       var html, ctx = {};
       ctx.route = this.model.get('route');
       ctx.direction = this.model.get('direction');
-      ctx.live = this.model.get('live');
 
       html = this.template(ctx);
       this.$el.html(html);
 
       Helpers.visuallySelectRoute($('[data-direction="0"]'));
 
-      var isFav = storage.contains(this.model.get('bus'));
+      var isFav = storage.data[this.model.get('bus')].favorite;
       this.favoriteBtn = new FavoriteView({
         el: "#app-controls",
         model: new (Backbone.Model.extend({ defaults: {isActive: isFav}}))

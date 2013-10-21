@@ -4,23 +4,33 @@
 define([
   'underscore',
   'backbone',
-], function (_, Backbone) {
+  'appState'
+], function (_, Backbone, appState) {
+
+  var CHECK_INTERVAL = 'check_interval';
+  var settings = appState.getSettings();
 
   var LiveModel = Backbone.Model.extend({
     defaults: {
-      active: true
+      time:30
     },
 
     initialize: function () {
       console.log("Live Model Created");
-
+      this.on('change:time', this.timeChanged, this);
+      var interval = settings.find(CHECK_INTERVAL);
+      this.set('time', interval);
     },
 
-    toggleActive: function () {
-      console.log("Live BTN Clicked");
-      this.set('active', !this.get('active'));
-    }
+    timeChanged: function () {
+      settings.insert(CHECK_INTERVAL, this.get('time') || "");
+      settings.save();
+    },
 
+    setLiveTime: function (time) {
+      console.log("Time: ", time);
+      this.set('time', time);
+    }
   });
 
   return LiveModel;

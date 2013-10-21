@@ -9,9 +9,12 @@ define([
   'views/geoView',
   'models/geoModel',
   'views/liveView',
-  'models/liveModel'
-], function (Backbone, MapView, ControlsView, MapModel, GeoView, GeoModel, LiveView, LiveModel) {
+  'models/liveModel',
+  'views/accordionView'
+], function (Backbone, MapView, ControlsView, MapModel, GeoView, GeoModel, LiveView, LiveModel, AccordionView) {
   "use strict";
+
+  console.log('inside of Application.js');
 
   var AppView,
     apiKey = '36ad9e86-f0b4-4831-881c-55c8d44473b3',
@@ -28,7 +31,7 @@ define([
 
     initialize: function () {
       geoModel.on('change:active', this.geoLocate);
-      liveModel.on('change:active', this.liveClicked);
+      liveModel.on('change:time', this.liveClicked);
     },
     geoLocate: function (){
       console.log("From GEO application view change active");
@@ -49,13 +52,15 @@ define([
     },
     liveClicked: function (){
       console.log("From LIVE application view change active");
-
-      if(liveModel.get("active")){
-        mapView.startBusTracking();
+      var t = parseInt(liveModel.get("time"));
+      console.log(t);
+      if(t > 0){
+        mapView.startBusTracking(t);
       }else{
         mapView.poll.stop();
       }
       
+
     },
 
     selectBus: function (bus) {

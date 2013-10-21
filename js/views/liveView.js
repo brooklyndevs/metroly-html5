@@ -15,25 +15,33 @@ define([
     template: H.compile(controlsTpl),
 
     events: {
-      'click #live-btn': 'toggleActive'
+      'click #live-btn': 'toggleActive',
+      'click .liveTime': 'setLiveTime'
     },
 
     initialize: function () {
       console.log("Live view Created");
-      this.model.on('change:active', this.render, this);
+      this.model.on('change:time', this.render, this);
       this.render();
     },
 
     toggleActive: function (e) {
       e.preventDefault();
-      this.model.toggleActive();
+      // this.model.toggleActive();
+      $( ".liveBubble" ).slideToggle("slow");
+    },
+
+    setLiveTime: function (e) {
+      e.preventDefault();
+      var t = e.target.attributes["data-time"].value;
+      this.model.setLiveTime(t);
     },
 
     render: function () {
       var html, ctx = {};
 
-      ctx.active = this.model.get('active');
-
+      ctx.time = this.model.get('time');
+      
       html = this.template(ctx);
 
       this.$el.html(html);

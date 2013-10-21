@@ -9,7 +9,8 @@
   width: 150px;
   color: #cccccc;
   -webkit-box-shadow: inset -5px 0 15px #000000;
-  height: auto;
+  /*height: auto;*/
+  overflow-y: auto;
 }
 
 .list-header,
