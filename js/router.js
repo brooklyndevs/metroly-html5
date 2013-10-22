@@ -7,6 +7,7 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
 
   Router = Backbone.Router.extend({
     routes: {
+      '': 'homeState',
       'buses/:bus': 'selectBus',
       'bus/:bus/:dir': 'selectDirection',
       '*default': 'default'
@@ -27,6 +28,11 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
       require(['application'], function (App) {
         console.log('App required');
         var app = new App();
+
+        router.on('route:homeState', function () {
+          console.log('in home state');
+          app.selectBus('b63');
+        });
 
         router.on('route:selectBus', function (bus) {
           app.selectBus(bus);
