@@ -1,5 +1,7 @@
 (function (root) {
 
+  console.log('Should be loaded near the end');
+
   var SideNav = {};
 
   /* Navigation side toggle button(s) */

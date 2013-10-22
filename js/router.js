@@ -3,10 +3,6 @@
 define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, domReady, appState) {
   "use strict";
 
-  domReady(function () {
-    require(['metrolyUi']);
-  });
-
   var Router, self = this;
 
   Router = Backbone.Router.extend({
@@ -29,6 +25,12 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
       require(['application'], function (App) {
         console.log('App required');
         var app = new App();
+
+        domReady(function () {
+          console.log('domReady called from router');
+          require(['metrolyUi']);
+        });
+
         app.selectBus('b63');
 
         Backbone.history.start({pushState: false});
