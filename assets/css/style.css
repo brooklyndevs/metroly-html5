@@ -163,7 +163,7 @@ p, li, a {
 }
 #liveContainer{
     left:50px;
-    width:100px;
+    width:120px;
 }
 #geoContainer{
     right:50px;
@@ -179,13 +179,27 @@ p, li, a {
     color:white;
     background: #000000;
 }
+#geo-btn{
+    background-image: url("../images/icon-geo-sprite.svg") !important;
+    background-repeat: no-repeat !important;
+    height: 20px !important;
+    width:20px !important;
+}
+#live-btn .imgState{
+    background-image: url("../images/icon-live-sprite.svg") ;
+    background-repeat: no-repeat;
+    padding:10px;
+    padding-left:20px;
+    padding-right:20px;
+    width:20%;
+}
 #live-btn .state{
-    width:80%;
-    margin-left:20px;
+    width:30%;
+    padding:10px;
 }
 #live-btn .time{
     background:black;
-    margin-left:30px;
+    margin-left:10px;
     width:20%;
     padding:10px;
 }
@@ -202,7 +216,7 @@ p, li, a {
     text-align: center;
     position: absolute;
     bottom:50px;
-    right:-70px;
+    right:-50px;
     display:none;
 }
 .liveBubble ul li{
