@@ -47,6 +47,7 @@ define([
           pg.style.marginLeft = "200px";
         }
       });
+      return false;
     },
 
     favorite: function (e) {
