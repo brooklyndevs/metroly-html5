@@ -1,14 +1,15 @@
 <div class="liveBubble">
 	<div class="arrow bottom"></div>
 	<ul>
-		<li><a href="#" class="btn center center-text liveTime" data-time="30">Every 30 sec.</a></li>
-		<li><a href="#" class="btn center center-text liveTime" data-time="60">Every 60 sec.</a></li>
+		<li class="live-bubble-header">Refresh every</li>
+		<li><a href="#" class="btn center center-text liveTime" data-time="30"> 30 Seconds</a></li>
+		<li><a href="#" class="btn center center-text liveTime" data-time="60"> 60 Seconds</a></li>
 		<li><a href="#" class="btn center center-text liveTime" data-time="">Never (Offline)</a></li>
 	</ul>
 </div>
 <a href="#" id='live-btn' class='btn center center-text'>
 	{{#if time}} 
-		({{time}}) Live
+		<span class="state">Live</span><span class="time">{{time}}</span>
 	{{else}}
 		Offline
 	{{/if}}
