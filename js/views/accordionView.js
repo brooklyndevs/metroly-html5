@@ -88,7 +88,7 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
           // callback: function (e) { return e; }
         }).
         // Draw both "Group"s and "SearchGroup"s
-        drawGroups().
+        render().
         // Add event listeners to Groups
         addListeners();
 
