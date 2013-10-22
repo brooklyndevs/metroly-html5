@@ -58,6 +58,13 @@ define([
       ctx.route = this.model.get('route');
       ctx.direction = this.model.get('direction');
 
+
+      if (ctx.route.directions) {
+        ctx.route.directions[0].destination = ctx.route.directions[0].destination.split('via')[0];
+        ctx.route.directions[1].destination = ctx.route.directions[1].destination.split('via')[0];
+      }
+
+
       html = this.template(ctx);
       this.$el.html(html);
 
