@@ -22,13 +22,14 @@
 }
 
 .list-single {
-  padding-left: 30px;
+  padding-left: 25px;
   letter-spacing: .08em;
   display: none;
   border-left-style:solid;
   border-left-width: 3px;
   border-left-color: #000000;
   background-color: #121212;
+  -webkit-box-shadow: inset 0 1px 0 #212121;
 }
 .list-single:active {
   background-color:#202020;

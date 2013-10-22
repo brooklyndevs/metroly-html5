@@ -63,12 +63,10 @@ p, li, a ,input {
     color: #fff;
     text-decoration: none;
     display: block;
-    /*padding-top: 10px;*/
-    /*padding-bottom: 10px;*/
 }
 
 #route-wrapper{
-    background:rgba(27, 27, 27, 0.9);
+    background:rgba(27, 27, 27, .9);
 }
 
 #route-wrapper .route {
@@ -76,8 +74,18 @@ p, li, a ,input {
     padding-top: 20px;
 }
 
-#route-wrapper .route:hover {
-    background: #000000;
+#route-wrapper .route:first-child {
+    -webkit-box-shadow: inset -1px 0 0 #313131;
+}
+
+#route-wrapper .route:last-child {
+    -webkit-box-shadow: inset 1px 0 0 #000000;
+}
+
+#route-wrapper .route:hover,
+#route-wrapper .route:active,
+#route-wrapper .route-selected {
+    background: rgba(18, 18, 18, .9);
 }
 
 #header-info {
@@ -97,10 +105,7 @@ p, li, a ,input {
 
 .btn {
     display: block;
-    /*margin-top: 8px;*/
     width: auto;
-    /*height: 20px;*/
-    /*background: #aaa;*/
     color: #ffffff;
 }
 
@@ -146,7 +151,6 @@ p, li, a ,input {
     display: none;
 }
 
-
 .left{
     float:left;
 }
@@ -158,7 +162,8 @@ p, li, a ,input {
    cursor: default;
 }
 
-#liveContainer, #geoContainer {
+#liveContainer,
+#geoContainer {
     position:absolute;
     right:20px;
     bottom:20px;
@@ -172,26 +177,30 @@ p, li, a ,input {
     right:20px;
     width:40px;
 }
-#liveContainer a, #geoContainer a{
+#liveContainer a,
+#geoContainer a{
     width:100%;
     text-decoration: none;
 }
 #liveContainer a {
     /*padding-left: 0;*/
 }
-#liveContainer a:hover, #geoContainer a:hover{
+#liveContainer a:hover, 
+#geoContainer a:hover{
     color:white;
-    /*background: #000000;*/
 }
-#geo-btn{
+#geo-btn,
+#geo-active {
     background-image: url("../images/icon-geo-sprite.svg");
     background-repeat: no-repeat;
     height: 40px;
     width: 40px;
 }
+#geo-btn {
+    background-position:0 0px;
+}
 .geo-active {
     background-position:0 -40px !important;
-    background-image: url("../images/icon-geo-sprite.svg") !important;
 }
 #live-btn {
     text-align: left !important;
@@ -203,7 +212,6 @@ p, li, a ,input {
     background-position: -9px 0;
     background-repeat: no-repeat;
     padding:10px;
-    /*padding-left:20px;*/
     padding-right:20px;
     width:20%;
 }
@@ -212,7 +220,7 @@ p, li, a ,input {
     padding:10px;
 }
 #live-btn .time{
-    background:black;
+    background: rgba(18, 18, 18, 1);
     margin-left:10px;
     width:20%;
     padding:10px;
