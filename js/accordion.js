@@ -14,8 +14,17 @@
     // })("accordion_");
 
     var Helper = {
+        toArray: function (arrayLikeObj) {
+            return Array.prototype.slice.call(arrayLikeObj);
+        },
         iterate: function (items, cb) {
-            return Array.prototype.splice.call(items, 0).forEach(cb);
+            return Helper.toArray(items).forEach(cb);
+        },
+        toId: function () {
+            return "#" + Helper.toArray(arguments).join("_");
+        },
+        getId: function () {
+            return document.querySelector(Helper.toId.apply(null, arguments));
         }
     };
 
@@ -24,7 +33,11 @@
      * Settings object. Shared along Groups
      */
     var Settings = function (stats) {
+        
+        this.actionCallbacks = {};
+
         this.settings = {
+
             accordion_id: "",
 
             search_group_input_name: "fname",
@@ -45,23 +58,13 @@
             // hasOwnProperty ... c'mon
             this.settings[i] = stats[i];
         }
-        /*
-    // for convenience
-    for (var i in this.settings) {
-      // hasOwnProperties... c'mon
-      if (i.match(/id$/)) {
-        this.settings[i] = ("#" + this.settings[i]);
-      } else if (i.match(/class$/)) {
-        this.settings[i] = ("." + this.settings[i]);
-      }
-    }*/
-
-        this.actionCallbacks = {};
+        return this;
     };
     // PubSub
     Settings.prototype.subscribe = function (actionName, callback) {
         if (!this.actionCallbacks[actionName]) this.actionCallbacks[actionName] = [];
         this.actionCallbacks[actionName].push(callback);
+        return this;
     };
     Settings.prototype.notify = function (actionName) {
         var args = Array.prototype.splice.call(arguments, 1);
@@ -74,21 +77,15 @@
                 });
             }
         }
+        return this;
     };
 
 
 
     // The whole accordion
     var Accordion = function () {
-
         this.groups = {};
         this.settings = {};
-
-        // make groups
-        //if (arguments[0]) this.setData(arguments[0]);
-        // setup Parameters (shared bw Accordion & Groups)
-        //if (arguments[1]) this.setSettings(arguments[1]);
-
         return this;
     };
 
@@ -98,7 +95,7 @@
         var self = this;
         for (var group in self.groups) {
             if (self.groups.hasOwnProperty(group)) {
-                self.groups[group].changeData(data).drawItems();
+                self.groups[group].changeData(data).renderItems();
             }
         }
         return this;
@@ -121,16 +118,14 @@
 
 
     Accordion.prototype.setSettings = function (settings) {
-        // for now, change later
         this.settings = new Settings(settings);
         return this;
     };
 
-    Accordion.prototype.drawGroups = function () {
-        //console.log(this.groups);
+    Accordion.prototype.render = function () {
         for (var group in this.groups) {
             if (this.groups.hasOwnProperty(group)) {
-                this.groups[group].draw();
+                this.groups[group].render();
             }
         };
         // do something else
@@ -150,16 +145,15 @@
 
         // Subscribe to "clickGroup" PubSub
         self.settings.subscribe("clickGroupExpand", function (groupName, collapseAll) {
-            //console.log("PubSub callback. Group name:", groupName);
             for (var grName in self.groups) {
                 if (grName === groupName) {
                     // Expand this group
                     if (!collapseAll) {
-                        self.groups[grName].collapse();
+                        self.groups[grName].toggleCollapse(); // no param means expand
                         continue;
                     }
                 }
-                self.groups[grName].collapse(true);
+                self.groups[grName].toggleCollapse(true);
             }
         });
 
@@ -179,7 +173,7 @@
             self.changeData(self.data);
         }
     };
-    IGroup.prototype.draw = function () {
+    IGroup.prototype.render = function () {
         throw new Error("Mush overwrite this method!");
     };
     IGroup.prototype.addListeners = function () {
@@ -223,7 +217,7 @@
     // 1. Inherit functions throught the prototypal chain
     Group.prototype = new IGroup();
 
-    Group.prototype.draw = function () {
+    Group.prototype.render = function () {
         var self = this,
             itemsHTML = "";
 
@@ -234,7 +228,7 @@
         itemsHTML += "</ul>";
         itemsHTML += "</div>";
 
-        document.querySelector("#" + self.params.accordion_id).innerHTML += itemsHTML;
+        Helper.getId(self.params.accordion_id).innerHTML += itemsHTML;
 
         return this;
     };
@@ -277,14 +271,14 @@
         return itemsHTML;
     };
 
-    Group.prototype.drawItems = function () {
-        document.querySelector("#" + this.name + "_" + this.params.group_item_class).innerHTML = this.getItemsHTML();
+    Group.prototype.renderItems = function () {
+        Helper.getId(this.name, this.params.group_item_class).innerHTML = this.getItemsHTML();
         return this;
     };
 
     Group.prototype.addListeners = function () {
         var self = this,
-            header = document.querySelector("#" + self.name + "_" + self.params.group_header_class);
+            header = Helper.getId(self.name, self.params.group_header_class);
 
         //console.log("Group header: ", header, self.name + "_" + self.params.group_header_class);
         header.addEventListener("click", function () {
@@ -299,7 +293,7 @@
         var self = this;
         // non-cached
         if (self.isListCollapsed == null) {
-            var element = document.querySelector("#" + self.name + "_" + self.params.group_item_class).childNodes[0];
+            var element = Helper.getId(self.name, self.params.group_item_class).childNodes[0];
             var display = (element ? element.style.display : false);
             self.isListCollapsed = (display ? false : true);
         }
@@ -310,7 +304,7 @@
      * Collapse/Expand based on isListCollapsible
      * caches isListCollapsible
      */
-    Group.prototype.collapse = function (action) {
+    Group.prototype.toggleCollapse = function (action) {
 
         var self = this;
 
@@ -323,7 +317,7 @@
         }
 
         Helper.iterate(
-            document.querySelector("#" + self.name + "_" + self.params.group_item_class).childNodes,
+            Helper.getId(self.name, self.params.group_item_class).childNodes,
             function (i) {
                 i.style.display = display;
                 //if (display === "block") {
@@ -352,7 +346,7 @@
     // 1. Inherit functions throught the prototypal chain
     SearchGroup.prototype = new IGroup();
 
-    SearchGroup.prototype.draw = function () {
+    SearchGroup.prototype.render = function () {
         var self = this,
             groupHTML = "";
 
@@ -373,22 +367,22 @@
         groupHTML += "</ul>";
         groupHTML += "</div>";
 
-        document.querySelector("#" + self.params.accordion_id).innerHTML += groupHTML;
+        Helper.getId(self.params.accordion_id).innerHTML += groupHTML;
 
         return this;
     };
 
     SearchGroup.prototype.addListeners = function () {
         var self = this,
-            input = document.querySelector("#" + self.name + "_" + self.params.search_group_input_name),
-            cancel_input = document.querySelector("#" + self.name + "_" + self.params.search_group_input_cancel_class);
+            input = Helper.getId(self.name, self.params.search_group_input_name),
+            cancel_input = Helper.getId(self.name, self.params.search_group_input_cancel_class);
 
         input.addEventListener("keyup", function () {
             var collapseAll = true;
 
             if (this.value) {
                 collapseAll = false;
-                self.drawItems(this.value);
+                self.renderItems(this.value);
             }
             self.settings.notify("clickGroupExpand", self.name, collapseAll);
 
@@ -453,8 +447,8 @@
         return matches.join("");
     };
 
-    SearchGroup.prototype.drawItems = function (value) {
-        document.querySelector("#" + this.name + "_" + this.params.search_group_list_class).innerHTML = this.getSearchItemsHTML(value);
+    SearchGroup.prototype.renderItems = function (value) {
+        Helper.getId(this.name, this.params.search_group_list_class).innerHTML = this.getSearchItemsHTML(value);
         return this;
     };
 
@@ -462,7 +456,7 @@
         var self = this;
         // non-cached
         if (self.isListCollapsed == null) {
-            var element = document.querySelector("#" + self.name + "_" + self.params.search_group_list_class).childNodes[0];
+            var element = Helper.getId(self.name, self.params.search_group_list_class).childNodes[0];
             var display = (element ? element.style.display : false);
             self.isListCollapsed = (display ? false : true);
         }
@@ -473,7 +467,7 @@
      * Collapse/Expand based on isListCollapsible
      * caches isListCollapsible
      */
-    SearchGroup.prototype.collapse = function (action) {
+    SearchGroup.prototype.toggleCollapse = function (action) {
 
         var self = this;
 
@@ -486,9 +480,9 @@
         }
 
         Helper.iterate(
-            document.querySelector("#" + self.name + "_" + self.params.search_group_list_class).childNodes,
+            Helper.getId(self.name, self.params.search_group_list_class).childNodes,
             function (i) {
-                i.style.display = display
+                i.style.display = display;
             });
 
         return this;
