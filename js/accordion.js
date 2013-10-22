@@ -355,7 +355,7 @@
 
         //groupHTML += "<form>";
         groupHTML += "<input type='search' name='" +
-            self.params.search_group_input_name + "' placeholder='Search' id='" + self.name + "_" + self.params.search_group_input_name + "'>";
+            self.params.search_group_input_name + "' placeholder='Search Buses' id='" + self.name + "_" + self.params.search_group_input_name + "'>";
         //groupHTML += "</form>";
 
         // pretty hackish, todo: change later

@@ -27,11 +27,26 @@ define([
     events: {
       'click .route': 'selectDirection',
       'click .tracking-status': 'toggleLive',
+      'click #menu-btn': 'menuClicked'
     },
 
     initialize: function () {
       this.model.on('change:bus', this.render, this);
       this.model.on('change:route', this.render, this);
+    },
+
+    menuClicked: function () {
+      var pages = document.querySelectorAll('.page');
+      pages = Array.prototype.splice.call(pages, 0);
+      pages.forEach(function (pg) {
+        pg.style.webkitTransition = "margin-left .4s";
+
+        if (pg.style.marginLeft.trim().length > 0) {
+          pg.style.marginLeft = "";
+        } else {
+          pg.style.marginLeft = "200px";
+        }
+      });
     },
 
     favorite: function (e) {

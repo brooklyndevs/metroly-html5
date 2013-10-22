@@ -9,8 +9,6 @@ require.config({
     leaflet: '../assets/libs/leaflet/leaflet',
     busesnyc: '../assets/libs/busesNYC',
     shortpoll: 'helpers/poller',
-    metrolySideNav: 'side-nav', // XX Put inside of metroly-ui
-    metrolyUi: 'https://rawgithub.com/brooklyndevs/metroly-ui/master/metroly-ui',
     storage: 'services/storage',
     accordion: 'accordion',
     appState: 'services/appState'
@@ -36,10 +34,6 @@ require.config({
     shortpoll: {
       deps: ['jquery'],
       exports: 'ShortPoll'
-    },
-    metrolyUi: {
-      deps: ['metrolySideNav'], // XX Put this into metrolyui
-      exports: 'MetrolyUi'
     }
   }
 });
