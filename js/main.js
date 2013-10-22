@@ -9,7 +9,7 @@ require.config({
     leaflet: '../assets/libs/leaflet/leaflet',
     busesnyc: '../assets/libs/busesNYC',
     shortpoll: 'helpers/poller',
-    metrolySideNav: 'https://rawgithub.com/brooklyndevs/metroly-ui/master/src/js/side-nav', // XX Put inside of metroly-ui
+    metrolySideNav: 'side-nav', // XX Put inside of metroly-ui
     metrolyUi: 'https://rawgithub.com/brooklyndevs/metroly-ui/master/metroly-ui',
     storage: 'services/storage',
     accordion: 'accordion',

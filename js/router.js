@@ -3,11 +3,15 @@
 define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, domReady, appState) {
   "use strict";
 
+  domReady(function () {
+    require(['metrolyUi']);
+  });
+
   var Router, self = this;
 
   Router = Backbone.Router.extend({
     routes: {
-      'bus/:bus': 'selectBus',
+      'buses/:bus': 'selectBus',
       'bus/:bus/:dir': 'selectDirection',
       '*default': 'default'
     }
@@ -26,10 +30,6 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
         console.log('App required');
         var app = new App();
         app.selectBus('b63');
-
-        domReady(function () {
-          require(['metrolyUi']);
-        });
 
         Backbone.history.start({pushState: false});
       });
