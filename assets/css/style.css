@@ -45,6 +45,8 @@ table {
 /* -- Start Stylin' -- */
 html, body {
     overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 p, li, a ,input {
@@ -186,6 +188,10 @@ p, li, a ,input {
     background-repeat: no-repeat;
     height: 40px;
     width: 40px;
+}
+.geo-active {
+    background-position:0 -40px !important;
+    background-image: url("../images/icon-geo-sprite.svg") !important;
 }
 #live-btn {
     text-align: left !important;

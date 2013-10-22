@@ -172,12 +172,14 @@ define([
         }).addTo(self.map);
 
         $("#geo-btn").removeClass("disabled");
+        $("#geo-btn").removeClass("geo-active");
       });
     },
 
     addGeoLocate: function (){
       console.log("Add Geo");
       $("#geo-btn").addClass("disabled");
+      $("#geo-btn").addClass("geo-active");
       this.map.locate({
         setView: true,
         maxZoom: 15,
