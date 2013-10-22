@@ -69,6 +69,8 @@ define([
     },
 
     render: function () {
+      var currBus = this.model.get('bus')
+
       var html, ctx = {};
       ctx.route = this.model.get('route');
       ctx.direction = this.model.get('direction');
@@ -84,8 +86,8 @@ define([
       this.$el.html(html);
 
       Helpers.visuallySelectRoute($('[data-direction="0"]'));
-
-      var isFav = storage.data[this.model.get('bus')].favorite;
+      var bus = storage.find(currBus.toLowerCase());
+      var isFav = bus.favorite;
       this.favoriteBtn = new FavoriteView({
         el: "#app-controls",
         model: new (Backbone.Model.extend({ defaults: {isActive: isFav}}))

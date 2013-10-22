@@ -15,6 +15,8 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
 
   Router.initialize = function () {
 
+    var router = new Router();
+
     appState.init(function () {
 
       console.log('Storage settings: ', appState.getSettings());
@@ -25,7 +27,10 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
       require(['application'], function (App) {
         console.log('App required');
         var app = new App();
-        app.selectBus('b63');
+
+        router.on('route:selectBus', function (bus) {
+          app.selectBus(bus);
+        });
 
         Backbone.history.start({pushState: false});
       });
