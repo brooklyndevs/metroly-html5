@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns:tizen="http://tizen.org/ns/widgets" xmlns="http://www.w3.org/ns/widgets" id="http://yourdomain/fsa" version="1.0.0" viewmodes="maximized">
+    <tizen:application id="7zDLqnihpJ.fsa" package="7zDLqnihpJ" required_version="2.2"/>
+    <content src="index.html"/>
+    <icon src="icon.png"/>
+    <name>fsa</name>
+</widget>
