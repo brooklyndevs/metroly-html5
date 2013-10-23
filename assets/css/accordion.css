@@ -9,43 +9,31 @@
   width: 200px;
   color: #cccccc;
   -webkit-box-shadow: inset -5px 0 15px #000000;
-  /*height: auto;*/
   overflow-y: auto;
 }
 
-.list-header,
-.list-single {
-  border-bottom: 1px solid #333333;
-  border-top: 1px solid #000000;
+.list-header {
+  border-bottom: 1px solid #101010;
+  border-top: 1px solid #333333;
 }
 
 .list-header {
   font-weight: bold;
-  /*padding-left: 15px;*/
 }
 
 .list-single {
-  padding-left: 30px;
+  padding-left: 25px;
+  letter-spacing: .08em;
   display: none;
   border-left-style:solid;
   border-left-width: 3px;
   border-left-color: #000000;
+  background-color: #121212;
+  -webkit-box-shadow: inset 0 1px 0 #212121;
 }
-
-.list-red {
-  border-left-color: red;
+.list-single:active {
+  background-color:#202020;
 }
-
-.list-blue {
-  border-left-color: blue;
-}
-
-
-
-
-
-/* GogromaT */
-/* For Serge to check/modify */
 
 .list-header,
 .list-single {
@@ -63,6 +51,7 @@
 }
 
 .section-header {
+  border-bottom: 1px solid #101010;
   position: relative;
 }
 
