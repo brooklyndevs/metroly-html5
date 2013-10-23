@@ -152,6 +152,9 @@ define([
       var self = this;
       this.map.on("locationerror", function() {
         console.log("Location error");
+        $("#geo-btn").removeClass("spin360");
+        $("#geo-btn").removeClass("geo-active");
+        $("#geo-btn").removeClass("disabled");
         // L.circle(locations.brooklyn, 100, circleOptions).addTo(this.map);
       });
 
