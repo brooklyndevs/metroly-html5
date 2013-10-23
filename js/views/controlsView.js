@@ -75,6 +75,10 @@ define([
 
       var html, ctx = {};
       ctx.route = this.model.get('route');
+
+      console.log("The route here: ", ctx.route);
+
+      
       ctx.direction = this.model.get('direction');
 
       if (ctx.route.directions) {

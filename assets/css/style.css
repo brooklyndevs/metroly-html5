@@ -90,7 +90,7 @@ p, li, a ,input {
 
 #header-info {
     height: 80px;
-    background: #006CB7;
+    /*background: #006CB7;*/
     position: relative;
 }
 
@@ -267,4 +267,20 @@ p, li, a ,input {
     border-width: 8px 8px 0px 8px;
     bottom: -7px;
     left:12px;
+}
+
+.spin360 {
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 300ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes-spin {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
 }
