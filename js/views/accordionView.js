@@ -1,8 +1,8 @@
 define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domReady, Accordion, appState) {
 
-    var busesObj = appState.getBuses(), 
+    var busesObj = appState.getBuses(),
       buses = [];
-    
+
     _.each(busesObj.data, function (val, key) {
       buses.push(val);
     });
@@ -28,7 +28,7 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
     },
     /*
      * Display color as style property for list item
-     */ 
+     */
       addListColors = function (item) {
       return { style: "border-left-color:" + item.color };
     };
@@ -36,9 +36,9 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
 
     domReady(function () {
 
-      /* 
-       * Change Side Navigation height to window 
-       * to make elements inside to cause overflow-y 
+      /*
+       * Change Side Navigation height to window
+       * to make elements inside to cause overflow-y
        */
       var enforceSideNavHeight = enforceHeight(".side-nav");
       enforceSideNavHeight();
