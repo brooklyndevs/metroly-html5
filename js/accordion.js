@@ -401,6 +401,7 @@
         var self = this,
             searchResults   = [],
             searchResults2  =[],
+            tempResults = [],
             regEx = new RegExp("^" + value, "i"),
             regEx2 = new RegExp(value, "i");
         
@@ -415,16 +416,31 @@
 
         searchResults = getMatchResults(regEx, self.items);
 
-        // Optimize: n^2
-        if (searchResults.length < self.data.maxDisplay) {
+        var leftToFill = self.data.maxDisplay - searchResults.length;
+
+        //TODO: Optimize: n^2
+        if (leftToFill > 0) {
             searchResults2 = getMatchResults(regEx2, self.items);
-            var leftToFill = self.data.maxDisplay - searchResults.length;
+            tempResults = [];
             searchResults.forEach(function (betterResult) {
-                searchResults2.forEach(function (worseResult) {
-                    if (worseResult != betterResult && leftToFill > 0) { searchResults.push(worseResult); leftToFill-=1;}
-                });
+                var match = null;
+                for (var i = 0, length = searchResults2.length; i < length; i++) {
+                    if (betterResult.name == searchResults2[i].name) {
+                        match = null;
+                        break;
+                    } else {
+                        match = searchResults2[i];
+                    }
+                }
+                if (match && leftToFill) {
+                    leftToFill-=1;
+                    tempResults.push(match);
+                }
             });
-            searchResults = searchResults.concat(searchResults2);
+            if (!searchResults.length) {
+                tempResults = searchResults2.splice(0, leftToFill);
+            }
+            searchResults = searchResults.concat(tempResults);
         }
 
         return searchResults;
