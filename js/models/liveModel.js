@@ -18,12 +18,12 @@ define([
     initialize: function () {
       console.log("Live Model Created");
       this.on('change:time', this.timeChanged, this);
-      var interval = settings.find(CHECK_INTERVAL);
+      var interval = settings.find(CHECK_INTERVAL) || this.time;
       this.set('time', interval);
     },
 
     timeChanged: function () {
-      settings.insert(CHECK_INTERVAL, this.get('time') || "");
+      settings.insert(CHECK_INTERVAL, this.get('time'));
       settings.save();
     },
 
