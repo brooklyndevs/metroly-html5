@@ -225,8 +225,11 @@ define([
     busLayer: new L.LayerGroup(),
 
     showBuses: function (buses) {
-      var i, bus, lat, lng, locatorIcon, marker, markerInfo, bearing, layer,
+      var i, bus, lat, lng, locatorIcon, marker, markerInfo, bearing, layer, busesLength = 0;
+
+      if (buses) {
         busesLength = buses.length;
+      }
 
       this.map.removeLayer(this.busLayer);
       this.busLayer = new L.LayerGroup();

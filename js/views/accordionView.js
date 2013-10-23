@@ -7,6 +7,10 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
       buses.push(val);
     });
 
+    buses = _.sortBy(buses, function (bus) {
+      return bus.name;
+    });
+
     var enforceHeight = function (element) {
       var element = document.querySelector(element);
 
