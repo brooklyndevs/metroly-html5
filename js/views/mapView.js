@@ -183,6 +183,9 @@ define([
       console.log("Add Geo");
       $("#geo-btn").addClass("disabled");
       $("#geo-btn").addClass("geo-active");
+      $("#geo-btn").removeClass("spin360");
+      $("#geo-btn").addClass("spin360");
+
       this.map.locate({
         setView: true,
         maxZoom: 15,
