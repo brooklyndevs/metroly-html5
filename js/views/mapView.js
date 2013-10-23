@@ -6,8 +6,9 @@ define([
   'underscore',
   'backbone',
   'leaflet',
-  'shortpoll'
-], function ($, _, Backbone, L, ShortPoll) {
+  'shortpoll',
+  'appState'
+], function ($, _, Backbone, L, ShortPoll, appState) {
   "use strict";
 
   var RouteLayers = {
@@ -206,12 +207,22 @@ define([
       this.model.set('bus', bus);
     },
 
-    startBusTracking: function (time) {
+    startBusTracking: function () {
+      var settings = appState.getSettings();
+      var time = parseInt(settings.find('check_interval')) || false;
+      if (!time) {
+        console.log('Will stop bus tracking');
+        return this.stopBusTracking();
+      }
       if (!this.poll) {
-        this.poll = new ShortPoll(time*1000);
+        this.poll = new ShortPoll(time * 1000);
       }
       var getBuses = _.bind(this.model.getBuses, this.model);
       this.poll.start(getBuses);
+    },
+
+    stopBusTracking: function () {
+      this.poll && this.poll.stop();
     },
 
     changeDirection: function () {
@@ -248,7 +259,7 @@ define([
       }
 
       this.busLayer.addTo(this.map);
-      this.startBusTracking(30);
+      this.startBusTracking();
     },
 
     cacheRoute: function () {

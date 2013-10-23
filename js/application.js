@@ -33,23 +33,17 @@ define([
       geoModel.on('change:active', this.geoLocate);
       liveModel.on('change:time', this.liveClicked);
     },
+
     geoLocate: function (){
       console.log("From GEO application view change active");
       mapView.removeGeoLocate();
       mapView.addGeoLocate();
-      
+
     },
+
     liveClicked: function (){
       console.log("From LIVE application view change active");
-      var t = parseInt(liveModel.get("time"));
-      console.log(t);
-      if(t > 0){
-        mapView.startBusTracking(t);
-      }else{
-        mapView.poll.stop();
-      }
-      
-
+      mapView.startBusTracking();
     },
 
     selectBus: function (bus) {
