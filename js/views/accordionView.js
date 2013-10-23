@@ -96,18 +96,29 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         // Add event listeners to Groups
         addListeners();
 
-      var listLinks = document.querySelectorAll('.list-link');
-      listLinks = Array.prototype.splice.call(listLinks, 0);
 
-      listLinks.forEach(function (listLink) {
-        console.log('listlink');
-        listLink.addEventListener('click', function (e) {
+
+
+
+      /* Close Side Nav when clicking on links */
+      function closeSideNavForElement(element) {
+        element.addEventListener('click', function (e) {
           e.stopPropagation();
-          console.log('clicked a link');
+          console.log('clicked on sidenav element');
           document.querySelector('#menu-btn').click();
           return false;
         });
+      }
+
+      var listLinks = document.querySelectorAll('.list-link');
+      listLinks = Array.prototype.splice.call(listLinks, 0);
+      listLinks.forEach(function (listLink) {
+        console.log('listlink');
+        closeSideNavForElement(listLink);
       });
+
+      var search_list = document.querySelector("#Search_list-group");
+      closeSideNavForElement(search_list);
 
   });
 });
