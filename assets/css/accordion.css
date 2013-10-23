@@ -69,7 +69,9 @@
 }
 .search-cancel {
   position: absolute;
-  left: 116px;
+  left: 130px;
+  width:50px;
+  padding-bottom:10px;
 }
 .search-cancel:hover {
   cursor: text;

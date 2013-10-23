@@ -388,7 +388,8 @@
 
         }, false);
 
-        cancel_input.addEventListener("click", function () {
+        cancel_input.addEventListener("click", function (e) {
+            e.preventDefault();
             input.value = "";
             self.settings.notify("clickGroupExpand", self.name, true);
         }, false);
