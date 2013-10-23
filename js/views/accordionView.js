@@ -96,5 +96,18 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         // Add event listeners to Groups
         addListeners();
 
+      var listLinks = document.querySelectorAll('.list-link');
+      listLinks = Array.prototype.splice.call(listLinks, 0);
+
+      listLinks.forEach(function (listLink) {
+        console.log('listlink');
+        listLink.addEventListener('click', function (e) {
+          e.stopPropagation();
+          console.log('clicked a link');
+          document.querySelector('#menu-btn').click();
+          return false;
+        });
+      });
+
   });
 });
