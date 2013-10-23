@@ -399,12 +399,33 @@
 
     SearchGroup.prototype.getMatchedItems = function (value) {
         var self = this,
-            searchResults = [],
-            regEx = new RegExp(value, "i");
+            searchResults   = [],
+            searchResults2  =[],
+            regEx = new RegExp("^" + value, "i"),
+            regEx2 = new RegExp(value, "i");
+        
 
-        self.items.forEach(function (i) {
-            if (i.name.match(regEx)) searchResults.push(i);
-        });
+        function getMatchResults(regEx, array) {
+            var results = [];
+            array.forEach(function (i) {
+                if (i.name.match(regEx)) results.push(i);
+            });
+            return results;
+        }
+
+        searchResults = getMatchResults(regEx, self.items);
+
+        // Optimize: n^2
+        if (searchResults.length < self.data.maxDisplay) {
+            searchResults2 = getMatchResults(regEx2, self.items);
+            var leftToFill = self.data.maxDisplay - searchResults.length;
+            searchResults.forEach(function (betterResult) {
+                searchResults2.forEach(function (worseResult) {
+                    if (worseResult != betterResult && leftToFill > 0) { searchResults.push(worseResult); leftToFill-=1;}
+                });
+            });
+            searchResults = searchResults.concat(searchResults2);
+        }
 
         return searchResults;
     };
