@@ -426,7 +426,6 @@
                 var match = null;
                 for (var i = 0, length = searchResults2.length; i < length; i++) {
                     if (betterResult.name == searchResults2[i].name) {
-                        console.log('Same result:', betterResult.name, searchResults2[i].name);
                         match = null;
                         break;
                     } else {
@@ -441,7 +440,6 @@
             if (!searchResults.length) {
                 tempResults = searchResults2.splice(0, leftToFill);
             }
-            console.log("Concat wtih", tempResults);
             searchResults = searchResults.concat(tempResults);
         }
 
