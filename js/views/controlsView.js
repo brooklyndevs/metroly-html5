@@ -53,7 +53,8 @@ define([
     favorite: function (e) {
       var selectedBus = this.model.get('bus');
       console.log('SelectedBus: ', selectedBus);
-      storage.data[selectedBus].favorite = !storage.data[selectedBus].favorite;
+      var busData = storage.data[selectedBus.toLowerCase()];
+      busData.favorite = !busData.favorite;
       storage.save();
       console.log('State of storage: ', storage.data);
     },
@@ -76,19 +77,21 @@ define([
       ctx.route = this.model.get('route');
       ctx.direction = this.model.get('direction');
 
-
       if (ctx.route.directions) {
-        ctx.route.directions[0].destination = ctx.route.directions[0].destination.split('via')[0];
-        ctx.route.directions[1].destination = ctx.route.directions[1].destination.split('via')[0];
+        _.each(ctx.route.directions, function (direction) {
+          if (direction.destination) {
+            var editedDestination = direction.destination.split('via')[0];
+            direction.destination = editedDestination;
+          }
+        });
       }
-
 
       html = this.template(ctx);
       this.$el.html(html);
 
       Helpers.visuallySelectRoute($('[data-direction="0"]'));
       var bus = storage.find(currBus.toLowerCase());
-      var isFav = bus.favorite;
+      var isFav = bus.favorite || false;
       this.favoriteBtn = new FavoriteView({
         el: "#app-controls",
         model: new (Backbone.Model.extend({ defaults: {isActive: isFav}}))
