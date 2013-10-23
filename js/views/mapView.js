@@ -259,7 +259,6 @@ define([
       }
 
       this.busLayer.addTo(this.map);
-      this.map.panTo([lat, lng]);
       this.startBusTracking();
     },
 
@@ -287,6 +286,13 @@ define([
           self.map.removeLayer(CurrentRouteLayer);
           CurrentRouteLayer = RouteLayers.dir0;
           self.map.addLayer(CurrentRouteLayer);
+
+          if (decodedPoints.length > 0) {
+            var midIndex = Math.floor(decodedPoints.length / 2);
+            var midPoint = decodedPoints[midIndex];
+            var midLatLng = new L.LatLng(midPoint[0], midPoint[1]);
+            self.map.panTo(midLatLng);
+          }
         });
       });
     },
