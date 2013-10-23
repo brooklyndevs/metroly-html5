@@ -175,7 +175,12 @@ define([
         }).addTo(self.map);
 
         $("#geo-btn").removeClass("disabled");
-        $("#geo-btn").removeClass("geo-active");
+        setTimeout(function(){
+          $("#geo-btn").removeClass("geo-active");
+          $("#geo-btn").removeClass("spin360");
+        }, 1000);
+        // $("#geo-btn").removeClass("geo-active");
+
       });
     },
 

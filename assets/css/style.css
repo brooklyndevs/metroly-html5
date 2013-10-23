@@ -272,7 +272,7 @@ p, li, a ,input {
 .spin360 {
     -webkit-animation-name: spin;
     -webkit-animation-duration: 1.5s;
-    -webkit-animation-iteration-count: 1;
+    -webkit-animation-iteration-count: Infinite;
     -webkit-animation-timing-function: linear;
 }
 
