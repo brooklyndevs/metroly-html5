@@ -215,6 +215,9 @@ p, li, a ,input {
     padding-right:20px;
     width:20%;
 }
+#live-btn .imgState.disabled {
+    background-position: -9px -40px;
+}
 #live-btn .state{
     width:30%;
     padding:10px;
