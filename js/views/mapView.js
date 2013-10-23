@@ -259,6 +259,7 @@ define([
       }
 
       this.busLayer.addTo(this.map);
+      this.map.panTo([lat, lng]);
       this.startBusTracking();
     },
 
