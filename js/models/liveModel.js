@@ -18,7 +18,7 @@ define([
     initialize: function () {
       console.log("Live Model Created");
       this.on('change:time', this.timeChanged, this);
-      var interval = settings.find(CHECK_INTERVAL) || this.time;
+      var interval = settings.find(CHECK_INTERVAL) || this.get("time");
       this.set('time', interval);
     },
 
