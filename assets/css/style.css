@@ -72,7 +72,7 @@ p, li, a ,input {
 #route-wrapper .route {
     padding-bottom: 10px;
     padding-top: 10px;
-    min-height:30px;
+    min-height:40px;
 }
 
 #route-wrapper .route:first-child {
