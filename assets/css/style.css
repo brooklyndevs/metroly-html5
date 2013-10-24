@@ -70,9 +70,8 @@ p, li, a ,input {
 }
 
 #route-wrapper .route {
-    padding-bottom: 10px;
-    padding-top: 10px;
-    min-height:40px;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 #route-wrapper .route:first-child {
@@ -283,5 +282,11 @@ p, li, a ,input {
     }
     to {
         -webkit-transform: rotate(360deg);
+    }
+}
+/* Queries */
+@media (max-width: 500px) {
+    #route-wrapper .route {
+        min-height:40px;
     }
 }
