@@ -19,11 +19,12 @@ define(['backbone'], function (Backbone) {
 
     this.name = collName;
     this.data = getFromLocalStorage(collName);
+    return _.extend(this, Backbone.Events);
   };
 
   Storage.get = function (collName) {
     var storage = new Storage(collName);
-    return _.extend(storage, Backbone.Events);
+    return storage;
   };
 
   Storage.prototype.toggle = function (name, data) {
