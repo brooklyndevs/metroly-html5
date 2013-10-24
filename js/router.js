@@ -5,6 +5,9 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
 
   var Router, self = this;
 
+  var RECENT_BUSES_MAX = 5;
+  var RECENTLY_VIEWED_BUSES = 'recently_viewed_buses';
+
   Router = Backbone.Router.extend({
     routes: {
       '': 'homeState',
@@ -15,6 +18,12 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
   });
 
   Router.initialize = function () {
+
+    Array.prototype.remove = function(from, to) {
+      var rest = this.slice((to || from) + 1 || this.length);
+      this.length = from < 0 ? this.length + from : from;
+      return this.push.apply(this, rest);
+    };
 
     var router = new Router();
 
@@ -35,6 +44,26 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
         });
 
         router.on('route:selectBus', function (bus) {
+          var settings = appState.getSettings();
+          var recentBuses = settings.find(RECENTLY_VIEWED_BUSES);
+          if (!recentBuses) {
+            recentBuses = [];
+          }
+
+          var idxBus = recentBuses.indexOf(bus);
+
+          if (idxBus > -1) {
+            recentBuses.remove(idxBus);
+          }
+
+          recentBuses.unshift(bus);
+
+          if (recentBuses.length > RECENT_BUSES_MAX) {
+            recentBuses.pop();
+          }
+
+          settings.insert(RECENTLY_VIEWED_BUSES, recentBuses);
+          settings.save();
           app.selectBus(bus);
         });
 
