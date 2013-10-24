@@ -35,15 +35,18 @@ define([
       this.model.on('change:route', this.render, this);
     },
 
-    menuClicked: function () {
+    menuClicked: function (e) {
+      var menuBtn = e.target;
       var pages = document.querySelectorAll('.page');
       pages = Array.prototype.splice.call(pages, 0);
       pages.forEach(function (pg) {
         pg.style.webkitTransition = "margin-left .4s";
 
         if (pg.style.marginLeft.trim().length > 0) {
+          e.target.style.backgroundPosition = "0 0px"
           pg.style.marginLeft = "";
         } else {
+          e.target.style.backgroundPosition = "0 -43px"
           pg.style.marginLeft = "200px";
         }
       });
