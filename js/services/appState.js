@@ -1,4 +1,4 @@
-define(['jquery', 'storage', '_', 'backbone'], function ($, Storage, _, Backbone) {
+define(['jquery', 'storage', 'underscore', 'backbone'], function ($, Storage, _, Backbone) {
 
   var CHECK_UPDATES_DAYS = 3,
     BUSES_URL = 'http://www.metrolyapp.com/v1/buses/nyc?callback=?';

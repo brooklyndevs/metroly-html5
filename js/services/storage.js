@@ -1,4 +1,4 @@
-define([], function () {
+define(['backbone'], function (Backbone) {
 
   var saveToLocalStorage = function (data) {
     localStorage.setItem(data.name, JSON.stringify(data.data));
@@ -23,7 +23,7 @@ define([], function () {
 
   Storage.get = function (collName) {
     var storage = new Storage(collName);
-    return storage;
+    return _.extend(storage, Backbone.Events);
   };
 
   Storage.prototype.toggle = function (name, data) {
@@ -40,9 +40,12 @@ define([], function () {
 
   Storage.prototype.insert = function (name, data) {
     this.data[name] = data;
+    this.trigger(name, {inserted: name, data: this.data});
   };
 
   Storage.prototype.remove = function (name) {
+    var dataItem = this.data[name];
+    this.trigger(name, {removed: name, data: this.data});
     delete this.data[name];
   };
 

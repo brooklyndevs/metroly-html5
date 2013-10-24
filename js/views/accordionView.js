@@ -96,9 +96,19 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         // Add event listeners to Groups
         addListeners();
 
-
-
-
+        var settings = appState.getSettings();
+        settings.on('recently_viewed_buses', function (data) {
+            var recentBuses = data.data.recently_viewed_buses;
+            var busesArr = [];
+            _.each(recentBuses, function (recentBus) {
+              busesArr.push({name: recentBus, recent: true, color: busesObj.data[recentBus.toLowerCase()].color});
+            });
+            
+            accordion.groups.Recent.changeData({
+              data: busesArr,
+              callback: function (e) { return e.recent; }
+            }).renderItems();
+        });
 
       /* Close Side Nav when clicking on links */
       function closeSideNavForElement(element) {
