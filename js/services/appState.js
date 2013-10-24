@@ -8,7 +8,7 @@ define(['jquery', 'storage'], function ($, Storage) {
   var AppState = function () {
     console.log('Init the AppState module instance');
 
-    this.appInfoStorage = Storage.get('appInfo'),
+    this.appInfoStorage = Storage.get('appInfo');
     this.busesStorage = Storage.get('buses');
   };
 
