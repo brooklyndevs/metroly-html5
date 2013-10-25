@@ -41,6 +41,17 @@ define([
       this.model.setLiveTime(t);
       this.render();
     },
+    
+    startSpin: function () {
+      this.$el.find('.imgState').addClass('spin360');
+    },
+    
+    stopSpin: function () {
+      var targetEl = this.$el.find('.imgState');
+      window.setTimeout(function () {
+        targetEl.removeClass('spin360');
+      }, 1000)
+    },
 
     render: function () {
       var html, ctx = {};
