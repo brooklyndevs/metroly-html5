@@ -1,5 +1,7 @@
 define(['backbone'], function (Backbone) {
 
+  var ANY_EVENT = '*';
+
   var saveToLocalStorage = function (data) {
     localStorage.setItem(data.name, JSON.stringify(data.data));
   };
@@ -41,19 +43,30 @@ define(['backbone'], function (Backbone) {
 
   Storage.prototype.insert = function (name, data) {
     this.data[name] = data;
-    this.trigger(name, {inserted: name, data: this.data});
+    var changeInfo = {inserted: name, data: this.data};
+    this.notify(name, changeInfo);
+    this.notify(ANY_EVENT, changeInfo)
   };
 
   Storage.prototype.remove = function (name) {
     var dataItem = this.data[name];
-    this.trigger(name, {removed: name, data: this.data});
+    var changeInfo = {inserted: name, data: this.data};
+    this.notify(name, changeInfo);
+    this.notify(ANY_EVENT, changeInfo);
     delete this.data[name];
   };
+
+  Storage.prototype.notify = function (eventName, data) {
+    if (this.trigger) {
+      this.trigger(eventName, data);
+    }
+  }
 
   Storage.prototype.save = function () {
     saveToLocalStorage({name: this.name, data: this.data});
     console.log('Saved to localStorage for ', this.name, ' data: ', this.data);
-    // this.reload();
+    var changeInfo = {saved: true, data: this.data};
+    this.notify(ANY_EVENT, changeInfo);
   };
 
   Storage.prototype.contains = function (name) {

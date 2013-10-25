@@ -97,17 +97,24 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         addListeners();
 
         var settings = appState.getSettings();
-        settings.on('recently_viewed_buses', function (data) {
-            var recentBuses = data.data.recently_viewed_buses;
+        settings.on('recently_viewed_buses', function (changeInfo) {
+            var recentBuses = changeInfo.data.recently_viewed_buses;
             var busesArr = [];
             _.each(recentBuses, function (recentBus) {
               busesArr.push({name: recentBus, recent: true, color: busesObj.data[recentBus.toLowerCase()].color});
             });
-            
+
             accordion.groups.Recent.changeData({
               data: busesArr,
               callback: function (e) { return e.recent; }
             }).renderItems();
+        });
+
+        busesObj.on('*', function (changeInfo) {
+          if (changeInfo.saved) {
+            var accordionFavs = accordion.groups.Favorites.items;
+            accordionFavs.push();
+          }
         });
 
       /* Close Side Nav when clicking on links */
