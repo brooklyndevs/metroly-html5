@@ -112,8 +112,14 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
 
         busesObj.on('*', function (changeInfo) {
           if (changeInfo.saved) {
-            var accordionFavs = accordion.groups.Favorites.items;
-            accordionFavs.push();
+            var favBuses = _.filter(busesObj.data, function (bus) {
+              return bus.favorite;
+            });
+
+            accordion.groups.Favorites.changeData({
+              data: favBuses,
+              callback: function (e) { return e.favorite; }
+            }).renderItems();
           }
         });
 
