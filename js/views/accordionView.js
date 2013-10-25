@@ -49,6 +49,23 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
       window.addEventListener("resize", enforceSideNavHeight);
 
 
+      var busNamesToRecentBusObjects = function (busNames) {
+        var busesArr = [];
+        _.each(busNames, function (recentBus) {
+          busesArr.push({name: recentBus, recent: true, color: busesObj.data[recentBus.toLowerCase()].color});
+        });
+        return busesArr;
+      };
+
+      var changeRecentListAccordion = function (busesArr) {
+          accordion.groups.Recent.changeData({
+            data: busesArr,
+            callback: function (e) { return e.recent; }
+          }).renderItems();
+      };
+
+      var settings = appState.getSettings();
+
       /* Side Navigation Accordion */
       var accordion = new Accordion().
         // 1. Set Accordion Settings.
@@ -67,7 +84,7 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         // Adds a "Group"
         addGroup({
           name: "Recent",
-          data: buses,
+          data: busNamesToRecentBusObjects(settings.find('recently_viewed_buses')),
           // Pick items that have recent property
           callback: function (e) { return e.recent; },
           itemText: generateLink,
@@ -96,32 +113,27 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         // Add event listeners to Groups
         addListeners();
 
-        var settings = appState.getSettings();
-        settings.on('recently_viewed_buses', function (changeInfo) {
-            var recentBuses = changeInfo.data.recently_viewed_buses;
-            var busesArr = [];
-            _.each(recentBuses, function (recentBus) {
-              busesArr.push({name: recentBus, recent: true, color: busesObj.data[recentBus.toLowerCase()].color});
-            });
 
-            accordion.groups.Recent.changeData({
-              data: busesArr,
-              callback: function (e) { return e.recent; }
-            }).renderItems();
-        });
+      var onRecentBusStorageChanged = function (changeInfo) {
+        var busNames = changeInfo.data.recently_viewed_buses;
+        var recentBusObjects = busNamesToRecentBusObjects(busNames);
+        changeRecentListAccordion(recentBusObjects);
+      };
 
-        busesObj.on('*', function (changeInfo) {
-          if (changeInfo.saved) {
-            var favBuses = _.filter(busesObj.data, function (bus) {
-              return bus.favorite;
-            });
+      settings.on('recently_viewed_buses', onRecentBusStorageChanged);
 
-            accordion.groups.Favorites.changeData({
-              data: favBuses,
-              callback: function (e) { return e.favorite; }
-            }).renderItems();
-          }
-        });
+      busesObj.on('*', function (changeInfo) { // listen on all events.
+        if (changeInfo.saved) {
+          var favBuses = _.filter(busesObj.data, function (bus) {
+            return bus.favorite;
+          });
+
+          accordion.groups.Favorites.changeData({
+            data: favBuses,
+            callback: function (e) { return e.favorite; }
+          }).renderItems();
+        }
+      });
 
       /* Close Side Nav when clicking on links */
       function closeSideNavForElement(element) {
