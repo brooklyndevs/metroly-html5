@@ -130,5 +130,7 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
       var search_list = document.querySelector("#Search_list-group");
       closeSideNavForElement(search_list);
 
+      var recent_list = document.querySelector("#Recent_list-group");
+      closeSideNavForElement(recent_list);
   });
 });
