@@ -28,8 +28,7 @@ define([
       var bus = this.get('bus'), dir = this.get('direction'), self = this;
       console.log('getting buses for ', bus, ' , direction ', dir);
       this.mta.getBuses(bus, dir, function (buses) {
-        self.trigger('gotBuses');
-        self.notifyBusesChanged(buses);
+        self.trigger('gotBuses', buses);
       });
     },
 
