@@ -219,6 +219,7 @@ define([
     },
 
     startBusTracking: function () {
+      var self = this;
       var settings = appState.getSettings();
       var time = parseInt(settings.find('check_interval')) || false;
       if (!time) {
@@ -228,7 +229,11 @@ define([
       if (!this.poll) {
         this.poll = new ShortPoll(time * 1000);
       }
-      var getBuses = _.bind(this.model.getBuses, this.model);
+      
+      var getBuses = function () {
+        self.options.liveView.startSpin();
+        self.model.getBuses();
+      };
       this.poll.start(getBuses);
     },
 
@@ -271,6 +276,7 @@ define([
 
       this.busLayer.addTo(this.map);
       this.startBusTracking();
+      this.options.liveView.stopSpin();
     },
 
     cacheRoute: function () {
