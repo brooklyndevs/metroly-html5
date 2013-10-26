@@ -1,13 +1,7 @@
-define(['jquery', 'storage', 'underscore', 'backbone'], function ($, Storage, _, Backbone) {
-
-  var CHECK_UPDATES_DAYS = 3,
-    BUSES_URL = 'http://www.metrolyapp.com/v1/buses/nyc?callback=?';
-
-  console.log('Init the AppState module');
+define(['jquery', 'storage', 'underscore', 'backbone', 'config'], function ($, Storage, _, Backbone, config) {
 
   var AppState = function () {
     console.log('Init the AppState module instance');
-
     this.appInfoStorage = Storage.get('appInfo');
     this.busesStorage = Storage.get('buses');
   };
@@ -17,9 +11,9 @@ define(['jquery', 'storage', 'underscore', 'backbone'], function ($, Storage, _,
       lastUpdated,
       expiration = new Date();
 
-    if (appInfo.data.last_updated) {
-     lastUpdated = new Date(appInfo.data.last_updated);
-     expiration.setDate(lastUpdated.getDate() + CHECK_UPDATES_DAYS);
+    if (appInfo.data[config.LAST_UPDATED_SETTING]) {
+     lastUpdated = new Date(appInfo.data[config.LAST_UPDATED_SETTING]);
+     expiration.setDate(lastUpdated.getDate() + config.CHECK_UPDATES_DAYS);
     }
 
     return !lastUpdated || lastUpdated >= expiration;
@@ -30,7 +24,7 @@ define(['jquery', 'storage', 'underscore', 'backbone'], function ($, Storage, _,
     var
       self = this,
       busQuery = $.ajax({
-      url: BUSES_URL,
+      url: config.BUSES_URL,
       dataType: 'jsonp'
     });
 
@@ -48,7 +42,7 @@ define(['jquery', 'storage', 'underscore', 'backbone'], function ($, Storage, _,
       }
 
       self.busesStorage.save();
-      self.appInfoStorage.insert('last_updated', new Date());
+      self.appInfoStorage.insert(config.LAST_UPDATED_SETTING, new Date());
       self.appInfoStorage.save();
 
       cb && cb();
@@ -61,6 +55,12 @@ define(['jquery', 'storage', 'underscore', 'backbone'], function ($, Storage, _,
   };
 
   AppState.prototype.init = function (cb) {
+
+    var settings = this.getSettings();
+    if (!settings.find(config.CHECK_INTERVAL_SETTING)) {
+      settings.insert(config.CHECK_INTERVAL_SETTING, config.CHECK_INTERVAL_DEFAULT);
+    }
+
     if (this.needsUpdate()) {
       console.log('Needs an update');
       this.queryAvailableBuses(cb);

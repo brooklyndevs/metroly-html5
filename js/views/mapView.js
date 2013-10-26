@@ -132,11 +132,10 @@ define([
     initialize: function () {
       this.initMap();
       $(window).bind("resize", _.bind(this.ensureMapHeight, this));
-      this.model.onBusesChanged(this.showBuses, this);
       this.model.on('change:route', this.cacheRoute, this);
       this.model.on('change:direction', this.changeDirection, this);
       this.model.on('getBuses', this.options.liveView.startSpin, this);
-      this.model.on('gotBuses', this.options.liveView.stopSpin, this);
+      this.model.on('gotBuses', this.showBuses, this);
       this.initGeoLocate();
     },
 
@@ -252,7 +251,7 @@ define([
     busLayer: new L.LayerGroup(),
 
     showBuses: function (buses) {
-      var i, bus, lat, lng, locatorIcon, marker, markerInfo, bearing, layer, busesLength = 0;
+      var self = this, i, bus, lat, lng, locatorIcon, marker, markerInfo, bearing, layer, busesLength = 0;
 
       if (buses) {
         busesLength = buses.length;
@@ -272,9 +271,13 @@ define([
         markerInfo = "<p><strong>" + bus.PublishedLineName + "</strong> &rarr; " + bus.DestinationName + "</p>";
         marker.bindPopup(markerInfo);
         this.busLayer.addLayer(marker);
+        self.busLayer.addTo(this.map);
       }
 
-      this.busLayer.addTo(this.map);
+      setTimeout(function () {
+        self.options.liveView.stopSpin();
+      }, 1000);
+
       this.startBusTracking();
     },
 

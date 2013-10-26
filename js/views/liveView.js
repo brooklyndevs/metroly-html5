@@ -48,9 +48,7 @@ define([
 
     stopSpin: function () {
       var targetEl = $('.imgState');
-      window.setTimeout(function () {
-        targetEl.removeClass('spin360');
-      }, 2000)
+      targetEl.removeClass('spin360');
     },
 
     render: function () {

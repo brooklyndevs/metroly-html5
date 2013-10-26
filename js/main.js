@@ -11,7 +11,8 @@ require.config({
     shortpoll: 'helpers/poller',
     storage: 'services/storage',
     accordion: 'accordion',
-    appState: 'services/appState'
+    appState: 'services/appState',
+    config: 'config'
   },
   shim: {
     backbone: {
