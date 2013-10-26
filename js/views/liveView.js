@@ -43,21 +43,21 @@ define([
     },
 
     startSpin: function () {
-      this.$el.find('.imgState').addClass('spin360');
+      $('.imgState').addClass('spin360');
     },
 
     stopSpin: function () {
-      var targetEl = this.$el.find('.imgState');
+      var targetEl = $('.imgState');
       window.setTimeout(function () {
         targetEl.removeClass('spin360');
-      }, 3000)
+      }, 2000)
     },
 
     render: function () {
       var html, ctx = {};
 
       ctx.time = this.model.get('time');
-      
+
       html = this.template(ctx);
 
       this.$el.html(html);
