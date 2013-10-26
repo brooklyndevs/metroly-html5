@@ -135,7 +135,8 @@ define([
       this.model.onBusesChanged(this.showBuses, this);
       this.model.on('change:route', this.cacheRoute, this);
       this.model.on('change:direction', this.changeDirection, this);
-
+      this.model.on('getBuses', this.options.liveView.startSpin, this);
+      this.model.on('gotBuses', this.options.liveView.stopSpin, this);
       this.initGeoLocate();
     },
 
@@ -229,9 +230,8 @@ define([
       if (!this.poll) {
         this.poll = new ShortPoll(time * 1000);
       }
-      
+
       var getBuses = function () {
-        self.options.liveView.startSpin();
         self.model.getBuses();
       };
       this.poll.start(getBuses);
@@ -243,7 +243,7 @@ define([
 
     changeDirection: function () {
       var direction = this.model.get('direction');
-
+      this.model.getBuses();
       this.map.removeLayer(CurrentRouteLayer);
       CurrentRouteLayer = RouteLayers['dir' + direction];
       this.map.addLayer(CurrentRouteLayer);
@@ -276,7 +276,6 @@ define([
 
       this.busLayer.addTo(this.map);
       this.startBusTracking();
-      this.options.liveView.stopSpin();
     },
 
     cacheRoute: function () {

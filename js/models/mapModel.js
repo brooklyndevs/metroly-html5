@@ -24,9 +24,11 @@ define([
     },
 
     getBuses: function () {
+      this.trigger('getBuses');
       var bus = this.get('bus'), dir = this.get('direction'), self = this;
       console.log('getting buses for ', bus, ' , direction ', dir);
       this.mta.getBuses(bus, dir, function (buses) {
+        self.trigger('gotBuses');
         self.notifyBusesChanged(buses);
       });
     },
@@ -40,7 +42,7 @@ define([
         self.set('route', route);
       });
     },
-    
+
     onBusesChanged: function (cb, ctx) {
       this.busesChangedCbs.push(_.bind(cb, ctx));
     },
