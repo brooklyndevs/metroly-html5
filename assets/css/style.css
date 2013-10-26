@@ -136,6 +136,10 @@ p, li, a ,input {
     background-image: url("../images/icon-fav-sprite.svg") !important;
 }
 
+.page{
+    position: fixed;
+}
+
 .side-nav {
     position: absolute;
     left: 0;
