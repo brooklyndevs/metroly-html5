@@ -8,8 +8,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
   margin: 0;
@@ -162,33 +162,39 @@ p, li, a ,input {
    cursor: default;
 }
 
-#liveContainer,
 #geoContainer {
     position:absolute;
     right:20px;
     bottom:20px;
 }
+
 #liveContainer{
     background:rgba(27, 27, 27, 0.9);
     left:20px;
-    width:120px;
+    bottom: 20px;
+    position:absolute;
 }
+
 #geoContainer{
     right:20px;
     width:40px;
 }
-#liveContainer a,
+
 #geoContainer a{
     width:100%;
     text-decoration: none;
 }
+
 #liveContainer a {
     /*padding-left: 0;*/
+    text-decoration: none;
 }
-#liveContainer a:hover, 
+
+#liveContainer a:hover,
 #geoContainer a:hover{
     color:white;
 }
+
 #geo-btn,
 #geo-active {
     background-image: url("../images/icon-geo-sprite.svg");
@@ -196,42 +202,50 @@ p, li, a ,input {
     height: 40px;
     width: 40px;
 }
+
 #geo-btn {
     background-position:0 0px;
 }
+
 .geo-active {
     background-position:0 -40px !important;
 }
+
 #live-btn {
-    text-align: left !important;
-    height: 20px;
-    padding: 10px 10px 11px;
+    height: 40px;
+    width: 160px;
 }
-#live-btn .imgState{
+
+.imgState {
     background-image: url("../images/icon-live-sprite.svg");
-    background-position: -9px 0;
+    background-position: 0px 0px;
     background-repeat: no-repeat;
-    padding:10px;
-    padding-right:20px;
-    width:20%;
+    margin-top: 1px;
+    margin-left: 1px;
+    width: 40px;
+    height: 40px;
+    display: block;
+    float: left;
 }
-#live-btn .imgState.disabled {
-    background-position: -9px -40px;
+
+.imgState.disabled {
+    background-position: 0px -40px;
 }
-#live-btn .state{
-    width:30%;
-    padding:10px;
+
+.state {
+    float: left;
+    padding: 10px;
+    padding-left: 9px;
 }
-#live-btn .time{
+
+.time {
     background: rgba(18, 18, 18, 1);
-    margin-left:10px;
-    width:20%;
-    padding:10px;
+    padding: 10px 14px;
     text-align:center;
-    position: absolute;
-    top: 0;
-    right: -40px;
+    float: right;
 }
+
+
 /*BUBBLE CSS*/
 .live-bubble-header{
     background: black;
@@ -240,15 +254,14 @@ p, li, a ,input {
 }
 
 .liveBubble {
-    width:170px;
+    width:160px;
     text-align: center;
     position: absolute;
     bottom:50px;
-    right:-50px;
     display:none;
 }
 .liveBubble ul li{
-    width: 150px;
+    /*width: 150px;*/
 }
 .liveBubble ul li a{
     color:white;
@@ -261,7 +274,7 @@ p, li, a ,input {
     border-style: solid;
     position: absolute;
 }
- 
+
 .bottom {
     border-color: rgba(27, 27, 27, 0.9) transparent transparent transparent;
     border-width: 8px 8px 0px 8px;
