@@ -137,7 +137,7 @@ p, li, a ,input {
 }
 
 .page{
-    position: fixed;
+    position: relative;
 }
 
 .side-nav {
