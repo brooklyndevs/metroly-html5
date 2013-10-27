@@ -30,9 +30,16 @@ define([
       'click #menu-btn': 'menuClicked'
     },
 
-    initialize: function () {
+    initialize: function (options) {
+      var self = this;
+      this.dispatcher = options.dispatcher;
+
       this.model.on('change:bus', this.render, this);
       this.model.on('change:route', this.render, this);
+
+      this.dispatcher.bind("app:isHomeState", function (isHomeState) {
+        if (isHomeState) self.renderHomeState();
+      });
     },
 
     menuClicked: function (e) {
@@ -73,16 +80,33 @@ define([
       this.model.set('direction', direction);
     },
 
+    toggleCollapseRouteWrapper: function () {
+      $("#route-wrapper").toggleClass("collapsed");
+    },
+
+    // TODO: Dunno if we need to break templates (HomeScreen from BusRoutes),
+    // but maybe will be useful?
+    renderHomeState: function () {
+      // CONTROL HEADER PARAMETERS
+      var ctx = {};
+      ctx.homeState = true;
+
+      // RENDER CONTROL HEADER
+      this.renderHeader(ctx);
+      return this;
+    },
+
     render: function () {
-      var currBus = this.model.get('bus')
 
-      var html, ctx = {};
-      ctx.route = this.model.get('route');
-
-      console.log("The route here: ", ctx.route);
-
-      
+      // CONTROL HEADER PARAMETERS
+      var ctx = {};
+      ctx.route = this.model.get('route');      
       ctx.direction = this.model.get('direction');
+      var currBus = this.model.get('bus');
+
+      if (!ctx.route || !currBus) {
+        return false;
+      }
 
       if (ctx.route.directions) {
         _.each(ctx.route.directions, function (direction) {
@@ -93,10 +117,13 @@ define([
         });
       }
 
-      html = this.template(ctx);
-      this.$el.html(html);
+      // RENDER CONTROL HEADER
+      this.renderHeader(ctx);
 
+      // SET BUS DIRECTION 0 BY DEFAULT
       Helpers.visuallySelectRoute($('[data-direction="0"]'));
+
+      // RENDER FAVORITE BUTTON
       var bus = storage.find(currBus.toLowerCase());
       var isFav = bus.favorite || false;
       this.favoriteBtn = new FavoriteView({
@@ -107,7 +134,14 @@ define([
       this.favoriteBtn.render();
 
       return this;
+    },
+
+    renderHeader: function (ctx) {
+      var html = this.template(ctx);
+      this.$el.html(html);
     }
+
+
   });
 
   return ControlsView;

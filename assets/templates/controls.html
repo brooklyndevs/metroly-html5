@@ -1,13 +1,21 @@
-<div id="header-info" style="background:#{{route.color}};">
+<div id="header-info" style="background:#{{#if homeState}}006CB7{{else}}{{route.color}}{{/if}};">
   <div class="col-1">
     <a href="#" id='menu-btn' class='btn side-nav-toggle center center-text'></a>
   </div>
-  <h1 class='col-10 center-text'>{{route.shortName}}</h1>
-  <div id='app-controls' class="col-1"></div>
+
+  <h1 class='col-10 center-text {{#if homeState}}logo{{/if}}'>
+    {{#if homeState}}Metroly{{else}}{{route.shortName}}{{/if}}
+  </h1>
+  
+  <div class="col-1" id='app-controls'></div>
 </div>
 
-<div id="route-wrapper" class='col-12'>
-  {{#each route.directions}}
-    <a href="#" class="col-6 center-text route" data-direction="{{directionId}}">{{destination}}</a>
-  {{/each}}
-</div>
+{{#unless homeState}}
+
+  <div id="route-wrapper" class='col-12'>
+    {{#each route.directions}}
+	  <a href="#" class="col-6 center-text route" data-direction="{{directionId}}">{{destination}}</a>
+    {{/each}}
+  </div>
+
+{{/unless}}

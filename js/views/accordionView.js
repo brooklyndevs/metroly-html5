@@ -148,14 +148,15 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
       var listLinks = document.querySelectorAll('.list-link');
       listLinks = Array.prototype.splice.call(listLinks, 0);
       listLinks.forEach(function (listLink) {
-        console.log('listlink');
         closeSideNavForElement(listLink);
       });
 
       var search_list = document.querySelector("#Search_list-group");
-      closeSideNavForElement(search_list);
-
       var recent_list = document.querySelector("#Recent_list-group");
+      var favorite_list = document.querySelector("#Favorites_list-group");
+      
+      closeSideNavForElement(search_list);
       closeSideNavForElement(recent_list);
+      closeSideNavForElement(favorite_list);
   });
 });

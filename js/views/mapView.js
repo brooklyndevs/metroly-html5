@@ -17,6 +17,7 @@ define([
   };
 
   var CurrentRouteLayer = {};
+  var CurrentBusLayer   = {};
 
   var decodePolyline = function (encoded) {
     var len = encoded.length;
@@ -129,7 +130,11 @@ define([
   var MapView = Backbone.View.extend({
     el: '#map',
 
-    initialize: function () {
+    initialize: function (options) {
+
+      var self = this;
+
+      this.dispatcher = options.dispatcher;
       this.initMap();
       $(window).bind("resize", _.bind(this.ensureMapHeight, this));
       this.model.on('change:route', this.cacheRoute, this);
@@ -137,6 +142,16 @@ define([
       this.model.on('getBuses', this.options.liveView.startSpin, this);
       this.model.on('gotBuses', this.showBuses, this);
       this.initGeoLocate();
+
+      this.dispatcher.bind("app:isHomeState", function (isHomeState) {
+        if (isHomeState) {
+          self.model.resetBus();
+          self.showHomeScreen(true);
+        } else {
+          self.showHomeScreen(false);
+        }
+      });
+
     },
 
     initMap: function () {
@@ -248,7 +263,22 @@ define([
       this.map.addLayer(CurrentRouteLayer);
     },
 
-    busLayer: new L.LayerGroup(),
+    CurrentBusLayer: new L.LayerGroup(),
+
+    showHomeScreen: function (isHomeState) {
+      console.log("SHOW MAP HOME STATE");
+      //console.log("OVERLAY IMAGE ON TOP OF MAP");
+      //console.log("Current Bus Layer, Route Layer", CurrentRouteLayer, CurrentBusLayer);
+      if (isHomeState) {
+        this.map.removeLayer(CurrentBusLayer);
+        this.map.removeLayer(CurrentRouteLayer);
+        //TODO: Show Home Screen Div...
+        $("#homeScreen").addClass("visible");
+      } else {
+        $("#homeScreen").removeClass("visible");
+      }
+    },
+
 
     showBuses: function (buses) {
       var self = this, i, bus, lat, lng, locatorIcon, marker, markerInfo, bearing, layer, busesLength = 0;
@@ -257,8 +287,8 @@ define([
         busesLength = buses.length;
       }
 
-      this.map.removeLayer(this.busLayer);
-      this.busLayer = new L.LayerGroup();
+      this.map.removeLayer(CurrentBusLayer);
+      CurrentBusLayer = new L.LayerGroup();
 
       for (i = 0; i < busesLength; i += 1) {
         bus = buses[i].MonitoredVehicleJourney;
@@ -270,8 +300,8 @@ define([
         // TODO FUTURE Swap this out for a handlebars template.
         markerInfo = "<p><strong>" + bus.PublishedLineName + "</strong> &rarr; " + bus.DestinationName + "</p>";
         marker.bindPopup(markerInfo);
-        this.busLayer.addLayer(marker);
-        self.busLayer.addTo(this.map);
+        CurrentBusLayer.addLayer(marker);
+        CurrentBusLayer.addTo(this.map);
       }
 
       setTimeout(function () {

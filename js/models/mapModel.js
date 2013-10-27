@@ -21,25 +21,47 @@ define([
       this.routeChangedCbs = [];
       this.on('change:bus', this.getBuses, this);
       this.on('change:bus', this.getRoute, this);
+      //this.on('homeState',  this.resetBus, this);
+    },
+
+    resetBus: function () {
+      this.unset('bus');
     },
 
     getBuses: function () {
-      this.trigger('getBuses');
-      var bus = this.get('bus'), dir = this.get('direction'), self = this;
-      console.log('getting buses for ', bus, ' , direction ', dir);
-      this.mta.getBuses(bus, dir, function (buses) {
-        self.trigger('gotBuses', buses);
-      });
+
+      var bus = this.get('bus'), 
+          dir = this.get('direction'), 
+          self = this;
+
+      if (bus) {
+
+        // why? live spinner? I think it works without it
+        this.trigger('getBuses'); 
+
+        console.log("getBuses(). Bus: [", bus, '] Direction: ', dir);
+
+        this.mta.getBuses(bus, dir, function (buses) {
+          self.trigger('gotBuses', buses);
+        });
+      }
+
     },
 
+
     getRoute: function () {
-      var bus = this.get('bus'), self = this;
-      this.mta.getRoute(bus, function (route) {
-        route.directions = _.sortBy(route.directions, function (direction) {
-          return direction.directionId;
+
+      var bus = this.get('bus'), 
+          self = this;
+
+      if (bus) {      
+        this.mta.getRoute(bus, function (route) {
+          route.directions = _.sortBy(route.directions, function (direction) {
+            return direction.directionId;
+          });
+          self.set('route', route);
         });
-        self.set('route', route);
-      });
+      }
     },
 
     onBusesChanged: function (cb, ctx) {
