@@ -163,8 +163,10 @@ define([
       this.map.setMaxBounds(maxBounds);
     },
 
-    initGeoLocate: function (){
+    initGeoLocate: function () {
+      
       var self = this;
+
       this.map.on("locationerror", function() {
         console.log("Location error");
         $("#geo-btn").removeClass("spin360");
@@ -174,49 +176,113 @@ define([
       });
 
       this.map.on("locationfound", function(locData) {
-        console.log("Location found");
 
-        var lat = locData.latlng.lat;
-        var lng = locData.latlng.lng;
-        // var myIcon = L.divIcon({className: 'leaflet-div-icon'});
-        // L.marker([lat, lng], {icon: myIcon}).bindPopup("You are here!").addTo(self.map);
-        self.geoCircle1 = L.circle([lat, lng], 10, {
-          color: 'red',
-          fillColor: '#f03',
-          fillOpacity: 0.8
-        }).addTo(self.map);
+        var currentMapZoom = self.map.getZoom(),
+            currentMapBounds = self.map.getBounds();
 
-        self.geoCircle2  = L.circle([lat, lng], 400, {
-          color: 'red',
-          fillColor: '#f03',
-          fillOpacity: 0.1
-        }).addTo(self.map);
 
-        $("#geo-btn").removeClass("disabled");
-        setTimeout(function(){
-          $("#geo-btn").removeClass("geo-active");
-          $("#geo-btn").removeClass("spin360");
-        }, 1000);
-        // $("#geo-btn").removeClass("geo-active");
+        //IF Not Useful, just comment out Else Block 
+        // and leave If condition's code
+        if (currentMapBounds.contains(locData.latlng)) {
+
+          panToAndRestoreSpinner(locData.latlng);
+        
+        } else {
+
+          self.map.on("zoomend", function zoomOnLcationFound (e) {
+
+            self.map.off("zoomend", zoomOnLcationFound);
+            
+            setTimeout(function () {
+
+              panToAndRestoreSpinner(locData.latlng, function () {
+
+                self.map.setZoom(currentMapZoom, {
+                  animate: true
+                });               
+              });
+
+            }, 800);
+            
+          });
+
+          self.map.setZoom(11, {animate: true});
+        }
+
+        function panToAndRestoreSpinner(LatLng, callback) {
+
+          self.map.panTo(locData.latlng, {
+            duration: 0.80,
+            animate: true
+          });
+
+          // var myIcon = L.divIcon({className: 'leaflet-div-icon'});
+          self.geoCircle1 = L.circle(locData.latlng, 10, {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.8
+          }).addTo(self.map);
+
+          self.geoCircle2  = L.circle(locData.latlng, 400, {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.1
+          }).addTo(self.map);
+
+          $("#geo-btn").removeClass("disabled");
+
+          function restoreSpinnerAndCallback() {
+
+            $("#geo-btn").removeClass("geo-active");
+            $("#geo-btn").removeClass("spin360");
+
+            if (callback) callback();
+
+            //var marker = new L.Marker(locData.latlng, {
+            //  title: "Twat"
+            //});
+
+            //L.marker(locData.latlng, {
+            //  opacity: 0
+            //}).bindPopup("You are here!").addTo(self.map).openPopup();
+
+            var popup = L.popup({
+              closeButton: false,
+              offset: new L.Point(0, -25)
+            })
+            .setLatLng(locData.latlng)
+            .setContent('<p>You are here!</p>')
+            .openOn(self.map);
+
+            console.log(popup);
+
+          }
+
+          setTimeout(restoreSpinnerAndCallback, 800);
+
+        }
 
       });
     },
 
-    addGeoLocate: function (){
+    addGeoLocate: function () {
       console.log("Add Geo");
       $("#geo-btn").addClass("disabled");
       $("#geo-btn").addClass("geo-active");
       $("#geo-btn").removeClass("spin360");
       $("#geo-btn").addClass("spin360");
 
+      this.map.closePopup();
+
       this.map.locate({
-        setView: true,
-        maxZoom: 15,
+        setView: false, //don't automatically go to coordinates
+        //maxZoom: 15,
         watch: false
       });
+
     },
 
-    removeGeoLocate: function (){
+    removeGeoLocate: function () {
       console.log("Remove Geo");
       if(this.geoCircle1 && this.geoCircle1){
         this.map.removeLayer(this.geoCircle1);
