@@ -105,28 +105,22 @@ p, li, a ,input {
 
 #homeScreen {
     position: absolute;
-
     top:    110px;
     left:    20px;
     right:   20px;
     bottom:  20px;
-
     height: auto;
-
     opacity: 0.9;
     border: solid 2px #006CB7;
     background-color: gray;
-    
     padding-top: 50px;
     padding-left: 25px;
-
     display: none;
 }
 
 #homeScreen.visible {
     display: block;
 }
-
 
 .btn {
     display: block;
