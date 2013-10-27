@@ -141,13 +141,14 @@ define([
       this.model.on('change:direction', this.changeDirection, this);
       this.model.on('getBuses', this.options.liveView.startSpin, this);
       this.model.on('gotBuses', this.showBuses, this);
-      //this.model.on('homeState', this.showHomeState, this);
       this.initGeoLocate();
 
       this.dispatcher.bind("app:isHomeState", function (isHomeState) {
         if (isHomeState) {
           self.model.resetBus();
-          self.showHomeState();
+          self.showHomeScreen(true);
+        } else {
+          self.showHomeScreen(false);
         }
       });
 
@@ -264,18 +265,20 @@ define([
 
     CurrentBusLayer: new L.LayerGroup(),
 
-    showHomeState: function () {
+    showHomeScreen: function (isHomeState) {
       console.log("SHOW MAP HOME STATE");
       //console.log("OVERLAY IMAGE ON TOP OF MAP");
       //console.log("Current Bus Layer, Route Layer", CurrentRouteLayer, CurrentBusLayer);
-      this.map.removeLayer(CurrentBusLayer);
-      this.map.removeLayer(CurrentRouteLayer);
-      this.showHomeScreen();
+      if (isHomeState) {
+        this.map.removeLayer(CurrentBusLayer);
+        this.map.removeLayer(CurrentRouteLayer);
+        //TODO: Show Home Screen Div...
+        $("#homeScreen").addClass("visible");
+      } else {
+        $("#homeScreen").removeClass("visible");
+      }
     },
 
-    showHomeScreen: function () {
-      //TODO: Show Home Screen Div...
-    },
 
     showBuses: function (buses) {
       var self = this, i, bus, lat, lng, locatorIcon, marker, markerInfo, bearing, layer, busesLength = 0;

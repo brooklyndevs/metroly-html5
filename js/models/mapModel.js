@@ -21,7 +21,6 @@ define([
       this.routeChangedCbs = [];
       this.on('change:bus', this.getBuses, this);
       this.on('change:bus', this.getRoute, this);
-      
       //this.on('homeState',  this.resetBus, this);
     },
 
@@ -37,10 +36,10 @@ define([
 
       if (bus) {
 
-        this.trigger('getBuses'); // why? live spinner?
+        // why? live spinner? I think it works without it
+        this.trigger('getBuses'); 
 
-        console.log("getBuses(). Changing Bus:", bus);
-        console.log('getting buses for ', bus, ' , direction ', dir);
+        console.log("getBuses(). Bus: [", bus, '] Direction: ', dir);
 
         this.mta.getBuses(bus, dir, function (buses) {
           self.trigger('gotBuses', buses);
