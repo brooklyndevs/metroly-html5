@@ -11,13 +11,15 @@ define([
   var settings = appState.getSettings();
 
   var LiveModel = Backbone.Model.extend({
+
     defaults: {
-      time:30
+      time: 30
     },
 
     initialize: function () {
       console.log("Live Model Created");
       this.on('change:time', this.timeChanged, this);
+      this.on('homeState', this.goOffline, this);
       var interval = settings.find(CHECK_INTERVAL);
       if (!interval) {
         var defaultTime = settings.find(CHECK_INTERVAL);
@@ -35,6 +37,11 @@ define([
     setLiveTime: function (time) {
       console.log("Time: ", time);
       this.set('time', time);
+    },
+
+    goOffline: function () {
+      console.log("Going OFFLINE");
+      this.unset("time");
     }
   });
 

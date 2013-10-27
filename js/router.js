@@ -3,7 +3,9 @@
 define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, domReady, appState) {
   "use strict";
 
-  var Router, self = this;
+  var Router, 
+      self = this,
+      dispatcher = _.clone(Backbone.Events);
 
   var RECENT_BUSES_MAX = 5;
   var RECENTLY_VIEWED_BUSES = 'recently_viewed_buses';
@@ -35,15 +37,23 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
       console.log('Before requiring APP');
 
       require(['application'], function (App) {
+
         console.log('App required');
-        var app = new App();
+        
+        var app = new App(dispatcher);
 
         router.on('route:homeState', function () {
-          console.log('in home state');
-          app.selectBus('b63');
+
+          console.log('___ ___In Home State___ ___');
+
+          app.toHomeState();
+          //app.selectBus('b63');
         });
 
         router.on('route:selectBus', function (bus) {
+
+          console.log("ROUTER: SELECT BUS: ", bus);
+
           var settings = appState.getSettings();
           var recentBuses = settings.find(RECENTLY_VIEWED_BUSES);
           if (!recentBuses) {
@@ -64,6 +74,7 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
 
           settings.insert(RECENTLY_VIEWED_BUSES, recentBuses);
           settings.save();
+          console.log("app.selectBus: ", bus);
           app.selectBus(bus);
         });
 

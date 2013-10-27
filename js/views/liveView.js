@@ -19,10 +19,21 @@ define([
       'click .liveTime': 'setLiveTime'
     },
 
-    initialize: function () {
+    initialize: function (options) {
+      var self = this;
+
+      this.dispatcher = options.dispatcher;
       console.log("Live view Created");
       this.model.on('change:time', this.render, this);
       this.render();
+
+      this.dispatcher.bind("app:isHomeState", function (isHomeState) {
+        if (isHomeState) {
+          self.render(true);
+        } else {
+          self.render(false);
+        } 
+      });
     },
 
     toggleActive: function (e) {
@@ -51,9 +62,10 @@ define([
       targetEl.removeClass('spin360');
     },
 
-    render: function () {
+    render: function (hidden) {
       var html, ctx = {};
 
+      ctx.hidden = hidden;
       ctx.time = this.model.get('time');
 
       html = this.template(ctx);
