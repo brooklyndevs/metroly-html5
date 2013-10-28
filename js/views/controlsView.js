@@ -52,7 +52,7 @@ define([
           e.target.style.backgroundPosition = "0 0px"
           pg.style.marginLeft = "";
         } else {
-          e.target.style.backgroundPosition = "0 -43px"
+          e.target.style.backgroundPosition = "0 -32px"
           pg.style.marginLeft = "200px";
         }
       });
