@@ -25,9 +25,10 @@ define([
     template: H.compile(controlsTpl),
 
     events: {
-      'click .route': 'selectDirection',
+      'click .route-direction': 'selectDirection',
       'click .tracking-status': 'toggleLive',
-      'click #menu-btn': 'menuClicked'
+      'click #menu-btn': 'menuClicked',
+      'click .menu-direction': 'toggleCollapseRouteWrapper'
     },
 
     initialize: function (options) {
@@ -80,7 +81,16 @@ define([
     },
 
     toggleCollapseRouteWrapper: function () {
-      $("#route-wrapper").toggleClass("collapsed");
+      console.log("Toggle Direction Menu");
+      var rw = document.querySelector('#route-wrapper');
+      rw.style.webkitTransition = "margin-top .4s";
+
+      if (rw.style.marginTop.trim().length > 0) {
+        rw.style.marginTop = "";
+      } else {
+        rw.style.marginTop = "0px";
+      }
+      return false;
     },
 
     // TODO: Dunno if we need to break templates (HomeScreen from BusRoutes),

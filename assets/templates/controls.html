@@ -14,8 +14,26 @@
 
   <div id="route-wrapper" class='col-12'>
     {{#each route.directions}}
-	  <a href="#" class="col-6 center-text route" data-direction="{{directionId}}">{{destination}}</a>
+      <div href="#" class="col-6 center-text route" data-direction="{{directionId}}">{{destination}}</div>
+    {{/each}}
+  </div>
+  <div id="slider-direction" class='col-12'>
+    {{#each route.directions}}
+      <a href="#" class="col-5 center-text route-direction" data-direction="{{directionId}}">&nbsp;</a>
+      {{#unless @index}}
+          <a href="#" class="col-2 center-text menu-direction">&nbsp;</a>
+      {{/unless}}
     {{/each}}
   </div>
 
+<!--   <div id="slider-direction">
+    {{#each route.directions}}
+      <a href="#" class="col-1 center-text route-direction" data-direction="{{directionId}}">&nbsp;</a>
+      {{#unless @index}}
+        <h6 class='col-10 center-text'>
+          <span id="route-name">{{destination}}</span>
+        </h6>
+      {{/unless}}
+    {{/each}}
+  </div> -->
 {{/unless}}
