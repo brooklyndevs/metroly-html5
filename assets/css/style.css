@@ -50,8 +50,8 @@ html, body {
 }
 
 p, li, a ,input {
-    font-size: 14px;
-    line-height: 21px;
+    font-size: 12px;
+    line-height: 18px;
 }
 
 #header-wrapper {
@@ -89,32 +89,31 @@ p, li, a ,input {
 }
 
 #header-info {
-    height: 80px;
+    height: 60px;
     /*background: #006CB7;*/
     position: relative;
 }
 
 #header-info h1{
-    font-size: 40px;
-    font-weight: bold;
-    height: 40px;
-    line-height: 40px;
-    margin: 20px auto;
+    font-size: 32px;
+    font-weight: 500;
+    /*height: 32px;*/
+    line-height: 32px;
+    margin: 14px auto;
     width: 100%;
 }
 
 #homeScreen {
     position: absolute;
-    top:    110px;
-    left:    20px;
-    right:   20px;
-    bottom:  20px;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     height: auto;
-    opacity: 0.9;
-    border: solid 2px #006CB7;
-    background-color: gray;
-    padding-top: 50px;
-    padding-left: 25px;
+    /*opacity: 0.9;*/
+    /*border: solid 2px #006CB7;*/
+    background-color: #dedede;
+    padding: 14px;
     display: none;
 }
 
@@ -131,13 +130,13 @@ p, li, a ,input {
 #menu-btn,
 #fav-btn {
     position: absolute;
-    top: 20px;
-    width: 40px;
-    height: 40px;
+    top: 14px;
+    width: 32px;
+    height: 32px;
 }
 
 #menu-btn {
-    left: 20px;
+    left: 14px;
     background-repeat: no-repeat;
     background-position: 0 0;
     background-image: url("../images/icon-list-sprite.svg");
@@ -146,12 +145,12 @@ p, li, a ,input {
 #fav-btn {
     background-image: url("../images/icon-fav-sprite.svg");
     background-repeat: no-repeat;
-    right: 20px;
+    right: 14px;
     background-position: 0 0;
 }
 
 .fav-active {
-    background-position:0 -42px !important;
+    background-position:0 -32px !important;
     background-image: url("../images/icon-fav-sprite.svg") !important;
 }
 
@@ -185,31 +184,28 @@ p, li, a ,input {
    cursor: default;
 }
 
+#liveContainer,
 #geoContainer {
-    position:absolute;
-    right:20px;
-    bottom:20px;
+    position: absolute;
+    bottom: 14px;
 }
 
 #liveContainer{
     background:rgba(27, 27, 27, 0.9);
-    left:20px;
-    bottom: 20px;
-    position:absolute;
+    left:14px;
+}
+
+#liveContainer a {
+    text-decoration: none;
 }
 
 #geoContainer{
-    right:20px;
     width:40px;
+    right: 14px;
 }
 
 #geoContainer a{
     width:100%;
-    text-decoration: none;
-}
-
-#liveContainer a {
-    /*padding-left: 0;*/
     text-decoration: none;
 }
 
