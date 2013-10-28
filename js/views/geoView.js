@@ -24,15 +24,16 @@ define([
       this.dispatcher = options.dispatcher;
       console.log("Geo view Created");
       this.model.on('change:active', this.render, this);
-      this.render();
-
+      
       this.dispatcher.bind("app:isHomeState", function (isHomeState) {
         if (isHomeState) {
-          self.render(true);
+          self.render({hidden: true});
         } else {
-          self.render(false);
+          self.render();
         }
       });
+
+      this.render();
     },
 
     toggleActive: function (e) {
@@ -40,10 +41,13 @@ define([
       this.model.toggleActive();
     },
 
-    render: function (hidden) {
+    render: function (options) {
+
+      console.log("RENDERING GEO:", options);
+
       var html, ctx = {};
 
-      ctx.hidden = hidden;
+      ctx.hidden = (options ? options.hidden : false);
       ctx.active = this.model.get('active');
 
       html = this.template(ctx);
