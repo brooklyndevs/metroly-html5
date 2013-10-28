@@ -51,7 +51,7 @@ html, body {
 
 p, li, a ,input {
     font-size: 12px;
-    line-height: 18px;
+    line-height: 21px;
 }
 
 #header-wrapper {
@@ -66,26 +66,35 @@ p, li, a ,input {
 }
 
 #route-wrapper{
-    background:rgba(27, 27, 27, .9);
+    background:#333;
 }
 
 #route-wrapper .route {
-    padding-bottom: 20px;
-    padding-top: 20px;
+    color: #888;
+    padding-bottom: 21px;
+    padding-top: 21px;
 }
 
+
 #route-wrapper .route:first-child {
-    -webkit-box-shadow: inset -1px 0 0 #313131;
+    /*-webkit-box-shadow: inset -1px 0 0 #313131;*/
+    background-image: url("../images/icon-route-left-selected.svg");
+    background-repeat: no-repeat;
+    background-position: left center;
 }
 
 #route-wrapper .route:last-child {
-    -webkit-box-shadow: inset 1px 0 0 #000000;
+    /*-webkit-box-shadow: inset 1px 0 0 #000000;*/
+    background-image: url("../images/icon-route-right.svg");
+    background-repeat: no-repeat;
+    background-position: right center;
 }
 
 #route-wrapper .route:hover,
 #route-wrapper .route:active,
 #route-wrapper .route-selected {
-    background: rgba(18, 18, 18, .9);
+    background-color: #000000;
+    color: #fff;
 }
 
 #header-info {
@@ -112,7 +121,7 @@ p, li, a ,input {
     height: auto;
     /*opacity: 0.9;*/
     /*border: solid 2px #006CB7;*/
-    background-color: #dedede;
+    background-color: #ededed;
     padding: 14px;
     display: none;
 }
@@ -318,7 +327,7 @@ p, li, a ,input {
 }
 /* Queries */
 @media (max-width: 500px) {
-    #route-wrapper .route {
+/*    #route-wrapper .route {
         min-height:40px;
-    }
+    }*/
 }
