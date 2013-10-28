@@ -1,4 +1,4 @@
-define(['jquery', 'storage', 'underscore', 'backbone', 'config'], function ($, Storage, _, Backbone, config) {
+define(['jquery', 'storage', 'underscore', 'backbone', 'config', 'busData'], function ($, Storage, _, Backbone, config, initialBusData) {
 
   var AppState = function () {
     console.log('Init the AppState module instance');
@@ -19,6 +19,26 @@ define(['jquery', 'storage', 'underscore', 'backbone', 'config'], function ($, S
     return !lastUpdated || lastUpdated >= expiration;
   };
 
+  AppState.prototype.saveBusList = function (buses, cb) {
+    var busList = {}, self = this;
+    buses.forEach(function (bus) {
+      busList[bus.name.toLowerCase()] = {name: bus.name, color: bus.color, recent: false, favorite: false};
+    });
+
+    var k;
+    for (k in busList) {
+      if (!buses[k]) {
+        self.busesStorage.insert(k, busList[k]);
+      }
+    }
+
+    self.busesStorage.save();
+    self.appInfoStorage.insert(config.LAST_UPDATED_SETTING, new Date());
+    self.appInfoStorage.save();
+
+    _.isFunction(cb) && cb();
+  };
+
   AppState.prototype.queryAvailableBuses = function (cb) {
 
     var
@@ -29,28 +49,12 @@ define(['jquery', 'storage', 'underscore', 'backbone', 'config'], function ($, S
     });
 
     busQuery.done(function (buses) {
-      var busList = {};
-      buses.forEach(function (bus) {
-        busList[bus.name.toLowerCase()] = {name: bus.name, color: bus.color, recent: false, favorite: false};
-      });
-
-      var k;
-      for (k in busList) {
-        if (!buses[k]) {
-          self.busesStorage.insert(k, busList[k]);
-        }
-      }
-
-      self.busesStorage.save();
-      self.appInfoStorage.insert(config.LAST_UPDATED_SETTING, new Date());
-      self.appInfoStorage.save();
-
-      cb && cb();
+      self.saveBusList(buses, cb);
     });
 
     busQuery.fail(function (err) {
       console.log('failed to get it ', err);
-      cb && cb();
+      _.isFunction(cb) && cb();
     });
   };
 
@@ -59,6 +63,11 @@ define(['jquery', 'storage', 'underscore', 'backbone', 'config'], function ($, S
     var settings = this.getSettings();
     if (!settings.find(config.CHECK_INTERVAL_SETTING)) {
       settings.insert(config.CHECK_INTERVAL_SETTING, config.CHECK_INTERVAL_DEFAULT);
+    }
+
+    if (_.isEmpty(this.busesStorage.data)) {
+      // This should happen only when localStorage is empty.
+      this.saveBusList(initialBusData);
     }
 
     if (this.needsUpdate()) {
