@@ -40,6 +40,7 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
 
         console.log('App required');
         
+        var dispatcher = _.clone(Backbone.Events);
         var app = new App(dispatcher);
 
         router.on('route:homeState', function () {

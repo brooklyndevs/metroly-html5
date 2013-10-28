@@ -15,7 +15,6 @@ define([
   "use strict";
 
   console.log('inside of Application.js');
-
   var AppView,
     apiKey = '36ad9e86-f0b4-4831-881c-55c8d44473b3',
     mapModel, geoModel, liveModel, 
@@ -25,7 +24,6 @@ define([
   AppView = Backbone.View.extend({
 
     initialize: function (options) {
-
       this.dispatcher = options;
 
       // Let all views have a common dispatcher they can subscribe to.

@@ -36,8 +36,7 @@ define([
 
       this.model.on('change:bus', this.render, this);
       this.model.on('change:route', this.render, this);
-
-      this.dispatcher.bind("app:isHomeState", function (isHomeState) {
+      this.dispatcher.on("app:isHomeState", function (isHomeState) {
         if (isHomeState) self.renderHomeState();
       });
     },

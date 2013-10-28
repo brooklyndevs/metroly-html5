@@ -62,7 +62,7 @@ define([
 
     /* Maximum map bounds for nyc */
     SWBound: [40.477666, -74.308777],
-    NEBound: [40.998739, -73.712769]
+    NEBound: [41.998739, -73.712769]
     // NEBound: [40.908739, -73.712769]
 
   };
