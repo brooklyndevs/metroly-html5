@@ -81,6 +81,7 @@ p, li, a ,input {
     background-image: url("../images/icon-route-left-selected.svg");
     background-repeat: no-repeat;
     background-position: left center;
+    text-align: right;
 }
 
 #route-wrapper .route:last-child {
@@ -88,6 +89,7 @@ p, li, a ,input {
     background-image: url("../images/icon-route-right.svg");
     background-repeat: no-repeat;
     background-position: right center;
+    text-align: left;
 }
 
 #route-wrapper .route:hover,
@@ -124,10 +126,32 @@ p, li, a ,input {
     background-color: #ededed;
     padding: 14px;
     display: none;
+    /*background-image: url('../images/icon-bus.svg');*/
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: .9;
 }
 
 #homeScreen.visible {
     display: block;
+}
+
+.homeScreen-help {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding-left: 40px;
+    padding-top: 110px;
+    background-image: url('../images/help-arrow.svg');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+
+p.text-bold {
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: 700;
+    color: #222;
 }
 
 .btn {
