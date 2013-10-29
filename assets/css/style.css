@@ -72,6 +72,8 @@ p, li, a ,input {
     width:40%;
     min-height:30px;
 }
+
+
 #route-wrapper .route:first-child {
     margin-right:10%;
 }
@@ -91,8 +93,8 @@ p, li, a ,input {
     -webkit-box-pack:center;
     -webkit-box-align:center;
     height:45px;
-
 }
+
 .dir-sprite{
     width: 32px;
     height: 32px;
@@ -161,18 +163,15 @@ p, li, a ,input {
 
 .homeScreen-help {
     position: absolute;
-    top: 14px;
-    left: 14px;
-    padding-left: 40px;
     padding-top: 110px;
     background-image: url('../images/help-arrow.svg');
     background-position: 0 0;
     background-repeat: no-repeat;
 }
 
-p.text-bold {
-    font-size: 18px;
-    line-height: 21px;
+p.header-text {
+    font-size: 21px;
+    line-height: 28px;
     font-weight: 700;
     color: #222;
 }
