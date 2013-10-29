@@ -75,7 +75,6 @@ p, li, a ,input {
     padding-top: 21px;
 }
 
-
 #route-wrapper .route:first-child {
     /*-webkit-box-shadow: inset -1px 0 0 #313131;*/
     background-image: url("../images/icon-route-left-selected.svg");
@@ -124,12 +123,12 @@ p, li, a ,input {
     /*opacity: 0.9;*/
     /*border: solid 2px #006CB7;*/
     background-color: #ededed;
-    padding: 14px;
     display: none;
     /*background-image: url('../images/icon-bus.svg');*/
     background-repeat: no-repeat;
     background-position: center center;
     opacity: .9;
+    padding:14px;
 }
 
 #homeScreen.visible {
@@ -138,18 +137,16 @@ p, li, a ,input {
 
 .homeScreen-help {
     position: absolute;
-    top: 14px;
-    left: 14px;
-    padding-left: 40px;
     padding-top: 110px;
     background-image: url('../images/help-arrow.svg');
     background-position: 0 0;
     background-repeat: no-repeat;
+    /*padding:14px;*/
 }
 
-p.text-bold {
-    font-size: 18px;
-    line-height: 21px;
+p.header-text {
+    font-size: 21px;
+    line-height: 28px;
     font-weight: 700;
     color: #222;
 }
