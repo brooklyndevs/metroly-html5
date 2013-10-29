@@ -15,8 +15,10 @@ define([
 
   var Helpers = {
     visuallySelectRoute: function (jqTarget) {
-      $('.route').removeClass('route-selected');
+
+      $('.dir-sprite').removeClass('route-selected');
       jqTarget.addClass('route-selected');
+
     }
   };
 
@@ -25,9 +27,9 @@ define([
     template: H.compile(controlsTpl),
 
     events: {
-      'click .route': 'selectDirection',
+      'click .dir-sprite': 'selectDirection',
       'click .tracking-status': 'toggleLive',
-      'click #menu-btn': 'menuClicked'
+      'click #menu-btn': 'menuClicked',
     },
 
     initialize: function (options) {
@@ -42,7 +44,7 @@ define([
     },
 
     menuClicked: function (e) {
-      var menuBtn = e.target;
+      e.preventDefault();
       var pages = document.querySelectorAll('.page');
       pages = Array.prototype.splice.call(pages, 0);
       pages.forEach(function (pg) {
@@ -56,7 +58,6 @@ define([
           pg.style.marginLeft = "200px";
         }
       });
-      return false;
     },
 
     favorite: function (e) {
@@ -72,15 +73,17 @@ define([
       e.preventDefault();
       var target = $(e.target),
         direction = target.data('direction');
-
       Helpers.visuallySelectRoute(target);
 
       console.log('Selected direction', direction);
-      this.model.set('direction', direction);
-    },
 
-    toggleCollapseRouteWrapper: function () {
-      $("#route-wrapper").toggleClass("collapsed");
+      //WIRE HERE ROUTE_NAME
+      var route = this.model.get('route');
+      var directions = route.directions;
+      var destination = directions[direction].destination;
+      $(".route-name").text(destination);
+      this.model.set('direction', direction);
+      // return false;
     },
 
     // TODO: Dunno if we need to break templates (HomeScreen from BusRoutes),
