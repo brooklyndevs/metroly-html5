@@ -44,6 +44,7 @@ define([
     },
 
     menuClicked: function (e) {
+      e.preventDefault();
       var pages = document.querySelectorAll('.page');
       pages = Array.prototype.splice.call(pages, 0);
       pages.forEach(function (pg) {
@@ -57,7 +58,6 @@ define([
           pg.style.marginLeft = "200px";
         }
       });
-      return false;
     },
 
     favorite: function (e) {
@@ -70,17 +70,19 @@ define([
     },
 
     selectDirection: function (e) {
-      // e.preventDefault();
+      e.preventDefault();
       var target = $(e.target),
         direction = target.data('direction');
       Helpers.visuallySelectRoute(target);
 
       console.log('Selected direction', direction);
-      //WIRE HERE ROUTE_NAME
-      // $(".route-name").text(this.model.get('destination'));
 
+      //WIRE HERE ROUTE_NAME
+      var route = this.model.get('route');
+      var directions = route.directions;
+      $(".route-name").text(directions[direction].destination);
       this.model.set('direction', direction);
-      return false;
+      // return false;
     },
 
     // TODO: Dunno if we need to break templates (HomeScreen from BusRoutes),

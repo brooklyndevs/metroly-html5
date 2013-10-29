@@ -37,19 +37,19 @@ define([
     },
 
     toggleActive: function (e) {
+      e.preventDefault();
       $("#live-btn").addClass("disabled");
       $( ".liveBubble" ).slideToggle("fast", function(){
           $("#live-btn").removeClass("disabled");
       });
-      return false;
     },
 
     setLiveTime: function (e) {
       console.log("here");
+      e.preventDefault();
       var t = e.target.attributes["data-time"].value;
       this.model.setLiveTime(t);
       this.render();
-      return false;
     },
 
     startSpin: function () {

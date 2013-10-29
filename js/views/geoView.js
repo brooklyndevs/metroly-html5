@@ -37,8 +37,8 @@ define([
     },
 
     toggleActive: function (e) {
+      e.preventDefault();
       this.model.toggleActive();
-      return false;
     },
 
     render: function (options) {
