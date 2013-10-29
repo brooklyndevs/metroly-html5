@@ -80,7 +80,8 @@ define([
       //WIRE HERE ROUTE_NAME
       var route = this.model.get('route');
       var directions = route.directions;
-      $(".route-name").text(directions[direction].destination);
+      var destination = directions[direction].destination;
+      $(".route-name").text(desitnation);
       this.model.set('direction', direction);
       // return false;
     },

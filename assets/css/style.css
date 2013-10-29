@@ -86,7 +86,12 @@ p, li, a ,input {
 }
 .route-name{
     font-size: 12px;
-    margin-top:10px;
+/*    margin-top:10px;*/
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+    height:45px;
+
 }
 .dir-sprite{
     width: 32px;
