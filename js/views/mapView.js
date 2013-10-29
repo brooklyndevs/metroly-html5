@@ -80,7 +80,7 @@ define([
 
   var LocatorIcon = L.Icon.extend({
     options: {
-      iconUrl: 'assets/images/icon_set/locator_icon.png',
+      iconUrl: 'assets/images/icon_set/locator_icon.svg',
       shadowUrl: 'assets/images/icon_set/locator_icon_shadow.png',
       iconSize: [26, 40],
       shadowSize: [13, 29],
@@ -103,21 +103,21 @@ define([
       imagesBasePath = 'assets/images/icon_set/';
 
     if (bearing >= 67.5 && bearing < 112.5) {
-      iconUrl = imagesBasePath + 'icon_n.png';
+      iconUrl = imagesBasePath + 'icon_n.svg';
     } else if (bearing >= 112.5 && bearing < 157.5) {
-      iconUrl = imagesBasePath + 'icon_nw.png';
+      iconUrl = imagesBasePath + 'icon_nw.svg';
     } else if (bearing >= 157.5 && bearing < 202.5) {
-      iconUrl = imagesBasePath + 'icon_w.png';
+      iconUrl = imagesBasePath + 'icon_w.svg';
     } else if (bearing >= 202.5 && bearing < 247.5) {
-      iconUrl = imagesBasePath + 'icon_sw.png';
+      iconUrl = imagesBasePath + 'icon_sw.svg';
     } else if (bearing >= 247.5 && bearing < 292.5) {
-      iconUrl = imagesBasePath + 'icon_s.png';
+      iconUrl = imagesBasePath + 'icon_s.svg';
     } else if (bearing >= 292.5 && bearing < 337.5) {
-      iconUrl = imagesBasePath + 'icon_se.png';
+      iconUrl = imagesBasePath + 'icon_se.svg';
     } else if (bearing >= 337.5 || bearing < 22.5) {
-      iconUrl = imagesBasePath + 'icon_e.png';
+      iconUrl = imagesBasePath + 'icon_e.svg';
     } else if (bearing >= 22.5 && bearing < 67.5) {
-      iconUrl = imagesBasePath + 'icon_ne.png';
+      iconUrl = imagesBasePath + 'icon_ne.svg';
     }
 
     if (iconUrl !== '') {
