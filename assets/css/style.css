@@ -59,12 +59,6 @@ p, li, a ,input {
     color: #fff;
 }
 
-/*#header-wrapper a{
-    color: #fff;
-    text-decoration: none;
-    display: block;
-}*/
-
 #route-wrapper{
     background-color: #000000;
     color: #fff;
@@ -72,29 +66,21 @@ p, li, a ,input {
 }
 
 #route-wrapper .route {
-/*    color: #fff;*/
     font-size: 12px;
     padding-bottom: 15px;
     padding-top: 15px;
-    width:35%;
+    width:40%;
     min-height:30px;
 }
 #route-wrapper .route:first-child {
     margin-right:10%;
-    margin-left:5%;
 }
 
 #route-wrapper .route:last-child {
      margin-left:10%;
-     margin-right:5%;
 }
 
-#route-wrapper .route:hover,
-#route-wrapper .route:active,
-#route-wrapper .route-selected {
-/*    background-color: #000000;
-    color: #fff;*/
-}
+
 #direction-container{
     top:-120px !important;
 }
@@ -102,21 +88,26 @@ p, li, a ,input {
     background: rgba(18, 18, 18, .9);    
     height:45px;
 }
-#slider-direction .route-direction:first-child {
-    background-image: url("../images/icon-route-left-selected.svg");
+.route-direction:first-child .dir-sprite{
+    background-image: url("../images/icon-route-left-sprite.svg");
     background-repeat: no-repeat;
-    background-position: center;
-    height:45px;
-/*    width:5%;*/
+    background-position: center 0px;
+    margin-top:7px;
+    margin-bottom:7px;
+    height:32px;
+}
+.route-direction:last-child .dir-sprite{
+    background-image: url("../images/icon-route-right-sprite.svg");
+    background-repeat: no-repeat;
+    background-position: center 0px;
+    margin-top:7px;
+    margin-bottom:7px;
+    height:32px;
+}
+.route-selected{
+    background-position: center -32px !important;
 }
 
-#slider-direction .route-direction:last-child {
-    background-image: url("../images/icon-route-right.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-    height:45px;
-/*    width:5%;*/
-}
 .menu-direction{
     background-image: url("../images/icon-list-sprite.svg");
     background-repeat: no-repeat;
@@ -124,37 +115,9 @@ p, li, a ,input {
     background-color: #000000;
     height:45px;
 }
-/*.menu-direction2{
-    background-color: #000000;
-    height:55px;
-    position: relative;
-}*/
-/*.menu-direction2 h6{
-    font-size: 12px;
-    font-weight: 500;
-    height: 32px;
-    line-height: 32px;
-    margin: 14px auto;
-    width: 100%;
-}
-*/
-#route-name{
-    display:block;
-    margin:5px;
-    margin-top:10px;
-}
-/*#direction-img{
-    background-image: url("../images/icon-list-sprite.svg");
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    width:45px;
-}
-
-*/
 
 #header-info {
     height: 60px;
-    /*background: #006CB7;*/
     position: relative;
 }
 

@@ -19,10 +19,10 @@ define([
     initialize: function () { },
 
     favBtnClicked: function (e) {
-      e.preventDefault();
       var isActive = this.model.get('isActive');
       this.model.set('isActive', !isActive);
       this.render();
+      return false;
     },
 
     render: function () {

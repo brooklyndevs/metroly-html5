@@ -15,8 +15,10 @@ define([
 
   var Helpers = {
     visuallySelectRoute: function (jqTarget) {
-      $('.route').removeClass('route-selected');
+
+      $('.dir-sprite').removeClass('route-selected');
       jqTarget.addClass('route-selected');
+
     }
   };
 
@@ -43,7 +45,6 @@ define([
     },
 
     menuClicked: function (e) {
-      var menuBtn = e.target;
       var pages = document.querySelectorAll('.page');
       pages = Array.prototype.splice.call(pages, 0);
       pages.forEach(function (pg) {
@@ -70,14 +71,13 @@ define([
     },
 
     selectDirection: function (e) {
-      e.preventDefault();
       var target = $(e.target),
         direction = target.data('direction');
-
       Helpers.visuallySelectRoute(target);
 
       console.log('Selected direction', direction);
       this.model.set('direction', direction);
+      return false;
     },
 
     toggleCollapseRouteWrapper: function () {
