@@ -45,16 +45,16 @@ define([
 
     menuClicked: function (e) {
       e.preventDefault();
+      e.stopPropagation();
       $(".side-nav").show();
-      
       var pg = document.querySelector('.page');
       pg.style.webkitTransition = "margin-left .4s";
 
       if (pg.style.marginLeft.trim().length > 0) {
-        e.target.style.backgroundPosition = "0 0px";
+        // e.target.style.backgroundPosition = "0 0px";
         pg.style.marginLeft = "";
       } else {
-        e.target.style.backgroundPosition = "0 -43px";
+        // e.target.style.backgroundPosition = "0 -36px";
         pg.style.marginLeft = "200px";
       } 
 

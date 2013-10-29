@@ -61,6 +61,7 @@ p, li, a ,input {
 #header-wrapper {
     z-index: 2;
     color: #fff;
+    background: #006CB7;
 }
 #header-info {
     height: 60px;
@@ -265,6 +266,7 @@ p.header-text {
 #live-btn {
     height: 40px;
     width: 160px;
+    position:relative;
 }
 
 .imgState {
@@ -308,11 +310,13 @@ p.header-text {
     width:160px;
     text-align: center;
     position: absolute;
-    bottom:50px;
-    display:none;
+    bottom:10px;
+    visibility:hidden;
+    -webkit-transition:all .2s;
 }
-.liveBubble ul li{
-    /*width: 150px;*/
+.liveBubble.shown {
+    visibility:visible;
+    bottom:50px;
 }
 .liveBubble ul li a{
     color:white;
@@ -333,6 +337,7 @@ p.header-text {
     left:12px;
 }
 
+/* Animations CSS */
 .spin360 {
     -webkit-animation-name: spin;
     -webkit-animation-duration: 1.5s;
@@ -348,6 +353,7 @@ p.header-text {
         -webkit-transform: rotate(360deg);
     }
 }
+
 /* Queries */
 @media (max-width: 500px) {
 /*    #route-wrapper .route {
