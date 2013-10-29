@@ -42,14 +42,13 @@ table {
   border-spacing: 0;
 }
 
+/*/////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////*/
 /* -- Start Stylin' -- */
 html, body {
     overflow: hidden;
     -webkit-backface-visibility: hidden;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
-    -webkit-transform: translate3d(0,0,0);
-    -webkit-perspective: 1000;
-    -webkit-transform-style: preserve-3d;
 }
 
 p, li, a ,input {
@@ -57,6 +56,8 @@ p, li, a ,input {
     line-height: 21px;
 }
 
+/*/////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////*/
 /* Header CSS */
 #header-wrapper {
     z-index: 2;
@@ -93,6 +94,8 @@ p, li, a ,input {
     opacity: .9;
 }
 
+/*/////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////*/
 /* Direction Nav CSS */
 #slider-direction{
     background: #222222;
@@ -187,34 +190,19 @@ p.header-text {
     color: #222;
 }
 
+/*/////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////*/
+/* CSS Classes */
 .btn {
     display: block;
     width: auto;
     color: #ffffff;
 }
-
-#menu-btn,
-#fav-btn {
-    position: absolute;
-    top: 14px;
-    width: 32px;
-    height: 32px;
+.no-flick{
+    -webkit-perspective: 1000;
+    -webkit-transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
 }
-
-#menu-btn {
-    left: 14px;
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    background-image: url("../images/icon-list-sprite.svg");
-}
-
-#fav-btn {
-    right: 14px;
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    background-image: url("../images/icon-fav-sprite.svg");
-}
-
 .fav-active {
     background-position:0 -32px !important;
 }
@@ -250,6 +238,9 @@ p.header-text {
    cursor: default;
 }
 
+/*/////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////*/
+/* Footer CSS */
 #liveContainer,
 #geoContainer {
     position: absolute;
@@ -274,7 +265,27 @@ p.header-text {
     width:100%;
     text-decoration: none;
 }
+#menu-btn,
+#fav-btn {
+    position: absolute;
+    top: 14px;
+    width: 32px;
+    height: 32px;
+}
 
+#menu-btn {
+    left: 14px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-image: url("../images/icon-list-sprite.svg");
+}
+
+#fav-btn {
+    right: 14px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-image: url("../images/icon-fav-sprite.svg");
+}
 #liveContainer a:hover,
 #geoContainer a:hover{
     color:white;
@@ -331,8 +342,9 @@ p.header-text {
     float: right;
 }
 
-
-/*BUBBLE CSS*/
+/*/////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////*/
+/* BUBBLE CSS */
 .live-bubble-header{
     background: black;
     color: white;
@@ -370,6 +382,8 @@ p.header-text {
     left:12px;
 }
 
+/*/////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////*/
 /* Animations CSS */
 .spin360 {
     -webkit-animation-name: spin;
