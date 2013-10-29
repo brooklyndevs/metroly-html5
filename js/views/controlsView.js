@@ -45,6 +45,7 @@ define([
 
     menuClicked: function (e) {
       e.preventDefault();
+      $(".side-nav").show();
       var pages = document.querySelectorAll('.page');
       pages = Array.prototype.splice.call(pages, 0);
       pages.forEach(function (pg) {
