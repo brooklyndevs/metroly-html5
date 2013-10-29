@@ -38,10 +38,11 @@ define([
 
     toggleActive: function (e) {
       e.preventDefault();
-      $("#live-btn").addClass("disabled");
-      $( ".liveBubble" ).slideToggle("fast", function(){
-          $("#live-btn").removeClass("disabled");
-      });
+      if($(".liveBubble").hasClass("shown")){
+        $(".liveBubble").removeClass("shown");
+      }else{
+        $(".liveBubble").addClass("shown");
+      }
     },
 
     setLiveTime: function (e) {

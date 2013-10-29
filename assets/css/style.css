@@ -47,6 +47,9 @@ html, body {
     overflow: hidden;
     -webkit-backface-visibility: hidden;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-transform: translate3d(0,0,0);
+    -webkit-perspective: 1000;
+    -webkit-transform-style: preserve-3d;
 }
 
 p, li, a ,input {
@@ -54,47 +57,53 @@ p, li, a ,input {
     line-height: 21px;
 }
 
+/* Header CSS */
 #header-wrapper {
     z-index: 2;
     color: #fff;
 }
-
-/*#route-wrapper{
-    background-color: #000000;
-    color: #fff;
-    margin-top:-60px;
+#header-info {
+    height: 60px;
+    position: relative;
+}
+#header-info h1{
+    font-size: 32px;
+    font-weight: 500;
+    /*height: 32px;*/
+    line-height: 32px;
+    margin: 14px auto;
+    width: 100%;
+}
+#homeScreen {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    /*opacity: 0.9;*/
+    /*border: solid 2px #006CB7;*/
+    background-color: #ededed;
+    padding: 14px;
+    display: none;
+    /*background-image: url('../images/icon-bus.svg');*/
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: .9;
 }
 
-#route-wrapper .route {
-    font-size: 12px;
-    padding-bottom: 15px;
-    padding-top: 15px;
-    width:40%;
-    min-height:30px;
-}
-
-
-#route-wrapper .route:first-child {
-    margin-right:10%;
-}
-
-#route-wrapper .route:last-child {
-     margin-left:10%;
-}
-*/
+/* Direction Nav CSS */
 #slider-direction{
     background: rgba(18, 18, 18, .9);    
     height:45px;
 }
 .route-name{
     font-size: 12px;
-/*    margin-top:10px;*/
     display:-webkit-box;
     -webkit-box-pack:center;
     -webkit-box-align:center;
     height:45px;
 }
-
 .dir-sprite{
     width: 32px;
     height: 32px;
@@ -124,39 +133,7 @@ p, li, a ,input {
     background-position: center -32px !important;
 }
 
-
-#header-info {
-    height: 60px;
-    position: relative;
-}
-
-#header-info h1{
-    font-size: 32px;
-    font-weight: 500;
-    /*height: 32px;*/
-    line-height: 32px;
-    margin: 14px auto;
-    width: 100%;
-}
-
-#homeScreen {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: auto;
-    /*opacity: 0.9;*/
-    /*border: solid 2px #006CB7;*/
-    background-color: #ededed;
-    padding: 14px;
-    display: none;
-    /*background-image: url('../images/icon-bus.svg');*/
-    background-repeat: no-repeat;
-    background-position: center center;
-    opacity: .9;
-}
-
+/* HomeScreen CSS */
 #homeScreen.visible {
     display: block;
 }
@@ -200,13 +177,12 @@ p.header-text {
 #fav-btn {
     right: 14px;
     background-repeat: no-repeat;
-    background-image: url("../images/icon-fav-sprite.svg");
     background-position: 0 0;
+    background-image: url("../images/icon-fav-sprite.svg");
 }
 
 .fav-active {
     background-position:0 -32px !important;
-    background-image: url("../images/icon-fav-sprite.svg") !important;
 }
 
 .page{
