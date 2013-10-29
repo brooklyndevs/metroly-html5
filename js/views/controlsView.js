@@ -45,20 +45,19 @@ define([
 
     menuClicked: function (e) {
       e.preventDefault();
+      e.stopPropagation();
       $(".side-nav").show();
-      var pages = document.querySelectorAll('.page');
-      pages = Array.prototype.splice.call(pages, 0);
-      pages.forEach(function (pg) {
-        pg.style.webkitTransition = "margin-left .4s";
+      var pg = document.querySelector('.page');
+      pg.style.webkitTransition = "margin-left .4s";
 
-        if (pg.style.marginLeft.trim().length > 0) {
-          e.target.style.backgroundPosition = "0 0px"
-          pg.style.marginLeft = "";
-        } else {
-          e.target.style.backgroundPosition = "0 -32px"
-          pg.style.marginLeft = "200px";
-        }
-      });
+      if (pg.style.marginLeft.trim().length > 0) {
+        // e.target.style.backgroundPosition = "0 0px";
+        pg.style.marginLeft = "";
+      } else {
+        // e.target.style.backgroundPosition = "0 -36px";
+        pg.style.marginLeft = "200px";
+      } 
+
     },
 
     favorite: function (e) {
