@@ -59,7 +59,7 @@ p, li, a ,input {
     color: #fff;
 }
 
-#route-wrapper{
+/*#route-wrapper{
     background-color: #000000;
     color: #fff;
     margin-top:-60px;
@@ -79,42 +79,44 @@ p, li, a ,input {
 #route-wrapper .route:last-child {
      margin-left:10%;
 }
-
-
-#direction-container{
-    top:-120px !important;
-}
+*/
 #slider-direction{
     background: rgba(18, 18, 18, .9);    
+    height:45px;
+}
+.route-name{
+    font-size: 12px;
+    margin-top:10px;
+}
+.dir-sprite{
+    width: 32px;
+    height: 32px;
+    margin-top:7px;
+    margin-bottom:7px;
+}
+.route-direction{
     height:45px;
 }
 .route-direction:first-child .dir-sprite{
     background-image: url("../images/icon-route-left-sprite.svg");
     background-repeat: no-repeat;
-    background-position: center 0px;
-    margin-top:7px;
-    margin-bottom:7px;
-    height:32px;
+    background-position: 0 0;
+    float:left;
+    margin-left:15px;
+    margin-right:15px;
 }
 .route-direction:last-child .dir-sprite{
     background-image: url("../images/icon-route-right-sprite.svg");
     background-repeat: no-repeat;
-    background-position: center 0px;
-    margin-top:7px;
-    margin-bottom:7px;
-    height:32px;
+    background-position: 0 0;
+    float:right;
+    margin-left:15px;
+    margin-right:15px;
 }
 .route-selected{
     background-position: center -32px !important;
 }
 
-.menu-direction{
-    background-image: url("../images/icon-list-sprite.svg");
-    background-repeat: no-repeat;
-    background-position: center 5px;
-    background-color: #000000;
-    height:45px;
-}
 
 #header-info {
     height: 60px;
@@ -192,9 +194,9 @@ p.text-bold {
 }
 
 #fav-btn {
-    background-image: url("../images/icon-fav-sprite.svg");
-    background-repeat: no-repeat;
     right: 14px;
+    background-repeat: no-repeat;
+    background-image: url("../images/icon-fav-sprite.svg");
     background-position: 0 0;
 }
 

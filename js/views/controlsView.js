@@ -27,10 +27,9 @@ define([
     template: H.compile(controlsTpl),
 
     events: {
-      'click .route-direction': 'selectDirection',
+      'click .dir-sprite': 'selectDirection',
       'click .tracking-status': 'toggleLive',
       'click #menu-btn': 'menuClicked',
-      'click .menu-direction': 'toggleCollapseRouteWrapper'
     },
 
     initialize: function (options) {
@@ -71,25 +70,16 @@ define([
     },
 
     selectDirection: function (e) {
+      // e.preventDefault();
       var target = $(e.target),
         direction = target.data('direction');
       Helpers.visuallySelectRoute(target);
 
       console.log('Selected direction', direction);
+      //WIRE HERE ROUTE_NAME
+      // $(".route-name").text(this.model.get('destination'));
+
       this.model.set('direction', direction);
-      return false;
-    },
-
-    toggleCollapseRouteWrapper: function () {
-      console.log("Toggle Direction Menu");
-      var rw = document.querySelector('#route-wrapper');
-      rw.style.webkitTransition = "margin-top .4s";
-
-      if (rw.style.marginTop.trim().length > 0) {
-        rw.style.marginTop = "";
-      } else {
-        rw.style.marginTop = "0px";
-      }
       return false;
     },
 

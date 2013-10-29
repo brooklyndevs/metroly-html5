@@ -11,17 +11,13 @@
 </div>
 
 {{#unless homeState}}
-
-  <div id="route-wrapper" class='col-12'>
+  <div id="slider-direction">
     {{#each route.directions}}
-      <div href="#" class="col-6 center-text route">{{destination}}</div>
-    {{/each}}
-  </div>
-  <div id="slider-direction" class='col-12'>
-    {{#each route.directions}}
-      <a href="#" class="col-5 center-text route-direction"><div class="dir-sprite" data-direction="{{directionId}}"></div></a>
+      <div class='col-2 center center-text route-direction' data-direction="{{directionId}}"><a href="#" class="dir-sprite" data-direction="{{directionId}}"></a></div>
       {{#unless @index}}
-          <a href="#" class="col-2 center-text menu-direction"></a>
+        <div class='col-8 center-text route-name'>
+          {{destination}}
+        </div>
       {{/unless}}
     {{/each}}
   </div>
