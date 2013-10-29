@@ -289,11 +289,11 @@ p.header-text {
 }
 
 #geo-btn {
-    background-position:0 0px;
+    background-position:0 5px;
 }
 
 .geo-active {
-    background-position:0 -40px !important;
+    background-position:0 -36px !important;
 }
 
 #live-btn {
