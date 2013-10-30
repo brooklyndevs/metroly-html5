@@ -76,23 +76,6 @@ p, li, a ,input {
     margin: 14px auto;
     width: 100%;
 }
-#homeScreen {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: auto;
-    /*opacity: 0.9;*/
-    /*border: solid 2px #006CB7;*/
-    background-color: #ededed;
-    padding: 14px;
-    display: none;
-    /*background-image: url('../images/icon-bus.svg');*/
-    background-repeat: no-repeat;
-    background-position: center center;
-    opacity: .9;
-}
 
 /*/////////////////////////////////////////////////////////////////*/
 /*/////////////////////////////////////////////////////////////////*/
@@ -160,14 +143,13 @@ p, li, a ,input {
     right: 0;
     bottom: 0;
     height: auto;
-    /*opacity: 0.9;*/
     /*border: solid 2px #006CB7;*/
     background-color: #ededed;
     padding: 14px;
     display: none;
-    /*background-image: url('../images/icon-bus.svg');*/
+    background-image: url('../images/icon-bus.svg');
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: right bottom;
     opacity: .9;
 }
 
