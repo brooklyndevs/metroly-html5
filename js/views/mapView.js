@@ -90,6 +90,18 @@ define([
     }
   });
 
+  var imagesBasePath = 'assets/images/icon_set/';
+  var locators = {
+    n: new LocatorIcon({iconUrl: imagesBasePath + 'icon_n.svg'}),
+    ne: new LocatorIcon({iconUrl: imagesBasePath + 'icon_ne.svg'}),
+    nw: new LocatorIcon({iconUrl: imagesBasePath + 'icon_nw.svg'}),
+    w: new LocatorIcon({iconUrl: imagesBasePath + 'icon_w.svg'}),
+    e: new LocatorIcon({iconUrl: imagesBasePath + 'icon_e.svg'}),
+    se: new LocatorIcon({iconUrl: imagesBasePath + 'icon_se.svg'}),
+    s: new LocatorIcon({iconUrl: imagesBasePath + 'icon_s.svg'}),
+    sw: new LocatorIcon({iconUrl: imagesBasePath + 'icon_sw.svg'}),
+  };
+
   var cloudmadeTiles = new L.TileLayer(tilesUrl, {
     maxZoom: 16,
     minZoom: 11
@@ -98,30 +110,26 @@ define([
   var maxBounds = new L.LatLngBounds(locations.SWBound, locations.NEBound);
 
   var createLocatorIcon = function (bearing) {
-    var locator_icon = new LocatorIcon(),
-      iconUrl = '',
-      imagesBasePath = 'assets/images/icon_set/';
+    var locator_icon;
 
     if (bearing >= 67.5 && bearing < 112.5) {
-      iconUrl = imagesBasePath + 'icon_n.svg';
+      locator_icon = locators.n;
     } else if (bearing >= 112.5 && bearing < 157.5) {
-      iconUrl = imagesBasePath + 'icon_nw.svg';
+      locator_icon = locators.nw;
     } else if (bearing >= 157.5 && bearing < 202.5) {
-      iconUrl = imagesBasePath + 'icon_w.svg';
+      locator_icon = locators.w;
     } else if (bearing >= 202.5 && bearing < 247.5) {
-      iconUrl = imagesBasePath + 'icon_sw.svg';
+      locator_icon = locators.sw;
     } else if (bearing >= 247.5 && bearing < 292.5) {
-      iconUrl = imagesBasePath + 'icon_s.svg';
+      locator_icon = locators.s;
     } else if (bearing >= 292.5 && bearing < 337.5) {
-      iconUrl = imagesBasePath + 'icon_se.svg';
+      locator_icon = locators.se;
     } else if (bearing >= 337.5 || bearing < 22.5) {
-      iconUrl = imagesBasePath + 'icon_e.svg';
+      locator_icon = locators.e;
     } else if (bearing >= 22.5 && bearing < 67.5) {
-      iconUrl = imagesBasePath + 'icon_ne.svg';
-    }
-
-    if (iconUrl !== '') {
-      locator_icon = new LocatorIcon({iconUrl: iconUrl});
+      locator_icon = locators.ne;
+    } else {
+      locator_icon = locators.n;
     }
 
     return locator_icon;
@@ -164,7 +172,7 @@ define([
     },
 
     initGeoLocate: function () {
-      
+
       var self = this;
 
       this.map.on("locationerror", function() {
@@ -181,29 +189,29 @@ define([
             currentMapBounds = self.map.getBounds();
 
 
-        //IF Not Useful, just comment out Else Block 
+        //IF Not Useful, just comment out Else Block
         // and leave If condition's code
         if (currentMapBounds.contains(locData.latlng)) {
 
           panToAndRestoreSpinner(locData.latlng);
-        
+
         } else {
 
           self.map.on("zoomend", function zoomOnLcationFound (e) {
 
             self.map.off("zoomend", zoomOnLcationFound);
-            
+
             setTimeout(function () {
 
               panToAndRestoreSpinner(locData.latlng, function () {
 
                 self.map.setZoom(currentMapZoom, {
                   animate: true
-                });               
+                });
               });
 
             }, 800);
-            
+
           });
 
           self.map.setZoom(11, {animate: true});
