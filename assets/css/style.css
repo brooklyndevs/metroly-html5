@@ -217,6 +217,7 @@ p.header-text {
     top: 0;
     width: 200px;
     display:none;
+    -webkit-overflow-scrolling: touch;
 }
 
 .list-header{
