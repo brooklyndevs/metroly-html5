@@ -154,70 +154,110 @@ module.exports = function(grunt) {
 
     // Unit testing is provided by Karma.  Change the two commented locations
     // below to either: mocha, jasmine, or qunit.
-
-    // Runs off localhost:9876
      karma: {
       options: {
 
-        basePath: process.cwd(),
+        host: "localhost",
+        port: 9876,
+
+        // enable / disable colors in the output (reporters and logs)
+        // CLI --colors --no-colors
+        colors: true,
         
-        singleRun: true,
-        captureTimeout: 5000,
-        autoWatch: true,
-        logLevel: "ERROR",
-
-        reporters: ["dots", "coverage"],
-
-        // Chrome, Firefox, PhantomJS, etc.
-        browsers: ["/usr/bin/chromium-browser"], // Chrome, Firefox, PhantomJS, etc.
-
+        // base path, that will be used to resolve files and exclude
+        basePath: "",
+        
         // Change this to the framework you want to use.
-        frameworks: ["jasmine"],
+        frameworks: [
+          "jasmine", 
+          "requirejs"
+        ],
+
+        // Auto run tests on start (when browsers are captured) and exit
+        // CLI --single-run --no-single-run
+        singleRun: true,
+
+        // If browser does not capture in given timeout [ms], kill it
+        // CLI --capture-timeout 5000
+        captureTimeout: 15000,
+
+        // enable / disable watching file and executing tests whenever any file changes
+        // CLI --auto-watch --no-auto-watch
+        autoWatch: true,
+        
+        // level of logging
+        // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+        // CLI --log-level debug
+        //logLevel: "ERROR",
+
+        //reporters: [
+          //"dots", 
+          //"coverage"
+        //], //also "growl", "junit", "progress"
+
+        // - Chrome
+        // - ChromeCanary
+        // - Firefox
+        // - Opera
+        // - Safari (only Mac)
+        // - PhantomJS
+        // - IE (only Windows)
+        // - /usr/bin/chromium-browser - your own stuff (Chromium per se)
+        browsers: ["PhantomJS","Chrome"],
+
 
         plugins: [
           "karma-jasmine", 
           "karma-mocha", 
-          "karma-qunit",
+          //"karma-qunit",
           "karma-phantomjs-launcher",
           'karma-chrome-launcher',
-          'karma-firefox-launcher',
-          "karma-coverage"
+          //'karma-firefox-launcher',
+          "karma-coverage",
+          "karma-requirejs"
         ],
 
-        preprocessors: {
-          "js/**/*.js": "coverage"
-        },
+        // Files that needs to be preprocessed
+        //preprocessors: { "js/**/*.js": "coverage" },
 
-        coverageReporter: {
-          type: "lcov",
-          dir: "test/coverage"
-        },
+        //coverageReporter: {
+        //  type: "lcov",
+        //  dir: "test/coverage"
+        //},
 
+        //loggers: [
+        //  { type: 'console'},
+        //  { type: 'file', filename: 'test/logs/log.log' }
+        //],
+
+        // list of files / patterns to load in the browser
         files: [
-          // You can optionally remove this or swap out for a different expect.
-          //"vendor/bower/chai/chai.js",
-          "assets/libs/require.min.js",
-          "js/main.js",
-          "test/runner.js",
+          //"node_modules/chai/chai.js",
 
-          //{ pattern: "js/**/*.*", included: false },
-          
-          // Derives test framework from Karma configuration.
-          {
-            pattern: "test/<%= karma.options.frameworks[0] %>/**/*.spec.js",
-            included: false
-          },
-          //{ pattern: "vendor/**/*.js", included: false }
-        ]
+          // false because we want to use require.js to serve these files
+          { pattern: "assets/libs/**/*.js", included: false },
+          { pattern: "js/**/*.js",     included: false },
+
+          //{ pattern: "test/<%= karma.options.frameworks[0] %>/**/*.js", included: false },
+          { pattern: "test/jasmine/specs/boilerplate/router.spec.js", included: false },
+
+          'test/test-main.js'
+        ],
+
+        // list of files to exclude
+        exclude: [
+          "js/main.js"
+        ],
+
       },
 
       // This creates a server that will automatically run your tests when you
       // save a file and display results in the terminal.
-      daemon: {
-        options: {
-          singleRun: false
-        }
-      },
+      //daemon: {
+      //  options: {
+      //    singleRun: false
+      //  }
+      //},
 
       // This is useful for running the tests just once.
       run: {
@@ -265,7 +305,7 @@ module.exports = function(grunt) {
     "processhtml",      // Process HTML - build scripts (ex. combines all references into one), images
 
     //"compress"          // gzip js, css - Should be done by Node
-
     //"server:release"    // Run release server
+    //"karma:run"       // Single run of karma testing suite
   ]);
 };

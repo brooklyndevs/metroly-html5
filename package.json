@@ -1,38 +1,37 @@
 {
   "name": "Metroly",
   "version": "1.0.0",
-
   "devDependencies": {
     "grunt": "~0.4.1",
     "bbb": "~0.2.0",
-    
     "grunt-contrib-jshint": "~0.7.0",
     "grunt-contrib-cssmin": "~0.6.1",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-compress": "~0.5.2",
     "grunt-processhtml": "~0.2.0",
-
+    "chai": "~1.8.1",
+    "karma": "~0.10",
+    "karma-scripts-launcher": "~0.1",
     "grunt-karma": "~0.6.2",
     "grunt-karma-coveralls": "~2.0.2",
+    "karma-requirejs": "~0.1.0",
     "karma-jasmine": "~0.1.0",
     "karma-mocha": "~0.1.0",
     "karma-qunit": "~0.1.0",
     "karma-phantomjs-launcher": "~0.1.0",
     "karma-chrome-launcher": "~0.1",
+    "karma-chrome-extra-launcher": "~0.1.0",
     "karma-firefox-launcher": "~0.1.0",
     "karma-coverage": "~0.1.0",
-    
     "almond": "~0.2.6"
   },
-
   "peerDependencies": {
     "generator-bbb": "*",
     "bower": "*",
     "grunt-cli": "*",
     "coveralls": "*"
   },
-
   "scripts": {
     "test": "grunt karma:run coveralls"
   }
