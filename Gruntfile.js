@@ -150,31 +150,38 @@ module.exports = function(grunt) {
 
     // Unit testing is provided by Karma.  Change the two commented locations
     // below to either: mocha, jasmine, or qunit.
-    /*
-    karma: {
+
+    // Runs off localhost:9876
+     karma: {
       options: {
+
         basePath: process.cwd(),
+        
         singleRun: true,
-        captureTimeout: 7000,
+        captureTimeout: 5000,
         autoWatch: true,
         logLevel: "ERROR",
 
         reporters: ["dots", "coverage"],
-        browsers: ["PhantomJS"],
+
+        // Chrome, Firefox, PhantomJS, etc.
+        browsers: ["/usr/bin/chromium-browser"], // Chrome, Firefox, PhantomJS, etc.
 
         // Change this to the framework you want to use.
-        frameworks: ["mocha"],
+        frameworks: ["jasmine"],
 
         plugins: [
-          "karma-jasmine",
-          "karma-mocha",
+          "karma-jasmine", 
+          "karma-mocha", 
           "karma-qunit",
           "karma-phantomjs-launcher",
+          'karma-chrome-launcher',
+          'karma-firefox-launcher',
           "karma-coverage"
         ],
 
         preprocessors: {
-          "js/**\/*.js": "coverage"
+          "js/**/*.js": "coverage"
         },
 
         coverageReporter: {
@@ -184,24 +191,25 @@ module.exports = function(grunt) {
 
         files: [
           // You can optionally remove this or swap out for a different expect.
-          "vendor/bower/chai/chai.js",
-          "vendor/bower/requirejs/require.js",
+          //"vendor/bower/chai/chai.js",
+          "assets/libs/require.min.js",
+          "js/main.js",
           "test/runner.js",
 
-          { pattern: "app/**\/*.*", included: false },
+          //{ pattern: "js/**/*.*", included: false },
+          
           // Derives test framework from Karma configuration.
-          {*/
-            //pattern: "test/<%= karma.options.frameworks[0] %>/**/\*.spec.js",
-            //included: false
-          //},
+          {
+            pattern: "test/<%= karma.options.frameworks[0] %>/**/*.spec.js",
+            included: false
+          },
           //{ pattern: "vendor/**/*.js", included: false }
-        //]
-      //},
-
+        ]
+      },
 
       // This creates a server that will automatically run your tests when you
       // save a file and display results in the terminal.
-      /*daemon: {
+      daemon: {
         options: {
           singleRun: false
         }
@@ -213,7 +221,7 @@ module.exports = function(grunt) {
           singleRun: true
         }
       }
-    },*/
+    },
 
     coveralls: {
       options: {
@@ -241,7 +249,7 @@ module.exports = function(grunt) {
 
   // When running the default Grunt command, just lint the code.
   grunt.registerTask("default", [
-    
+
     "jshint",			      // Test JavaScript for errors
     
     "clean",            // Clean old Dist folder
