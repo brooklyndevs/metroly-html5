@@ -120,13 +120,17 @@ module.exports = function(grunt) {
       release: {
         files: [
           // Meetroly icon ftw!
-          { src: ["favicon.ico"], dest: "dist/" },
-          // All the JS files
-          { src: ["js/**"], dest: "dist/" },
-                  // Vendor files   Exclude CSS files (cssmin will get them), exclude Old Images
-          { src: ["assets/**",      "!**assets/css/**", "!**assets/images/icon_set/old/**"],  dest: "dist/" },
-          // Almond for AMD - helps mobile devices
-//          { src: "node_modules/almond/almond.js", dest: "dist/js/almond.js" }
+          { 
+            src: ["favicon.ico"], dest: "dist/" 
+          },
+          // Vendor files, Exclude CSS files (cssmin will get them), exclude Old Images
+          { src: [
+              "assets/**",
+              "!**assets/css/**",
+              "!**assets/images/icon_set/old/**"
+            ],  
+            dest: "dist/" 
+          }
         ]
       }
     },
