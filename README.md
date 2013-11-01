@@ -1,6 +1,16 @@
 metroly
 =======
 
+Grunt Setup
+=====
+
+1. Install npm
+
+2. Run: ```npm install```
+
+3. Now you can run ```grunt``` to compile scripts
+
+
 
 Compiling
 ======

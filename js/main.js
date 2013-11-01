@@ -23,7 +23,13 @@ require.config({
       exports: '_'
     },
     handlebars: {
-      exports: 'Handlebars'
+      exports: 'Handlebars',
+      // Needed for Handlebars to work
+      // https://github.com/gruntjs/grunt-contrib-handlebars/issues/48
+      init: function() {
+        this.Handlebars = Handlebars;
+        return this.Handlebars;
+      }
     },
     leaflet: {
       exports: 'L'
