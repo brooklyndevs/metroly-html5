@@ -14,20 +14,14 @@ module.exports = function(grunt) {
     // modules and concatenate them into a single file.
     requirejs: {
 
-      release: {
-
-        options: {
-
+      options: {
           // Calls require()/config() calls from main.js file
           mainConfigFile: "js/config.js",
-
-          // Generate Source Maps to transfer minified JS to non-minified JS ("optimize" call)
-          generateSourceMaps: true,
+        
           include: ["main"],
           insertRequire: ["main"],
           out: "dist/js/main.js",
           optimize: "uglify2",
-
           // Since we bootstrap with nested `require` calls this option allows
           // R.js to find them.
           findNestedDependencies: true,
@@ -49,6 +43,18 @@ module.exports = function(grunt) {
 
           // Remove combined files from the dist folder
           removeCombined: true
+      },
+
+      release: {
+        options: {
+          // No need for source maps in javacript
+          generateSourceMaps: false,
+        }
+      },
+      develop: {
+        options: {
+          // Generate Source Maps to transfer minified JS to non-minified JS ("optimize" call)
+          generateSourceMaps: true,        
         }
       }
     },
@@ -79,8 +85,8 @@ module.exports = function(grunt) {
         options: {
           banner: '/* Metroly CSS */'
         },
-        files: {											// Add Leaflet to style
-          "dist/assets/css/style.css": ["assets/css/*.css", "assets/libs/*.css"]
+        files: {											// Add Leaflet to style (make sure it's before script!)
+          "dist/assets/css/style.css": ["assets/libs/leaflet/leaflet.css","assets/css/*.css"]
         }
       }
     },
@@ -91,7 +97,8 @@ module.exports = function(grunt) {
         port: 8000
       },
 
-      development: {},
+      development: {
+      },
 
       release: {
         options: {
@@ -127,6 +134,7 @@ module.exports = function(grunt) {
           { src: [
               "assets/**",
               "!**assets/css/**",
+              "!**assets/libs/leaflet/leaflet.css",
               "!**assets/images/icon_set/old/**"
             ],  
             dest: "dist/" 
@@ -203,7 +211,7 @@ module.exports = function(grunt) {
         // - PhantomJS
         // - IE (only Windows)
         // - /usr/bin/chromium-browser - your own stuff (Chromium per se)
-        browsers: ["PhantomJS","Chrome"],
+        browsers: ["PhantomJS", "Chrome"],
 
 
         plugins: [
@@ -271,7 +279,18 @@ module.exports = function(grunt) {
       options: {
         coverage_dir: "test/coverage/PhantomJS 1.9.2 (Linux)/"
       }
-    }
+    },
+
+    strip : {
+      main : {
+        // Remove comments from all js files in dist
+        src : 'dist/**/*.js',
+        options : {
+          inline : true
+        }
+      }
+    },
+
   });
 
   // Grunt contribution tasks.
@@ -285,6 +304,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-karma");
   grunt.loadNpmTasks("grunt-karma-coveralls");
   grunt.loadNpmTasks("grunt-processhtml");
+  grunt.loadNpmTasks('grunt-strip');
 
   // Grunt BBB tasks.
   grunt.loadNpmTasks("grunt-bbb-server");
@@ -300,7 +320,10 @@ module.exports = function(grunt) {
     "copy",             // Copy files to Dist folder
     
     "cssmin",           // Unite & Minify CSS file (style.css)
-    "requirejs",        // Minify JS files using R.js & Require.js & add AMD definition through Almond
+    
+    "requirejs:release",// Minify JS files using R.js & Require.js & add AMD definition through Almond
+    
+    "strip",            // Removes console.log, debug statements and such
     
     "processhtml",      // Process HTML - build scripts (ex. combines all references into one), images
 
