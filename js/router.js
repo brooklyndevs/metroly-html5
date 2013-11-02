@@ -14,6 +14,7 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
     routes: {
       '': 'homeState',
       'buses/:bus': 'selectBus',
+      'buses/': 'homeState',
       'bus/:bus/:dir': 'selectDirection',
       '*default': 'default'
     }
