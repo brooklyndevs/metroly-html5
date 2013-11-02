@@ -128,9 +128,10 @@ define([
       // RENDER FAVORITE BUTTON
       var bus = storage.find(currBus.toLowerCase());
       var isFav = bus.favorite || false;
+      var FavBtnModel = Backbone.Model.extend({defaults: {isActive: isFav}});
       this.favoriteBtn = new FavoriteView({
         el: "#app-controls",
-        model: new (Backbone.Model.extend({ defaults: {isActive: isFav}}))
+        model: new FavBtnModel()
       });
       this.favoriteBtn.model.on('change:isActive', this.favorite, this);
       this.favoriteBtn.render();

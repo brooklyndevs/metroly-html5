@@ -1,2 +1,5 @@
 .settings/*
 .DS_Store
+/node_modules/
+/test/coverage/
+/coverage/

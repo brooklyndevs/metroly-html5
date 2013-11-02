@@ -326,7 +326,7 @@ define([
     },
 
     stopBusTracking: function () {
-      this.poll && this.poll.stop();
+      if (this.poll) this.poll.stop();
     },
 
     changeDirection: function () {

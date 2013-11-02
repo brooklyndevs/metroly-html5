@@ -12,12 +12,13 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
     });
 
     var enforceHeight = function (element) {
-      var element = document.querySelector(element);
+
+      var enforceElement = document.querySelector(element);
 
       return function () {
         var windowHeight = window.innerHeight + "px";
-        element.style.height = windowHeight;
-        element.style.maxHeight = windowHeight;
+        enforceElement.style.height = windowHeight;
+        enforceElement.style.maxHeight = windowHeight;
       };
 
     };

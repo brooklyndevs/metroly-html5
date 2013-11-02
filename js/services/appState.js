@@ -1,4 +1,8 @@
+/* global define, console */
+
 define(['jquery', 'storage', 'underscore', 'backbone', 'config', 'busData'], function ($, Storage, _, Backbone, config, initialBusData) {
+
+  'use strict';
 
   var AppState = function () {
     console.log('Init the AppState module instance');
@@ -36,7 +40,7 @@ define(['jquery', 'storage', 'underscore', 'backbone', 'config', 'busData'], fun
     self.appInfoStorage.insert(config.LAST_UPDATED_SETTING, new Date());
     self.appInfoStorage.save();
 
-    _.isFunction(cb) && cb();
+    if (_.isFunction(cb)) cb();
   };
 
   AppState.prototype.queryAvailableBuses = function (cb) {
@@ -54,7 +58,7 @@ define(['jquery', 'storage', 'underscore', 'backbone', 'config', 'busData'], fun
 
     busQuery.fail(function (err) {
       console.log('failed to get it ', err);
-      _.isFunction(cb) && cb();
+      if (_.isFunction(cb)) cb();
     });
   };
 
@@ -75,7 +79,7 @@ define(['jquery', 'storage', 'underscore', 'backbone', 'config', 'busData'], fun
       this.queryAvailableBuses(cb);
     } else {
       console.log('Up to date');
-      cb && cb();
+      if (cb) cb();
     }
   };
 

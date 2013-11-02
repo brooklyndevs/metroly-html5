@@ -45,7 +45,7 @@ define(['backbone'], function (Backbone) {
     this.data[name] = data;
     var changeInfo = {inserted: name, data: this.data};
     this.notify(name, changeInfo);
-    this.notify(ANY_EVENT, changeInfo)
+    this.notify(ANY_EVENT, changeInfo);
   };
 
   Storage.prototype.remove = function (name) {
@@ -60,7 +60,7 @@ define(['backbone'], function (Backbone) {
     if (this.trigger) {
       this.trigger(eventName, data);
     }
-  }
+  };
 
   Storage.prototype.save = function () {
     saveToLocalStorage({name: this.name, data: this.data});

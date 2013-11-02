@@ -1,5 +1,8 @@
-/*jslint nomen: true, unparam: true, indent: 2 */
+/*jslint nomen: true, unparam: true, indent: 4 */
+/* global define */
+
 (function () {
+    "use strict";
 
     var root = this,
         oldAccordion = root.Accordion;
@@ -67,14 +70,16 @@
         return this;
     };
     Settings.prototype.notify = function (actionName) {
-        var args = Array.prototype.splice.call(arguments, 1);
+        var args = Array.prototype.splice.call(arguments, 1),
+            applyCallback = function (callback) {
+                // call back the callbacks that were added to PubSub for this action Name.
+                // console.log('Notifying ', actionName, " with these args: ", args);
+                callback.apply(null, args);
+            };
+
         for (var i in this.actionCallbacks) {
             if (this.actionCallbacks.hasOwnProperty(i) && i === actionName) {
-                this.actionCallbacks[i].forEach(function (callback) {
-                    // call back the callbacks that were added to PubSub for this action Name.
-                    // console.log('Notifying ', actionName, " with these args: ", args);
-                    callback.apply(null, args);
-                });
+                this.actionCallbacks[i].forEach(applyCallback);
             }
         }
         return this;
@@ -127,7 +132,7 @@
             if (this.groups.hasOwnProperty(group)) {
                 this.groups[group].render();
             }
-        };
+        }
         // do something else
         return this;
     };
@@ -141,7 +146,7 @@
             if (self.groups.hasOwnProperty(group)) {
                 self.groups[group].addListeners();
             }
-        };
+        }
 
         // Subscribe to "clickGroup" PubSub
         self.settings.subscribe("clickGroupExpand", function (groupName, collapseAll) {
@@ -266,7 +271,7 @@
             } else {
                 itemsHTML += item.name;
             }
-            itemsHTML += "</li>"
+            itemsHTML += "</li>";
         });
         return itemsHTML;
     };
@@ -292,7 +297,7 @@
     Group.prototype.isCollapsed = function () {
         var self = this;
         // non-cached
-        if (self.isListCollapsed == null) {
+        if (self.isListCollapsed === null || self.isListCollapsed === "undefined") {
             var element = Helper.getId(self.name, self.params.group_item_class).childNodes[0];
             var display = (element ? element.style.display : false);
             self.isListCollapsed = (display ? false : true);
@@ -306,10 +311,10 @@
      */
     Group.prototype.toggleCollapse = function (action) {
 
-        var self = this;
+        var self = this,
+            display = "block";
 
         self.isListCollapsed = false;
-        display = "block";
 
         if (action) {
             self.isListCollapsed = true;
@@ -463,7 +468,7 @@
 
                 for (var property in itemProperties) {
                     if (itemProperties.hasOwnProperty(property)) {
-                        if (property === "class") { 
+                        if (property === "class") {
                             itemClass += (" " + itemProperties[property]);
                             continue;
                         }
@@ -493,7 +498,7 @@
     SearchGroup.prototype.isCollapsed = function () {
         var self = this;
         // non-cached
-        if (self.isListCollapsed == null) {
+        if (self.isListCollapsed === null || self.isListCollapsed === "undefined") {
             var element = Helper.getId(self.name, self.params.search_group_list_class).childNodes[0];
             var display = (element ? element.style.display : false);
             self.isListCollapsed = (display ? false : true);
@@ -507,10 +512,10 @@
      */
     SearchGroup.prototype.toggleCollapse = function (action) {
 
-        var self = this;
+        var self = this,
+            display = "block";
 
         self.isListCollapsed = false;
-        display = "block";
 
         if (action) {
             self.isListCollapsed = true;
@@ -548,4 +553,5 @@
     }
 
     root.Accordion = Accordion;
-})();
+    
+}).call(this);
