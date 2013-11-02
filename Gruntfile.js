@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         options: {
 
           // Calls require()/config() calls from main.js file
-          mainConfigFile: "js/main.js",
+          mainConfigFile: "js/config.js",
 
           // Generate Source Maps to transfer minified JS to non-minified JS ("optimize" call)
           generateSourceMaps: true,
@@ -79,8 +79,8 @@ module.exports = function(grunt) {
         options: {
           banner: '/* Metroly CSS */'
         },
-        files: {
-          "dist/assets/css/style.css": ["assets/css/*.css"]
+        files: {											// Add Leaflet to style
+          "dist/assets/css/style.css": ["assets/css/*.css", "assets/libs/*.css"]
         }
       }
     },
