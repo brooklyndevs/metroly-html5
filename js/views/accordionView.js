@@ -64,6 +64,31 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
           }).renderItems();
       };
 
+      var checkFavoriteEmpty = function(){
+        if(accordion.groups.Favorites.items.length == 0){
+          accordion.groups.Favorites.changeData({
+            data: [{
+              color: "",
+              favorite: true,
+              name: "Empty",
+              recent: false
+            }],
+            callback: function (e) { return e.favorite; }
+          }).renderItems();
+        }
+      }
+      var addRecentEmpty = function(){
+        accordion.groups.Recent.changeData({
+          data: [{
+            color: "",
+            favorite: false,
+            name: "Empty",
+            recent: true
+          }],
+          callback: function (e) { return e.recent; }
+        }).renderItems();
+      }
+
       var settings = appState.getSettings();
 
       /* Side Navigation Accordion */
@@ -113,6 +138,11 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         // Add event listeners to Groups
         addListeners();
 
+      // Set Empty to Favorites list
+      checkFavoriteEmpty();
+    
+      // Set Empty to Recent list
+      addRecentEmpty();
 
       var onRecentBusStorageChanged = function (changeInfo) {
         var busNames = changeInfo.data.recently_viewed_buses;
@@ -123,6 +153,7 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
       settings.on('recently_viewed_buses', onRecentBusStorageChanged);
 
       busesObj.on('*', function (changeInfo) { // listen on all events.
+        console.log("Fav lenght: ",accordion.groups.Favorites.items.length);
         if (changeInfo.saved) {
           var favBuses = _.filter(busesObj.data, function (bus) {
             return bus.favorite;
@@ -132,6 +163,7 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
             data: favBuses,
             callback: function (e) { return e.favorite; }
           }).renderItems();
+          checkFavoriteEmpty();
         }
       });
 
