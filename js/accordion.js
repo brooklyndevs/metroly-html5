@@ -31,29 +31,28 @@
             return document.querySelector(Helper.toId.apply(null, arguments));
         },
         haveSameElements: function (a, b, sortParam) {
-          if (a === b) return true;
-          if (a == null || b == null) return false;
-          if (a.length != b.length) return false;
+            if (a === b) return true;
+            if ((a === null || a === undefined) || (b === null || b === undefined)) return false;
+            if (a.length != b.length) return false;
 
-          // If you don't care about the order of the elements inside
-          // the array, you should sort both arrays here.
-          a.sort(function(f, s) { return f[sortParam] > s[sortParam] });
-          b.sort(function(f, s) { return f[sortParam] > s[sortParam] });
+            // If you don't care about the order of the elements inside
+            // the array, you should sort both arrays here.
+            a.sort(function(f, s) { return f[sortParam] > s[sortParam]; });
+            b.sort(function(f, s) { return f[sortParam] > s[sortParam]; });
 
-          for (var i = 0; i < a.length; ++i) {
-            if (a[i] !== b[i]) return false;
-          }
-          return true;
+            for (var i = 0; i < a.length; ++i) {
+                if (a[i] !== b[i]) return false;
+            }
+            return true;
         },
         // Just like underscore's extend method
         extend: function (obj) {
-            console.log("Args:", arguments);
             Helper.toArray(arguments, 1).forEach(function(source) {
-              if (source) {
-                for (var prop in source) {
-                  obj[prop] = source[prop];
+                if (source) {
+                    for (var prop in source) {
+                        obj[prop] = source[prop];
+                    }
                 }
-              }
             });
             return obj;
         }
@@ -250,6 +249,7 @@
             throw new Error("Mush overwrite this method!");
         }
     };
+
     IGroup.prototype.isSameData = function (new_data) {
         if (this.isImplementation) {
             return Helper.haveSameElements(this.data, new_data);
@@ -257,12 +257,12 @@
             throw new Error("Mush overwrite this method!");
         }
     };
-    IGroup.prototype.changeSettings = function () {        
+
+    IGroup.prototype.changeSettings = function () {
         var self = this;
         Helper.toArray(arguments).forEach(function (e) {
             self.settings = Helper.extend.apply(undefined, [self.settings, e]);
         });
-        console.log("NEW SETTINGS:", self.settings, self.data);
         if (this.settings.settings) this.params = this.settings.settings;
     };
 
