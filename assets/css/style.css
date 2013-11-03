@@ -334,13 +334,20 @@ html, body {
     background-color: #121212;
     -webkit-box-shadow: inset 0 1px 0 #212121;
 }
-.list-link{
+.list-link,
+.list-link-empty {
     display:block;
     padding: 15px 15px 15px 40px;
     letter-spacing: .1em;
 }
 .list-single:active {
     background-color:#202020;
+}
+.list-link-empty {
+    cursor: default;
+}
+.list-link-empty:active {
+    background-color: #121212;   
 }
 
 .list-header,

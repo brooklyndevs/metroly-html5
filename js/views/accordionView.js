@@ -1,6 +1,7 @@
 define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domReady, Accordion, appState) {
 
-    var busesObj = appState.getBuses(),
+    var settingsObj = appState.getSettings(),
+      busesObj = appState.getBuses(),
       buses = [];
 
     _.each(busesObj.data, function (val, key) {
@@ -12,30 +13,50 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
     });
 
     var enforceHeight = function (element) {
-
-      var enforceElement = document.querySelector(element);
-
-      return function () {
-        var windowHeight = window.innerHeight + "px";
-        enforceElement.style.height = windowHeight;
-        enforceElement.style.maxHeight = windowHeight;
-      };
-
-    };
-
+        var enforceElement = document.querySelector(element);
+        return function () {
+          var windowHeight = window.innerHeight + "px";
+          enforceElement.style.height = windowHeight;
+          enforceElement.style.maxHeight = windowHeight;
+        };
+    },
     /*
      * A list item text callback.
      * Display bus link for each item.
      */
-    var generateLink = function (item) {
+    generateLink = function (item) {
       // Assuming HTML5 PushState would work.
       return "<a href='#" + "buses/" + item.name + "' class='list-link'>" + item.name + "</a>";
+    },
+    generateEmptyLink = function (item) {
+      return "<a class='list-link list-link-empty'>" + item.name + "</a>";
     },
     /*
      * Display color as style property for list item
      */
-      addListColors = function (item) {
+    addListColors = function (item) {
       return { style: "border-left-color:" + item.color };
+    },
+
+    busNamesToRecentBusObjects = function (busNames) {
+      var busesArr = [];
+      _.each(busNames, function (recentBus) {
+        busesArr.push({name: recentBus, recent: true, color: busesObj.data[recentBus.toLowerCase()].color });
+      });
+      return busesArr;
+    },
+
+
+
+    /* Close Side Nav when clicking on links */
+    closeSideNavForElement = function (element) {
+      element.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (!(e.currentTarget.className && e.currentTarget.className.match('list-link-empty'))) {
+          document.querySelector('#menu-btn').click();
+        }
+        return false;
+      });
     };
 
 
@@ -49,64 +70,11 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
       enforceSideNavHeight();
       window.addEventListener("resize", enforceSideNavHeight);
 
-
-      var busNamesToRecentBusObjects = function (busNames) {
-        var busesArr = [];
-        _.each(busNames, function (recentBus) {
-          busesArr.push({name: recentBus, recent: true, color: busesObj.data[recentBus.toLowerCase()].color});
-        });
-        return busesArr;
-      };
-
-      var changeRecentListAccordion = function (busesArr) {
-          accordion.groups.Recent.changeData({
-            data: busesArr,
-            callback: function (e) { return e.recent; }
-          }).renderItems();
-      };
-
-      var checkFavoriteEmpty = function(){
-        if(accordion.groups.Favorites.items.length == 0){
-          accordion.groups.Favorites.changeData({
-            data: [{
-              color: "",
-              favorite: true,
-              name: "Empty",
-              recent: false
-            }],
-            callback: function (e) { return e.favorite; }
-          }).renderItems();
-          var emptyTag = $("#Favorites_list-group .list-single .list-link");
-          if(emptyTag.text().trim() === "Empty"){
-            emptyTag.removeAttr("href");
-            emptyTag.addClass("disabled");
-          }
-        }
-      }
-      var addRecentEmpty = function(){
-        accordion.groups.Recent.changeData({
-          data: [{
-            color: "",
-            favorite: false,
-            name: "Empty",
-            recent: true
-          }],
-          callback: function (e) { return e.recent; }
-        }).renderItems();
-        var emptyTag = $("#Recent_list-group .list-single .list-link");
-        if(emptyTag.text().trim() === "Empty"){
-          emptyTag.removeAttr("href");
-          emptyTag.addClass("disabled");
-        }
-      }
-
-      var settings = appState.getSettings();
-
+      
       /* Side Navigation Accordion */
-      var accordion = new Accordion().
-        // 1. Set Accordion Settings.
-        // Most important is the accordion id. Rest are optional, but are CSS classes that Serges provided.
-        setSettings({
+      var accordion = new Accordion({
+          // 1. Set Accordion Settings.
+          // Most important is the accordion id. Rest are optional, but are the CSS classes that Serges provided.
           accordion_id: "accordion"
         }).
         // Adds a "SearchGroup"
@@ -120,7 +88,7 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         // Adds a "Group"
         addGroup({
           name: "Recent",
-          data: busNamesToRecentBusObjects(settings.find('recently_viewed_buses')),
+          data: busNamesToRecentBusObjects(settingsObj.find('recently_viewed_buses')),
           // Pick items that have recent property
           callback: function (e) { return e.recent; },
           itemText: generateLink,
@@ -149,43 +117,86 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         // Add event listeners to Groups
         addListeners();
 
-      // Set Empty to Favorites list
-      checkFavoriteEmpty();
-    
-      // Set Empty to Recent list
-      addRecentEmpty();
+
+      /*
+       * Functional helper - builds a callback function based on a
+       * condition being satisfied and callbacks called in return
+       */
+      function conditionalCallback(conditional) {
+        return function (condition, trueCallback, falseCallback, finallyCallback) {        
+          var result;
+          if (conditional(condition)) {
+            result = trueCallback(condition);
+          } else {
+            result = falseCallback(condition);
+          }
+          if (!finallyCallback) return result;
+          return finallyCallback(condition, result);
+        }
+      }
+
+      var ifArrayEmpty  = conditionalCallback(function (data) { return data.length === 0; }),
+        isSameGroupData = conditionalCallback(function (data) { return data[0].isSameData(data[1]); });
 
       var onRecentBusStorageChanged = function (changeInfo) {
-        var busNames = changeInfo.data.recently_viewed_buses;
-        var recentBusObjects = busNamesToRecentBusObjects(busNames);
-        changeRecentListAccordion(recentBusObjects);
-      };
+        var busNames = changeInfo.data.recently_viewed_buses,
+            recentBusObjects = busNamesToRecentBusObjects(busNames);
 
-      settings.on('recently_viewed_buses', onRecentBusStorageChanged);
+        ifArrayEmpty(recentBusObjects,
+          function EmptyRecent() {
+            accordion.groups.Recent.changeDataAndRender({
+              itemText: generateEmptyLink,
+              data: [{name: "No recent buses", recent: true}]
+            });
+          }, 
+          function NotEmptyRecent(data) {
+            accordion.groups.Recent.changeDataAndRender({
+              itemText: generateLink,
+              data: data
+            });
+          }
+        );
+      },
+      onFavoriteBusStorageChanged = function (changeInfo) {
 
-      busesObj.on('*', function (changeInfo) { // listen on all events.
-        if (changeInfo.saved) {
+        if (changeInfo && changeInfo.saved) {
           var favBuses = _.filter(busesObj.data, function (bus) {
             return bus.favorite;
           });
 
-          accordion.groups.Favorites.changeData({
-            data: favBuses,
-            callback: function (e) { return e.favorite; }
-          }).renderItems();
-          checkFavoriteEmpty();
-        }
-      });
+          isSameGroupData([accordion.groups.Favorites, favBuses], 
+            undefined, 
+            function DifferentFavorites() {
+              
+              ifArrayEmpty(favBuses, 
+                function EmptyFavorites() {
+                  accordion.groups.Favorites.changeDataAndRender({
+                    itemText: generateEmptyLink,
+                    data: [{name: "No favorite buses", favorite: true }] 
+                  });
+                }, 
+                function NotEmptyFavorites(data) {
+                  accordion.groups.Favorites.changeDataAndRender({
+                    itemText: generateLink,
+                    data: data
+                  });
+                }
+              );
 
-      /* Close Side Nav when clicking on links */
-      function closeSideNavForElement(element) {
-        element.addEventListener('click', function (e) {
-          e.stopPropagation();
-          console.log('clicked on sidenav element');
-          document.querySelector('#menu-btn').click();
-          return false;
-        });
-      }
+            }
+          );
+
+        }
+      };
+
+      // Listens on all events.
+      busesObj.on('*', onFavoriteBusStorageChanged);
+      settingsObj.on('recently_viewed_buses', onRecentBusStorageChanged);
+
+      busesObj.trigger("*", {saved: true});
+      // settingsObj.trigger("recently_viewed_buses");
+      settingsObj.insert("recently_viewed_buses", []);
+
 
       var listLinks = document.querySelectorAll('.list-link');
       listLinks = Array.prototype.splice.call(listLinks, 0);
