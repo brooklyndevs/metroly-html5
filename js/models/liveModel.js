@@ -13,7 +13,7 @@ define([
   var LiveModel = Backbone.Model.extend({
 
     defaults: {
-      time: 15
+      time: ''
     },
 
     initialize: function () {
@@ -23,7 +23,7 @@ define([
       var interval = settings.find(CHECK_INTERVAL);
       if (!interval) {
         var defaultTime = settings.find(CHECK_INTERVAL);
-        this.model.set('time', defaultTime, {silent: true});
+        this.set('time', defaultTime, {silent: true});
         console.log('settings', settings);
       }
       this.set('time', interval);
