@@ -33,7 +33,7 @@ need to install additionally
 
 ```npm install```
 
-```npm install grunt-cli```
+```npm install grunt-cli -g```
 
 ```npm install grunt --save-dev```
 
