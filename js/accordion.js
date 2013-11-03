@@ -1,7 +1,7 @@
 /*jslint nomen: true, unparam: true, indent: 4 */
 /* global define */
 
-(function () {
+(function (undefined) {
     "use strict";
 
     var root = this,
@@ -17,8 +17,9 @@
     // })("accordion_");
 
     var Helper = {
-        toArray: function (arrayLikeObj) {
-            return Array.prototype.slice.call(arrayLikeObj);
+        toArray: function (arrayLikeObj, slicing) {
+            slicing = slicing || 0;
+            return Array.prototype.slice.call(arrayLikeObj, slicing);
         },
         iterate: function (items, cb) {
             return Helper.toArray(items).forEach(cb);
@@ -28,6 +29,32 @@
         },
         getId: function () {
             return document.querySelector(Helper.toId.apply(null, arguments));
+        },
+        haveSameElements: function (a, b, sortParam) {
+            if (a === b) return true;
+            if ((a === null || a === undefined) || (b === null || b === undefined)) return false;
+            if (a.length != b.length) return false;
+
+            // If you don't care about the order of the elements inside
+            // the array, you should sort both arrays here.
+            a.sort(function(f, s) { return f[sortParam] > s[sortParam]; });
+            b.sort(function(f, s) { return f[sortParam] > s[sortParam]; });
+
+            for (var i = 0; i < a.length; ++i) {
+                if (a[i] !== b[i]) return false;
+            }
+            return true;
+        },
+        // Just like underscore's extend method
+        extend: function (obj) {
+            Helper.toArray(arguments, 1).forEach(function(source) {
+                if (source) {
+                    for (var prop in source) {
+                        obj[prop] = source[prop];
+                    }
+                }
+            });
+            return obj;
         }
     };
 
@@ -88,15 +115,16 @@
 
 
     // The whole accordion
-    var Accordion = function () {
+    var Accordion = function (settings) {
         this.groups = {};
-        this.settings = {};
+        if (settings) this.setSettings(settings);
+        else this.settings = {};
         return this;
     };
 
     // A convenience function. Should ONLY be used
     // when data for all accordion is same.
-    Accordion.prototype.changeAllData = function (data) {
+    Accordion.prototype.changeData = function (data) {
         var self = this;
         for (var group in self.groups) {
             if (self.groups.hasOwnProperty(group)) {
@@ -110,11 +138,13 @@
         data.forEach(this.addGroup);
         return this;
     };
+
     Accordion.prototype.addGroup = function (group) {
         // Object with name, data, callback 
         this.groups[group.name] = new Group(group, this.settings);
         return this;
     };
+
     Accordion.prototype.addSearchGroup = function (group) {
         // Object with name, data, callback 
         this.groups[group.name] = new SearchGroup(group, this.settings);
@@ -169,7 +199,6 @@
 
     /*
      * IGroup - an "interface" for Group and SearchGroup
-     *
      */
     var IGroup = function () {
         var self = this;
@@ -191,6 +220,11 @@
                 return e;
             };
 
+        for (var e in data) {
+            // hasOwnProperty... c'mon
+            self.data[e] = data[e];
+        }
+
         self.name = data.name || self.name;
         self.callback = data.callback || self.callback || default_callback;
 
@@ -205,18 +239,46 @@
         //console.log('Changing data to:', data, self);
         return this;
     };
+    IGroup.prototype.getData = function () {
+        return this.data;
+    };
+    IGroup.prototype.changeDataAndRender = function (data) {
+        if (this.isImplementation) {
+            return this.changeData(data).renderItems();
+        } else {
+            throw new Error("Mush overwrite this method!");
+        }
+    };
+
+    IGroup.prototype.isSameData = function (new_data) {
+        if (this.isImplementation) {
+            return Helper.haveSameElements(this.data, new_data);
+        } else {
+            throw new Error("Mush overwrite this method!");
+        }
+    };
+
+    IGroup.prototype.changeSettings = function () {
+        var self = this;
+        Helper.toArray(arguments).forEach(function (e) {
+            self.settings = Helper.extend.apply(undefined, [self.settings, e]);
+        });
+        if (this.settings.settings) this.params = this.settings.settings;
+    };
 
 
     // A single, isolated group of buses
     var Group = function (data, settings) {
-        // 2. Add data to this
         this.isImplementation = true;
+        
+        // 2. Add data to this
         this.data = data;
+        
         this.settings = settings;
         // for now, change later
         this.params = this.settings.settings;
 
-        // 3. Apply miself onto IGroup.
+        // 3. Apply miself onto IGroup mate.
         IGroup.apply(this);
     };
     // 1. Inherit functions throught the prototypal chain
@@ -263,14 +325,15 @@
                     }
                 }
             }
-
             itemClass = (" class='" + itemClass + "'");
             itemsHTML += (itemClass + ">");
+
             if (self.data.itemText) {
                 itemsHTML += self.data.itemText(item);
             } else {
                 itemsHTML += item.name;
             }
+
             itemsHTML += "</li>";
         });
         return itemsHTML;
@@ -285,7 +348,6 @@
         var self = this,
             header = Helper.getId(self.name, self.params.group_header_class);
 
-        //console.log("Group header: ", header, self.name + "_" + self.params.group_header_class);
         header.addEventListener("click", function () {
             var collapseAll = (!self.isCollapsed() ? true : false);
             self.settings.notify("clickGroupExpand", self.name, collapseAll);
@@ -297,7 +359,7 @@
     Group.prototype.isCollapsed = function () {
         var self = this;
         // non-cached
-        if (self.isListCollapsed === null || self.isListCollapsed === "undefined") {
+        if (self.isListCollapsed === null || self.isListCollapsed === undefined) {
             var element = Helper.getId(self.name, self.params.group_item_class).childNodes[0];
             var display = (element ? element.style.display : false);
             self.isListCollapsed = (display ? false : true);
@@ -325,18 +387,13 @@
             Helper.getId(self.name, self.params.group_item_class).childNodes,
             function (i) {
                 i.style.display = display;
-                //if (display === "block") {
-                    //console.log("#" + self.name + "_" + self.params.group_item_class);
-                    //i.style["-webkit-animation"] = "fadeIn 1s";
-                    //i.style["animation"] = "fadeIn 1s";
-                //}
             });
 
         return this;
     };
 
 
-
+    // A single group of buses that is searchable
     var SearchGroup = function (data, settings) {
         // 2. Add data to this
         this.isImplementation = true;
@@ -498,7 +555,7 @@
     SearchGroup.prototype.isCollapsed = function () {
         var self = this;
         // non-cached
-        if (self.isListCollapsed === null || self.isListCollapsed === "undefined") {
+        if (self.isListCollapsed === null || self.isListCollapsed === undefined) {
             var element = Helper.getId(self.name, self.params.search_group_list_class).childNodes[0];
             var display = (element ? element.style.display : false);
             self.isListCollapsed = (display ? false : true);
