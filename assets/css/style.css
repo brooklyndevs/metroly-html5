@@ -4,6 +4,7 @@
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* -- Start Stylin' -- */
 html, body {
+    overflow: hidden;
     margin:0;
     font-family: 'Open Sans', sans-serif;
     -webkit-backface-visibility: hidden;
@@ -322,6 +323,7 @@ html, body {
 #All_list-header {
     background-repeat: no-repeat;
     background-position: 23px 17px;
+    line-height: 21px;
 }
 
 .list-single {
