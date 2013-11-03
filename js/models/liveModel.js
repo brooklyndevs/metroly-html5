@@ -13,7 +13,7 @@ define([
   var LiveModel = Backbone.Model.extend({
 
     defaults: {
-      time: 30
+      time: 15
     },
 
     initialize: function () {
