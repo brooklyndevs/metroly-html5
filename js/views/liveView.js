@@ -32,7 +32,7 @@ define([
           self.render(true);
         } else {
           self.render(false);
-        } 
+        }
       });
     },
 

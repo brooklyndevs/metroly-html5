@@ -65,7 +65,8 @@ define(['jquery', 'storage', 'underscore', 'backbone', 'config', 'busData'], fun
   AppState.prototype.init = function (cb) {
 
     var settings = this.getSettings();
-    if (!settings.find(config.CHECK_INTERVAL_SETTING)) {
+    var interval = settings.find(config.CHECK_INTERVAL_SETTING);
+    if (!interval && !_.isString(interval)) {
       settings.insert(config.CHECK_INTERVAL_SETTING, config.CHECK_INTERVAL_DEFAULT);
     }
 
