@@ -75,6 +75,11 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
             }],
             callback: function (e) { return e.favorite; }
           }).renderItems();
+          var emptyTag = $("#Favorites_list-group .list-single .list-link");
+          if(emptyTag.text().trim() === "Empty"){
+            emptyTag.removeAttr("href");
+            emptyTag.addClass("disabled");
+          }
         }
       }
       var addRecentEmpty = function(){
@@ -87,6 +92,11 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
           }],
           callback: function (e) { return e.recent; }
         }).renderItems();
+        var emptyTag = $("#Recent_list-group .list-single .list-link");
+        if(emptyTag.text().trim() === "Empty"){
+          emptyTag.removeAttr("href");
+          emptyTag.addClass("disabled");
+        }
       }
 
       var settings = appState.getSettings();
@@ -153,7 +163,6 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
       settings.on('recently_viewed_buses', onRecentBusStorageChanged);
 
       busesObj.on('*', function (changeInfo) { // listen on all events.
-        console.log("Fav lenght: ",accordion.groups.Favorites.items.length);
         if (changeInfo.saved) {
           var favBuses = _.filter(busesObj.data, function (bus) {
             return bus.favorite;
