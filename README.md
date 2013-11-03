@@ -15,7 +15,7 @@ Use can use grunt for following things:
 
 
 How do I install grunt?
---------
+-----------------------
 1. First install [node and npm][1]
 2. Next run: ```npm install```, which installs all necessary dependencies
 3. Now you can run ```grunt``` to compile scripts!
@@ -27,41 +27,37 @@ Feel free to install as much of useful pluging to grunt as as you wish! ;p
 
 
 Notes
-======
+=====
 Just a general list of dependencies we
 need to install additionally
+
 ```npm install```
+
 ```npm install grunt-cli```
+
 ```npm install grunt --save-dev```
+
 ```npm install almond -g```
+
 ```npm install karma@0.10.2```
+
 ```npm install chai```
 
 
-Compiling
-======
-
-To compile scripts using r.js:
-
-
-- ```chmod +x build/build.sh```
-
-- ```r.js -o build/app.build.js```
-
 CSS
-======
+===
 
-- in CSS folder when you want to add CSS for a new feature, just add
+In CSS folder when you want to add CSS for a new feature, just add
 ```@import 'my_new_file_name.css'``` instead of working in one huge file. Later we will compile it all into one big file.
 
 
 References
-=======
-[Node GTFS][3]
-[RequireJS Optimization options][requirejs_optimize]
-[grunt-cssmin options][cssmin]
-[Mobile Workflow by Addy Osmani][mw]
-[Backbone Boilerplate][bb]
+==========
+* [Node GTFS][3]
+* [RequireJS Optimization options][requirejs_optimize]
+* [grunt-cssmin options][cssmin]
+* [Mobile Workflow by Addy Osmani][mw]
+* [Backbone Boilerplate][bb]
 
 [1]: http://www.joyent.com/blog/installing-node-and-npm/
 [2]: https://github.com/jsoverson/grunt-preprocess
