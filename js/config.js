@@ -10,7 +10,8 @@ require.config({
     storage: 'services/storage',
     accordion: 'accordion',
     appState: 'services/appState',
-    config: 'config'
+    config: 'config',
+    oba: 'oba'
   },
   shim: {
     backbone: {

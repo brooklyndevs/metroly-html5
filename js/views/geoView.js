@@ -42,9 +42,6 @@ define([
     },
 
     render: function (options) {
-
-      console.log("RENDERING GEO:", options);
-
       var html, ctx = {};
 
       ctx.hidden = (options ? options.hidden : false);
