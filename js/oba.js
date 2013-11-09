@@ -21,7 +21,7 @@ define([
     	var r = routeID.toUpperCase();
 			console.log("Getting Bus Stops for: " + r);
 			// Right API CALL URL
-			this.ajax(this.baseUrl+"stops-for-route/MTA NYCT_"+r+".json?key="+this.apiKey, cb);
+			this.ajax(this.baseUrl+"stops-for-route/"+r+".json?key="+this.apiKey, cb);
 		},
 
 		// Get Bus Routes
