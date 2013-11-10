@@ -99,8 +99,8 @@ define([
   };
 
   var cloudmadeTiles = new L.TileLayer(tilesUrl, {
-    maxZoom: 16,
-    minZoom: 11
+    // maxZoom: 16,
+    // minZoom: 11
   });
 
   var maxBounds = new L.LatLngBounds(locations.SWBound, locations.NEBound);
@@ -242,14 +242,6 @@ define([
 
             if (callback) callback();
 
-            //var marker = new L.Marker(locData.latlng, {
-            //  title: "Twat"
-            //});
-
-            //L.marker(locData.latlng, {
-            //  opacity: 0
-            //}).bindPopup("You are here!").addTo(self.map).openPopup();
-
             var popup = L.popup({
               closeButton: false,
               offset: new L.Point(0, -25)
@@ -335,18 +327,14 @@ define([
 
     showHomeScreen: function (isHomeState) {
       console.log("SHOW MAP HOME STATE");
-      //console.log("OVERLAY IMAGE ON TOP OF MAP");
-      //console.log("Current Bus Layer, Route Layer", CurrentRouteLayer, CurrentBusLayer);
       if (isHomeState) {
         this.map.removeLayer(CurrentBusLayer);
         this.map.removeLayer(CurrentRouteLayer);
-        //TODO: Show Home Screen Div...
         $("#homeScreen").addClass("visible");
       } else {
         $("#homeScreen").removeClass("visible");
       }
     },
-
 
     showBuses: function (buses) {
       var self = this, i, bus, lat, lng, locatorIcon, marker, markerInfo, bearing, layer, busesLength = 0;
@@ -380,23 +368,33 @@ define([
     },
 
     markStops: function (stops) {
-      console.log('markBusStops');
-
       var self = this,
         stopCircle = {
           stroke: false,
-          fillColor: '#000000',
+          fillColor: 'pink',
           fillOpacity: 1.0,
           weight: 1,
-          radius: 4
+          radius: 10
         };
 
       self.map.removeLayer(CurrentStopsLayer);
-      CurrentStopsLayer = new L.MarkerClusterGroup();
+
+      CurrentStopsLayer = new L.MarkerClusterGroup({
+        showCoverageOnHover: false,
+        zoomToBoundsOnClick: true,
+        // spiderfyOnMaxZoom: true,
+        removeOutsideVisibleBounds: true,
+        // disableClusteringAtZoom: 10,
+        maxClusterRadius: 50, // default is 80
+      });
 
       _.each(stops, function (stop) {
+
+        console.log(stop);
+
         var latlng = new L.LatLng(stop.lat, stop.lon),
           circle = L.circleMarker(latlng, stopCircle);
+        circle.bindPopup("<small>" + stop.name + "</small>");
         circle.addTo(CurrentStopsLayer);
       });
 
