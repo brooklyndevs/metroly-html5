@@ -7,8 +7,9 @@ define([
   'backbone',
   'leaflet',
   'shortpoll',
-  'appState'
-], function ($, _, Backbone, L, ShortPoll, appState) {
+  'appState',
+  'markerCluster'
+], function ($, _, Backbone, L, ShortPoll, appState, markerCluster) {
   "use strict";
 
   var RouteLayers = {
@@ -379,31 +380,27 @@ define([
     },
 
     markStops: function (stops) {
-      var self = this;
       console.log('markBusStops');
 
+      var self = this,
+        stopCircle = {
+          stroke: false,
+          fillColor: '#000000',
+          fillOpacity: 1.0,
+          weight: 1,
+          radius: 4
+        };
+
       self.map.removeLayer(CurrentStopsLayer);
-      CurrentStopsLayer = new L.LayerGroup();
+      CurrentStopsLayer = new L.MarkerClusterGroup();
 
       _.each(stops, function (stop) {
-        console.log(stop.lat, ", ",  stop.lon);
-        var latlng = new L.LatLng(stop.lat, stop.lon);
-        var circle = L.circleMarker(latlng, {
-            stroke: false,
-            fillColor: '#000000',
-            fillOpacity: 1.0,
-            weight: 1,
-            radius: 4
-        });
-
+        var latlng = new L.LatLng(stop.lat, stop.lon),
+          circle = L.circleMarker(latlng, stopCircle);
         circle.addTo(CurrentStopsLayer);
       });
 
-      try {
-        CurrentStopsLayer.addTo(self.map);
-      } catch (error) {
-          console.error('Had error with this stop', error.message);
-      }
+      CurrentStopsLayer.addTo(self.map);
     },
 
     cacheRoute: function () {
