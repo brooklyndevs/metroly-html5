@@ -19,43 +19,14 @@ define([
     dir1: new L.LayerGroup()
   };
 
-  var CurrentRouteLayer = {};
-  var CurrentBusLayer   = {};
-  var CurrentStopsLayer = {};
-
-  var decodePolyline = function (encoded) {
-    var len = encoded.length;
-    var index = 0;
-    var array = [];
-    var lat = 0;
-    var lng = 0;
-
-    while (index < len) {
-      var b;
-      var shift = 0;
-      var result = 0;
-      do {
-        b = encoded.charCodeAt(index++) - 63;
-        result |= (b & 0x1f) << shift;
-        shift += 5;
-      } while (b >= 0x20);
-      var dlat = ((result & 1) ? ~(result >> 1) : (result >> 1));
-      lat += dlat;
-
-      shift = 0;
-      result = 0;
-      do {
-        b = encoded.charCodeAt(index++) - 63;
-        result |= (b & 0x1f) << shift;
-        shift += 5;
-      } while (b >= 0x20);
-      var dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
-      lng += dlng;
-
-      array.push([lat * 1e-5, lng * 1e-5]);
-    }
-    return array;
+  var StopsLayers = {
+    dir0: new L.MarkerClusterGroup(),
+    dir1: new L.MarkerClusterGroup()
   };
+
+  var CurrentBusLayer   = {};
+  var CurrentRouteLayer = {};
+  var CurrentStopsLayer = {};
 
   var locations = {
     bronx:        [40.832359, -73.892670],
@@ -101,8 +72,8 @@ define([
   };
 
   var cloudmadeTiles = new L.TileLayer(tilesUrl, {
-    // maxZoom: 16,
-    // minZoom: 11
+    maxZoom: 16,
+    minZoom: 13
   });
 
   var maxBounds = new L.LatLngBounds(locations.SWBound, locations.NEBound);
@@ -133,6 +104,40 @@ define([
     return locator_icon;
   };
 
+  var decodePolyline = function (encoded) {
+    var len = encoded.length;
+    var index = 0;
+    var array = [];
+    var lat = 0;
+    var lng = 0;
+
+    while (index < len) {
+      var b;
+      var shift = 0;
+      var result = 0;
+      do {
+        b = encoded.charCodeAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      var dlat = ((result & 1) ? ~(result >> 1) : (result >> 1));
+      lat += dlat;
+
+      shift = 0;
+      result = 0;
+      do {
+        b = encoded.charCodeAt(index++) - 63;
+        result |= (b & 0x1f) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      var dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
+      lng += dlng;
+
+      array.push([lat * 1e-5, lng * 1e-5]);
+    }
+    return array;
+  };
+
   var MapView = Backbone.View.extend({
     el: '#map',
 
@@ -147,7 +152,7 @@ define([
       this.model.on('change:direction', this.changeDirection, this);
       this.model.on('getBuses', this.options.liveView.startSpin, this);
       this.model.on('gotBuses', this.showBuses, this);
-      this.model.on('gotStops', this.markStops, this);
+      this.model.on('gotStops', this.cacheStops, this);
       this.initGeoLocate();
 
       this.dispatcher.bind("app:isHomeState", function (isHomeState) {
@@ -158,7 +163,6 @@ define([
           self.showHomeScreen(false);
         }
       });
-
     },
 
     initMap: function () {
@@ -321,10 +325,19 @@ define([
 
     changeDirection: function () {
       var direction = this.model.get('direction');
+
+      // Fire request for live bus positions.
       this.model.getBuses();
+
+      // Show the cached route for this direction.
       this.map.removeLayer(CurrentRouteLayer);
       CurrentRouteLayer = RouteLayers['dir' + direction];
       this.map.addLayer(CurrentRouteLayer);
+
+      // Show the cached stops for this direction.
+      this.map.removeLayer(CurrentStopsLayer);
+      CurrentStopsLayer = StopsLayers['dir' + direction];
+      this.map.addLayer(CurrentStopsLayer);
     },
 
     showHomeScreen: function (isHomeState) {
@@ -369,36 +382,45 @@ define([
       this.startBusTracking();
     },
 
-    markStops: function (stops) {
+    cacheStops: function (stopGroups) {
       var self = this,
         busStopBubble = H.compile(busStopTpl),
         stopCircle = {
           stroke: true,
-          fillColor: 'pink',
-          fillOpacity: 1.0,
-          weight: 1,
-          radius: 12
+          color: 'white',
+          fillColor: '#' + this.model.get('route').color,
+          fillOpacity: 0.5,
+          weight: 3,
+          radius: 7,
+          opacity: 0.7
+        },
+        clusterOpts = {
+          showCoverageOnHover: false,
+          zoomToBoundsOnClick: true,
+          spiderfyOnMaxZoom: false,
+          removeOutsideVisibleBounds: true,
+          // disableClusteringAtZoom: 10,
+          maxClusterRadius: 50, // default is 80
         };
 
-      self.map.removeLayer(CurrentStopsLayer);
+      StopsLayers.dir0 = new L.MarkerClusterGroup(clusterOpts);
+      StopsLayers.dir1 = new L.MarkerClusterGroup(clusterOpts);
 
-      CurrentStopsLayer = new L.MarkerClusterGroup({
-        showCoverageOnHover: false,
-        zoomToBoundsOnClick: true,
-        // spiderfyOnMaxZoom: true,
-        removeOutsideVisibleBounds: true,
-        // disableClusteringAtZoom: 10,
-        maxClusterRadius: 50, // default is 80
-      });
-
-      _.each(stops, function (stop) {
-        console.log('Stop: ', stop);
-        var latlng = new L.LatLng(stop.lat, stop.lon),
+      _.each(stopGroups, function (destinationGroup, idx) {
+        _.each(destinationGroup, function (stop) {
+          var latlng = new L.LatLng(stop.lat, stop.lon),
           circle = L.circleMarker(latlng, stopCircle);
-        circle.bindPopup(busStopBubble(stop));
-        circle.addTo(CurrentStopsLayer);
+          circle.bindPopup(busStopBubble(stop));
+          if (idx === 0) {
+            circle.addTo(StopsLayers.dir0);
+          } else if (idx === 1) {
+            circle.addTo(StopsLayers.dir1);
+          }
+        });
       });
 
+      self.map.removeLayer(CurrentStopsLayer);
+      CurrentStopsLayer = StopsLayers.dir0; // default.
       CurrentStopsLayer.addTo(self.map);
     },
 
@@ -418,7 +440,7 @@ define([
             polyLatLngs.push(new L.LatLng(point[0], point[1]));
           });
 
-          leafletPoly = new L.Polyline(polyLatLngs, {color: '#' + route.color});
+          leafletPoly = new L.Polyline(polyLatLngs, {color: '#' + route.color, clickable: false});
 
           RouteLayers['dir' + dirId].addLayer(leafletPoly);
 
