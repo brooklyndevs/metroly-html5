@@ -56,9 +56,8 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
       require(['oba'], function (Oba){
         console.log("OBA required");
         Oba.getBusStops("b63", function(data){
-          console.log("DATAAA: ", data);
+          console.log("DATA: ", data.data.stops);
         });
-
       });
 
       require(['application'], function (App) {
