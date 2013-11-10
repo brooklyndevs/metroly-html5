@@ -18,6 +18,7 @@ define([
 
   var CurrentRouteLayer = {};
   var CurrentBusLayer   = {};
+  var CurrentStopsLayer = {};
 
   var decodePolyline = function (encoded) {
     var len = encoded.length;
@@ -71,12 +72,6 @@ define([
   var defaultZoomLevel = 13;
 
   var tilesUrl = 'http://{s}.tile.cloudmade.com/23b30a5239c3475d9babd947f2b7a12b/22677/256/{z}/{x}/{y}.png';
-
-  var whiteCircleOptions = {
-    color: 'white',
-    fillColor: '#ffffff',
-    fillOpacity: 0.7
-  };
 
   var LocatorIcon = L.Icon.extend({
     options: {
@@ -337,8 +332,6 @@ define([
       this.map.addLayer(CurrentRouteLayer);
     },
 
-    CurrentBusLayer: new L.LayerGroup(),
-
     showHomeScreen: function (isHomeState) {
       console.log("SHOW MAP HOME STATE");
       //console.log("OVERLAY IMAGE ON TOP OF MAP");
@@ -385,9 +378,32 @@ define([
       this.startBusTracking();
     },
 
-    markBusStops: function (stops) {
-      console.log('Got these stops ', stops);
-        // L.circle(locations.brooklyn, 100, circleOptions).addTo(this.map);
+    markStops: function (stops) {
+      var self = this;
+      console.log('markBusStops');
+
+      self.map.removeLayer(CurrentStopsLayer);
+      CurrentStopsLayer = new L.LayerGroup();
+
+      _.each(stops, function (stop) {
+        console.log(stop.lat, ", ",  stop.lon);
+        var latlng = new L.LatLng(stop.lat, stop.lon);
+        var circle = L.circleMarker(latlng, {
+            stroke: false,
+            fillColor: '#000000',
+            fillOpacity: 1.0,
+            weight: 1,
+            radius: 4
+        });
+
+        circle.addTo(CurrentStopsLayer);
+      });
+
+      try {
+        CurrentStopsLayer.addTo(self.map);
+      } catch (error) {
+          console.error('Had error with this stop', error.message);
+      }
     },
 
     cacheRoute: function () {

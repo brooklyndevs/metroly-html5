@@ -67,7 +67,6 @@ define([
     getStops: function () {
       var self = this;
       OneBusAway.getBusStops(self.get('bus'), function (stops) {
-        console.log('OBA called back', stops);
         self.trigger('gotStops', stops);
       });
     },
