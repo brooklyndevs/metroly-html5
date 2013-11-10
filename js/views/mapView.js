@@ -8,8 +8,10 @@ define([
   'leaflet',
   'shortpoll',
   'appState',
-  'markerCluster'
-], function ($, _, Backbone, L, ShortPoll, appState, markerCluster) {
+  'markerCluster',
+  'handlebars',
+  'text!../../assets/templates/busStopBubble.html'
+], function ($, _, Backbone, L, ShortPoll, appState, markerCluster, H, busStopTpl) {
   "use strict";
 
   var RouteLayers = {
@@ -369,12 +371,13 @@ define([
 
     markStops: function (stops) {
       var self = this,
+        busStopBubble = H.compile(busStopTpl),
         stopCircle = {
-          stroke: false,
+          stroke: true,
           fillColor: 'pink',
           fillOpacity: 1.0,
           weight: 1,
-          radius: 10
+          radius: 12
         };
 
       self.map.removeLayer(CurrentStopsLayer);
@@ -389,12 +392,10 @@ define([
       });
 
       _.each(stops, function (stop) {
-
-        console.log(stop);
-
+        console.log('Stop: ', stop);
         var latlng = new L.LatLng(stop.lat, stop.lon),
           circle = L.circleMarker(latlng, stopCircle);
-        circle.bindPopup("<small>" + stop.name + "</small>");
+        circle.bindPopup(busStopBubble(stop));
         circle.addTo(CurrentStopsLayer);
       });
 
