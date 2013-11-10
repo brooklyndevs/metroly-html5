@@ -72,9 +72,9 @@ define([
 
   var tilesUrl = 'http://{s}.tile.cloudmade.com/23b30a5239c3475d9babd947f2b7a12b/22677/256/{z}/{x}/{y}.png';
 
-  var circleOptions = {
-    color: 'red',
-    fillColor: '#f03',
+  var whiteCircleOptions = {
+    color: 'white',
+    fillColor: '#ffffff',
     fillOpacity: 0.7
   };
 
@@ -149,6 +149,7 @@ define([
       this.model.on('change:direction', this.changeDirection, this);
       this.model.on('getBuses', this.options.liveView.startSpin, this);
       this.model.on('gotBuses', this.showBuses, this);
+      this.model.on('gotStops', this.markStops, this);
       this.initGeoLocate();
 
       this.dispatcher.bind("app:isHomeState", function (isHomeState) {
@@ -180,7 +181,6 @@ define([
         $("#geo-btn").removeClass("spin360");
         $("#geo-btn").removeClass("geo-active");
         $("#geo-btn").removeClass("disabled");
-        // L.circle(locations.brooklyn, 100, circleOptions).addTo(this.map);
       });
 
       this.map.on("locationfound", function(locData) {
@@ -383,6 +383,11 @@ define([
       }, 1000);
 
       this.startBusTracking();
+    },
+
+    markBusStops: function (stops) {
+      console.log('Got these stops ', stops);
+        // L.circle(locations.brooklyn, 100, circleOptions).addTo(this.map);
     },
 
     cacheRoute: function () {
