@@ -52,6 +52,14 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
         }
       });
 
+      // Sample OBA CALL
+      require(['oba'], function (Oba){
+        console.log("OBA required");
+        Oba.getBusStops("b63", function(data){
+          console.log("DATA: ", data.data.stops);
+        });
+      });
+
       require(['application'], function (App) {
 
         console.log('App required');
