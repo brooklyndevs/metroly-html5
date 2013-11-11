@@ -184,7 +184,7 @@ define([
 
         console.log(zoomLevel, "max: ", maxZoom, "min: ", minZoom, "half: ", halfZoom);
 
-      if (zoomLevel < halfZoom) {
+      if (zoomLevel <= halfZoom) {
         this.map.removeLayer(CurrentStopsLayer);
       } else {
         this.map.addLayer(CurrentStopsLayer);;
