@@ -30,8 +30,6 @@ define([
   var sortStopsByDestination = function (data, cb) {
     var stopGroups, stops, routes, sortedStops = [], dest0 = [], dest1 = [];
 
-    console.log("Raw bus data stuff: ", data);
-
     stopGroups = data.entry.stopGroupings[0].stopGroups;
     stops = data.references.stops;
     routes = data.references.routes;
