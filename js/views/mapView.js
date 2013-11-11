@@ -7,8 +7,11 @@ define([
   'backbone',
   'leaflet',
   'shortpoll',
-  'appState'
-], function ($, _, Backbone, L, ShortPoll, appState) {
+  'appState',
+  'markerCluster',
+  'handlebars',
+  'text!../../assets/templates/busStopBubble.html'
+], function ($, _, Backbone, L, ShortPoll, appState, markerCluster, H, busStopTpl) {
   "use strict";
 
   var RouteLayers = {
@@ -16,8 +19,90 @@ define([
     dir1: new L.LayerGroup()
   };
 
-  var CurrentRouteLayer = {};
+  var StopsLayers = {
+    dir0: new L.MarkerClusterGroup(),
+    dir1: new L.MarkerClusterGroup()
+  };
+
   var CurrentBusLayer   = {};
+  var CurrentRouteLayer = {};
+  var CurrentStopsLayer = {};
+
+  var locations = {
+    bronx:        [40.832359, -73.892670],
+    brooklyn:     [40.650000, -73.950000],
+    manhattan:    [40.764785, -73.975067],
+    statenIsland: [40.581315, -74.154968],
+    queens:       [40.755424, -73.876877],
+
+    /* Maximum map bounds for nyc */
+    SWBound: [40.477666, -74.308777],
+    NEBound: [41.010000, -73.712769]
+    // NEBound: [40.908739, -73.712769]
+
+  };
+
+  var defaultLocation = locations.brooklyn;
+  var defaultZoomLevel = 13;
+
+  var tilesUrl = 'http://{s}.tile.cloudmade.com/23b30a5239c3475d9babd947f2b7a12b/22677/256/{z}/{x}/{y}.png';
+
+  var LocatorIcon = L.Icon.extend({
+    options: {
+      iconUrl: 'assets/images/icon_set/locator_icon.svg',
+      shadowUrl: 'assets/images/icon_set/locator_icon_shadow.png',
+      iconSize: [26, 40],
+      shadowSize: [13, 29],
+      iconAnchor: [13, 40],
+      shadowAnchor: [-1, 29],
+      popupAnchor: [1, -40]
+    }
+  });
+
+  var imagesBasePath = 'assets/images/icon_set/';
+  var locators = {
+    n: new LocatorIcon({iconUrl: imagesBasePath + 'icon_n.svg'}),
+    ne: new LocatorIcon({iconUrl: imagesBasePath + 'icon_ne.svg'}),
+    nw: new LocatorIcon({iconUrl: imagesBasePath + 'icon_nw.svg'}),
+    w: new LocatorIcon({iconUrl: imagesBasePath + 'icon_w.svg'}),
+    e: new LocatorIcon({iconUrl: imagesBasePath + 'icon_e.svg'}),
+    se: new LocatorIcon({iconUrl: imagesBasePath + 'icon_se.svg'}),
+    s: new LocatorIcon({iconUrl: imagesBasePath + 'icon_s.svg'}),
+    sw: new LocatorIcon({iconUrl: imagesBasePath + 'icon_sw.svg'}),
+  };
+
+  var cloudmadeTiles = new L.TileLayer(tilesUrl, {
+    maxZoom: 16,
+    minZoom: 13
+  });
+
+  var maxBounds = new L.LatLngBounds(locations.SWBound, locations.NEBound);
+
+  var createLocatorIcon = function (bearing) {
+    var locator_icon;
+
+    if (bearing >= 67.5 && bearing < 112.5) {
+      locator_icon = locators.n;
+    } else if (bearing >= 112.5 && bearing < 157.5) {
+      locator_icon = locators.nw;
+    } else if (bearing >= 157.5 && bearing < 202.5) {
+      locator_icon = locators.w;
+    } else if (bearing >= 202.5 && bearing < 247.5) {
+      locator_icon = locators.sw;
+    } else if (bearing >= 247.5 && bearing < 292.5) {
+      locator_icon = locators.s;
+    } else if (bearing >= 292.5 && bearing < 337.5) {
+      locator_icon = locators.se;
+    } else if (bearing >= 337.5 || bearing < 22.5) {
+      locator_icon = locators.e;
+    } else if (bearing >= 22.5 && bearing < 67.5) {
+      locator_icon = locators.ne;
+    } else {
+      locator_icon = locators.n;
+    }
+
+    return locator_icon;
+  };
 
   var decodePolyline = function (encoded) {
     var len = encoded.length;
@@ -53,88 +138,6 @@ define([
     return array;
   };
 
-  var locations = {
-    bronx:        [40.832359, -73.892670],
-    brooklyn:     [40.650000, -73.950000],
-    manhattan:    [40.764785, -73.975067],
-    statenIsland: [40.581315, -74.154968],
-    queens:       [40.755424, -73.876877],
-
-    /* Maximum map bounds for nyc */
-    SWBound: [40.477666, -74.308777],
-    NEBound: [41.010000, -73.712769]
-    // NEBound: [40.908739, -73.712769]
-
-  };
-
-  var defaultLocation = locations.brooklyn;
-  var defaultZoomLevel = 13;
-
-  var tilesUrl = 'http://{s}.tile.cloudmade.com/23b30a5239c3475d9babd947f2b7a12b/22677/256/{z}/{x}/{y}.png';
-
-  var circleOptions = {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.7
-  };
-
-  var LocatorIcon = L.Icon.extend({
-    options: {
-      iconUrl: 'assets/images/icon_set/locator_icon.svg',
-      shadowUrl: 'assets/images/icon_set/locator_icon_shadow.png',
-      iconSize: [26, 40],
-      shadowSize: [13, 29],
-      iconAnchor: [13, 40],
-      shadowAnchor: [-1, 29],
-      popupAnchor: [1, -40]
-    }
-  });
-
-  var imagesBasePath = 'assets/images/icon_set/';
-  var locators = {
-    n: new LocatorIcon({iconUrl: imagesBasePath + 'icon_n.svg'}),
-    ne: new LocatorIcon({iconUrl: imagesBasePath + 'icon_ne.svg'}),
-    nw: new LocatorIcon({iconUrl: imagesBasePath + 'icon_nw.svg'}),
-    w: new LocatorIcon({iconUrl: imagesBasePath + 'icon_w.svg'}),
-    e: new LocatorIcon({iconUrl: imagesBasePath + 'icon_e.svg'}),
-    se: new LocatorIcon({iconUrl: imagesBasePath + 'icon_se.svg'}),
-    s: new LocatorIcon({iconUrl: imagesBasePath + 'icon_s.svg'}),
-    sw: new LocatorIcon({iconUrl: imagesBasePath + 'icon_sw.svg'}),
-  };
-
-  var cloudmadeTiles = new L.TileLayer(tilesUrl, {
-    maxZoom: 16,
-    minZoom: 11
-  });
-
-  var maxBounds = new L.LatLngBounds(locations.SWBound, locations.NEBound);
-
-  var createLocatorIcon = function (bearing) {
-    var locator_icon;
-
-    if (bearing >= 67.5 && bearing < 112.5) {
-      locator_icon = locators.n;
-    } else if (bearing >= 112.5 && bearing < 157.5) {
-      locator_icon = locators.nw;
-    } else if (bearing >= 157.5 && bearing < 202.5) {
-      locator_icon = locators.w;
-    } else if (bearing >= 202.5 && bearing < 247.5) {
-      locator_icon = locators.sw;
-    } else if (bearing >= 247.5 && bearing < 292.5) {
-      locator_icon = locators.s;
-    } else if (bearing >= 292.5 && bearing < 337.5) {
-      locator_icon = locators.se;
-    } else if (bearing >= 337.5 || bearing < 22.5) {
-      locator_icon = locators.e;
-    } else if (bearing >= 22.5 && bearing < 67.5) {
-      locator_icon = locators.ne;
-    } else {
-      locator_icon = locators.n;
-    }
-
-    return locator_icon;
-  };
-
   var MapView = Backbone.View.extend({
     el: '#map',
 
@@ -149,6 +152,7 @@ define([
       this.model.on('change:direction', this.changeDirection, this);
       this.model.on('getBuses', this.options.liveView.startSpin, this);
       this.model.on('gotBuses', this.showBuses, this);
+      this.model.on('gotStops', this.cacheStops, this);
       this.initGeoLocate();
 
       this.dispatcher.bind("app:isHomeState", function (isHomeState) {
@@ -159,7 +163,6 @@ define([
           self.showHomeScreen(false);
         }
       });
-
     },
 
     initMap: function () {
@@ -180,7 +183,6 @@ define([
         $("#geo-btn").removeClass("spin360");
         $("#geo-btn").removeClass("geo-active");
         $("#geo-btn").removeClass("disabled");
-        // L.circle(locations.brooklyn, 100, circleOptions).addTo(this.map);
       });
 
       this.map.on("locationfound", function(locData) {
@@ -245,14 +247,6 @@ define([
             $("#geo-btn").removeClass("spin360");
 
             if (callback) callback();
-
-            //var marker = new L.Marker(locData.latlng, {
-            //  title: "Twat"
-            //});
-
-            //L.marker(locData.latlng, {
-            //  opacity: 0
-            //}).bindPopup("You are here!").addTo(self.map).openPopup();
 
             var popup = L.popup({
               closeButton: false,
@@ -331,28 +325,31 @@ define([
 
     changeDirection: function () {
       var direction = this.model.get('direction');
+
+      // Fire request for live bus positions.
       this.model.getBuses();
+
+      // Show the cached route for this direction.
       this.map.removeLayer(CurrentRouteLayer);
       CurrentRouteLayer = RouteLayers['dir' + direction];
       this.map.addLayer(CurrentRouteLayer);
-    },
 
-    CurrentBusLayer: new L.LayerGroup(),
+      // Show the cached stops for this direction.
+      this.map.removeLayer(CurrentStopsLayer);
+      CurrentStopsLayer = StopsLayers['dir' + direction];
+      this.map.addLayer(CurrentStopsLayer);
+    },
 
     showHomeScreen: function (isHomeState) {
       console.log("SHOW MAP HOME STATE");
-      //console.log("OVERLAY IMAGE ON TOP OF MAP");
-      //console.log("Current Bus Layer, Route Layer", CurrentRouteLayer, CurrentBusLayer);
       if (isHomeState) {
         this.map.removeLayer(CurrentBusLayer);
         this.map.removeLayer(CurrentRouteLayer);
-        //TODO: Show Home Screen Div...
         $("#homeScreen").addClass("visible");
       } else {
         $("#homeScreen").removeClass("visible");
       }
     },
-
 
     showBuses: function (buses) {
       var self = this, i, bus, lat, lng, locatorIcon, marker, markerInfo, bearing, layer, busesLength = 0;
@@ -385,6 +382,48 @@ define([
       this.startBusTracking();
     },
 
+    cacheStops: function (stopGroups) {
+      var self = this,
+        busStopBubble = H.compile(busStopTpl),
+        stopCircle = {
+          stroke: true,
+          color: 'white',
+          fillColor: '#' + this.model.get('route').color,
+          fillOpacity: 0.5,
+          weight: 3,
+          radius: 7,
+          opacity: 0.7
+        },
+        clusterOpts = {
+          showCoverageOnHover: false,
+          zoomToBoundsOnClick: true,
+          spiderfyOnMaxZoom: false,
+          removeOutsideVisibleBounds: true,
+          // disableClusteringAtZoom: 10,
+          maxClusterRadius: 50, // default is 80
+        };
+
+      StopsLayers.dir0 = new L.MarkerClusterGroup(clusterOpts);
+      StopsLayers.dir1 = new L.MarkerClusterGroup(clusterOpts);
+
+      _.each(stopGroups, function (destinationGroup, idx) {
+        _.each(destinationGroup, function (stop) {
+          var latlng = new L.LatLng(stop.lat, stop.lon),
+          circle = L.circleMarker(latlng, stopCircle);
+          circle.bindPopup(busStopBubble(stop));
+          if (idx === 0) {
+            circle.addTo(StopsLayers.dir0);
+          } else if (idx === 1) {
+            circle.addTo(StopsLayers.dir1);
+          }
+        });
+      });
+
+      self.map.removeLayer(CurrentStopsLayer);
+      CurrentStopsLayer = StopsLayers.dir0; // default.
+      CurrentStopsLayer.addTo(self.map);
+    },
+
     cacheRoute: function () {
       var self = this,
         route = this.model.get('route'),
@@ -401,7 +440,7 @@ define([
             polyLatLngs.push(new L.LatLng(point[0], point[1]));
           });
 
-          leafletPoly = new L.Polyline(polyLatLngs, {color: '#' + route.color});
+          leafletPoly = new L.Polyline(polyLatLngs, {color: '#' + route.color, clickable: false});
 
           RouteLayers['dir' + dirId].addLayer(leafletPoly);
 

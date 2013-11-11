@@ -4,7 +4,8 @@ require.config({
     underscore: '../assets/libs/underscore.min',
     backbone: '../assets/libs/backbone.min',
     handlebars: '../assets/libs/handlebars',
-    leaflet: '../assets/libs/leaflet/leaflet',
+    leaflet: '../assets/libs/leaflet-0.6.4/leaflet',
+    markerCluster: '../assets/libs/leaflet-markerCluster/leaflet.markercluster',
     busesnyc: '../assets/libs/busesNYC',
     shortpoll: 'helpers/poller',
     storage: 'services/storage',
@@ -32,6 +33,10 @@ require.config({
     },
     leaflet: {
       exports: 'L'
+    },
+    markerCluster: {
+      deps: ['leaflet'],
+      exports: 'L.MarkerClusterGroup'
     },
     busesnyc: {
       deps: ['jquery'],
