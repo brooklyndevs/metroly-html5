@@ -182,7 +182,7 @@ define([
         minZoom = this.map.getMinZoom(),
         halfZoom = Math.ceil((maxZoom - minZoom) / 2) + minZoom;
 
-      if (zoomLevel <= halfZoom) {
+      if (zoomLevel < halfZoom) {
         this.map.removeLayer(CurrentStopsLayer);
       } else {
         this.map.addLayer(CurrentStopsLayer);
@@ -351,7 +351,6 @@ define([
       // Show the cached stops for this direction.
       this.map.removeLayer(CurrentStopsLayer);
       CurrentStopsLayer = StopsLayers['dir' + direction];
-      this.determineLayerVisibility();
     },
 
     showHomeScreen: function (isHomeState) {
@@ -417,9 +416,6 @@ define([
           maxClusterRadius: 50, // default is 80
         };
 
-      // StopsLayers.dir0 = new L.MarkerClusterGroup(clusterOpts);
-      // StopsLayers.dir1 = new L.MarkerClusterGroup(clusterOpts);
-
       StopsLayers.dir0 = new L.LayerGroup();
       StopsLayers.dir1 = new L.LayerGroup();
 
@@ -438,6 +434,7 @@ define([
 
       self.map.removeLayer(CurrentStopsLayer);
       CurrentStopsLayer = StopsLayers.dir0; // default.
+      this.determineLayerVisibility();
     },
 
     cacheRoute: function () {
