@@ -403,8 +403,11 @@ define([
           maxClusterRadius: 50, // default is 80
         };
 
-      StopsLayers.dir0 = new L.MarkerClusterGroup(clusterOpts);
-      StopsLayers.dir1 = new L.MarkerClusterGroup(clusterOpts);
+      // StopsLayers.dir0 = new L.MarkerClusterGroup(clusterOpts);
+      // StopsLayers.dir1 = new L.MarkerClusterGroup(clusterOpts);
+
+      StopsLayers.dir0 = new L.LayerGroup();
+      StopsLayers.dir1 = new L.LayerGroup();
 
       _.each(stopGroups, function (destinationGroup, idx) {
         _.each(destinationGroup, function (stop) {
