@@ -24,9 +24,9 @@ define([
     dir1: new L.MarkerClusterGroup()
   };
 
-  var CurrentBusLayer   = {};
-  var CurrentRouteLayer = {};
-  var CurrentStopsLayer = {};
+  var CurrentBusLayer   = new L.LayerGroup();
+  var CurrentRouteLayer = new L.LayerGroup();
+  var CurrentStopsLayer = new L.LayerGroup();
 
   var locations = {
     bronx:        [40.832359, -73.892670],
@@ -172,6 +172,23 @@ define([
       this.ensureMapHeight();
       cloudmadeTiles.addTo(this.map);
       this.map.setMaxBounds(maxBounds);
+
+      this.map.on('viewreset', _.bind(this.determineLayerVisibility, this));
+    },
+
+    determineLayerVisibility: function () {
+      var zoomLevel = this.map.getZoom(),
+        maxZoom = this.map.getMaxZoom(),
+        minZoom = this.map.getMinZoom(),
+        halfZoom = Math.ceil((maxZoom - minZoom) / 2) + minZoom;
+
+        console.log(zoomLevel, "max: ", maxZoom, "min: ", minZoom, "half: ", halfZoom);
+
+      if (zoomLevel < halfZoom) {
+        this.map.removeLayer(CurrentStopsLayer);
+      } else {
+        this.map.addLayer(CurrentStopsLayer);;
+      }
     },
 
     initGeoLocate: function () {
@@ -226,7 +243,6 @@ define([
             animate: true
           });
 
-          // var myIcon = L.divIcon({className: 'leaflet-div-icon'});
           self.geoCircle1 = L.circle(locData.latlng, 10, {
             color: 'red',
             fillColor: '#f03',
@@ -337,7 +353,7 @@ define([
       // Show the cached stops for this direction.
       this.map.removeLayer(CurrentStopsLayer);
       CurrentStopsLayer = StopsLayers['dir' + direction];
-      this.map.addLayer(CurrentStopsLayer);
+      this.determineLayerVisibility();
     },
 
     showHomeScreen: function (isHomeState) {
@@ -424,7 +440,6 @@ define([
 
       self.map.removeLayer(CurrentStopsLayer);
       CurrentStopsLayer = StopsLayers.dir0; // default.
-      CurrentStopsLayer.addTo(self.map);
     },
 
     cacheRoute: function () {
