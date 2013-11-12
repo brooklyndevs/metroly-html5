@@ -22,7 +22,7 @@ define([
       this.routeChangedCbs = [];
       this.on('change:bus', this.getBuses, this);
       this.on('change:bus', this.getRoute, this);
-      this.on('change:bus', this.getStops, this);
+      // this.on('change:bus', this.getStops, this);
     },
 
     resetBus: function () {
@@ -60,6 +60,7 @@ define([
             return direction.directionId;
           });
           self.set('route', route);
+          self.getStops();
         });
       }
     },

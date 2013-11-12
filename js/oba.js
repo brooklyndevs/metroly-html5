@@ -16,12 +16,13 @@ define([
   var ajax = function (url, handleData) {
     $.ajax({
       url: url,
+      timeout:10000,
       dataType: "jsonp",
       method: 'GET',
       success: function (data) {
         handleData(data);
       },
-      fail: function (e){
+      error: function (e){
         console.log("Failed to Ajax OBA", e);
       }
     });

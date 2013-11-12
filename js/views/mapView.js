@@ -351,6 +351,7 @@ define([
       // Show the cached stops for this direction.
       this.map.removeLayer(CurrentStopsLayer);
       CurrentStopsLayer = StopsLayers['dir' + direction];
+      this.determineLayerVisibility();
     },
 
     showHomeScreen: function (isHomeState) {
