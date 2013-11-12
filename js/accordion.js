@@ -1,4 +1,4 @@
-/*jslint nomen: true, unparam: true, indent: 4 */
+/* jslint nomen: true, unparam: true, indent: 4 */
 /* global define */
 
 (function (undefined) {
