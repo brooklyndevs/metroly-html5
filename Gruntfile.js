@@ -4,13 +4,14 @@ module.exports = function(grunt) {
   
   //http://chrisawren.com/posts/Advanced-Grunt-tooling
   
-  // Outside release project
-  var globalConfig = {
-    OUTSIDE_DISTRIBUTION_FOLDER: '../metroly-dist',
-    dest: 'dev'
-  };
-  
   grunt.initConfig({
+    
+    globalConfig: {
+        OUTSIDE_DISTRIBUTION_FOLDER: '../metroly-dist',
+        LEAFLET_FOLDER: 'assets/libs/leaflet-0.6.4/',
+    },
+    
+    pkg: grunt.file.readJSON('package.json'),
 
     // Watches files for changes
     watch: {
@@ -52,51 +53,46 @@ module.exports = function(grunt) {
     // This task uses James Burke's excellent r.js AMD builder to take all
     // modules and concatenate them into a single file.
     requirejs: {
-
-      options: {
-          // Calls require()/config() calls from main.js file
-          mainConfigFile: "js/config.js",
         
-          include: ["main"],
-          insertRequire: ["main"],
-          out: "dist/js/main.js",
-          // Since we bootstrap with nested `require` calls this option allows
-          // R.js to find them.
-          findNestedDependencies: true,
-
-          // Include a minimal AMD implementation shim (in shim files).
-          name: "../node_modules/almond/almond",
-
-          // Setting the base url to the distribution directory allows the
-          // Uglify minification process to correctly map paths for Source
-          // Maps.
-          baseUrl: "js",
-
-          // Wrap everything in an IIFE.
-          wrap: true,
-
-          // Do not preserve any license comments when working with source
-          // maps.  These options are incompatible.
-          preserveLicenseComments: false,
-
-          // Remove combined files from the dist folder
-          removeCombined: true
-      },
-
-      release: {
         options: {
-          // No need for source maps in javacript
-          generateSourceMaps: false,
-          optimize: "uglify"
+            // Calls require()/config() calls from main.js file
+            mainConfigFile: "js/config.js",
+            
+            include: ["main"],
+            insertRequire: ["main"],
+            out: "dist/js/main.js",
+            
+            // Since we bootstrap with nested `require` calls this option allows
+            // R.js to find them.
+            findNestedDependencies: true,
+            
+            // Include a minimal AMD implementation shim (in shim files).
+            name: "../node_modules/almond/almond",
+            
+            // Setting the base url to the distribution directory allows the
+            // Uglify minification process to correctly map paths for Source
+            // Maps.
+            baseUrl: "js",
+            
+            // Wrap everything in an IIFE.
+            wrap: true,
+            
+            // Do not preserve any license comments when working with source
+            // maps.  These options are incompatible.
+            preserveLicenseComments: false,
+            
+            // Remove combined files from the dist folder
+            removeCombined: true,
+        },
+        
+        release: {
+            optimize: "uglify",
+            generateSourceMaps: false,
+        },
+        develop: {
+            optimize: "uglify2",
+            generateSourceMaps: true,
         }
-      },
-      develop: {
-        options: {
-          // Generate Source Maps to transfer minified JS to non-minified JS ("optimize" call)
-          generateSourceMaps: true,
-          optimize: "uglify2"
-        }
-      }
     },
 
 
@@ -126,8 +122,8 @@ module.exports = function(grunt) {
         options: {
           banner: '/* Metroly CSS */'
         },
-        files: {											// Add Leaflet to style (make sure it's before script!)
-          "dist/assets/css/style.css": ["assets/libs/leaflet/leaflet.css","assets/css/*.css"]
+        files: {						// Add Leaflet to style (make sure it's before script!)
+          "dist/assets/css/style.css": ["<%= globalConfig.LEAFLET_FOLDER %>leaflet.css", "assets/css/*.css"]
         }
       }
     },
@@ -175,7 +171,7 @@ module.exports = function(grunt) {
           { src: [
               "assets/**",
               "!**assets/css/**",
-              "!**assets/libs/leaflet/leaflet.css",
+              "!**<%= globalConfig.LEAFLET_FOLDER %>leaflet.css",
               "!**assets/images/icon_set/old/**"
             ],  
             dest: "dist/" 
@@ -209,7 +205,7 @@ module.exports = function(grunt) {
 
     // Unit testing is provided by Karma.  Change the two commented locations
     // below to either: mocha, jasmine, or qunit.
-     karma: {
+    karma: {
       options: {
 
         host: "localhost",
@@ -386,5 +382,13 @@ module.exports = function(grunt) {
     //"compress"          // gzip js, css - Should be done by Node
     //"server:release"    // Run release server
     //"karma:run"       // Single run of karma testing suite
+  ]);
+  
+  grunt.registerTask("test-release", [
+    "clean:release",
+    "copy:release",
+    "cssmin",
+    "requirejs:release",
+    "processhtml"
   ]);
 };

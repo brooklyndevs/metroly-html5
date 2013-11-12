@@ -15,6 +15,9 @@ Use can use grunt for following things:
 - preprocess index.html file and the likes - **make sure to check** [grunt preprocess][2] plugin and [the way we use it in index.html (including script tags)][index] ([from Gruntfile's processhtml task (line 110)][Gruntfile]).
 
 
+- use ```grunt TASKNAME --debug``` or ```grunt TASKNAME -d`` for debugging grunt tasks that support it
+
+
 How do I install grunt?
 -----------------------
 1. First install [node and npm][1]
