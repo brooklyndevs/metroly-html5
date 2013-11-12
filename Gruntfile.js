@@ -9,6 +9,7 @@ module.exports = function(grunt) {
     globalConfig: {
         OUTSIDE_DISTRIBUTION_FOLDER: '../metroly-dist',
         LEAFLET_FOLDER: 'assets/libs/leaflet-0.6.4/',
+        LEAFLET_CLUSTER: 'assets/libs/leaflet-markerCluster/'
     },
     
     pkg: grunt.file.readJSON('package.json'),
@@ -123,7 +124,11 @@ module.exports = function(grunt) {
           banner: '/* Metroly CSS */'
         },
         files: {						// Add Leaflet to style (make sure it's before script!)
-          "dist/assets/css/style.css": ["<%= globalConfig.LEAFLET_FOLDER %>leaflet.css", "assets/css/*.css"]
+          "dist/assets/css/style.css": [
+              "<%= globalConfig.LEAFLET_FOLDER %>leaflet.css", 
+              "<%= globalConfig.LEAFLET_CLUSTER %>MarkerCluster.*",
+              "assets/css/*.css"
+            ]
         }
       }
     },

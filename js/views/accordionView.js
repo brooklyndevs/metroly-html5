@@ -29,18 +29,30 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
      * A list item text callback.
      * Display bus link for each item.
      */
+     /*
     generateLink = function (item) {
         // Assuming HTML5 PushState would work.
-        return '<a href="#' + 'buses/' + item.name + '" class="list-link">' + item.name + '</a>';
+        //'<a href="#' + 'buses/' + item.name + '" class="list-link">' + item.name + '</a>';
+        return item.name;
     },
     generateEmptyLink = function (item) {
-        return '<a class="list-link list-link-empty">' + item.name + '</a>';
-    },
+        //return '<a class="list-link list-link-empty">' + item.name + '</a>';
+        return item.name;
+    },*/
+    
     /*
-     * Display color as style property for list item
+     * Add list item attributes to list item
      */
-    addListColors = function (item) {
-        return { style: 'border-left-color:' + item.color };
+    addListItemAttributes = function (item) {
+        return { 
+            "style": 'border-left-color:' + item.color,
+            "data-href": '#buses/' + item.name
+        };
+    },
+    addEmptyListItemAttributes = function () {
+        return {
+            "class": "list-link-empty"
+        }
     },
 
     busNamesToRecentBusObjects = function (busNames) {
@@ -56,10 +68,14 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
     /* Close Side Nav when clicking on links */
     closeSideNavForElement = function (element) {
         element.addEventListener('click', function (e) {
-            e.stopPropagation();
+            var listItemHref = element.getAttribute("data-href");
+            if (listItemHref) {
+                window.location.href = listItemHref;
+            }
             if (!(e.currentTarget.className && e.currentTarget.className.match('list-link-empty'))) {
                 document.querySelector('#menu-btn').click();
             }
+            e.stopPropagation();
             return false;
         });
     };
@@ -86,8 +102,8 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         addSearchGroup({
             name: "Search",
             data: buses,
-            itemText: generateLink,
-            listItemProperties: addListColors,
+            //itemText: generateLink,
+            listItemProperties: addListItemAttributes,
             maxDisplay: 6
         }).
         // Adds a "Group"
@@ -96,8 +112,8 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
             data: busNamesToRecentBusObjects(settingsObj.find('recently_viewed_buses')),
             // Pick items that have recent property
             callback: function (e) { return e.recent; },
-            itemText: generateLink,
-            listItemProperties: addListColors
+            //itemText: generateLink,
+            listItemProperties: addListItemAttributes
         }).
         // Adds a "Group"
         addGroup({
@@ -105,15 +121,15 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
             data: buses,
             // Pick items that have favorite property
             callback: function (e) { return e.favorite; },
-            itemText: generateLink,
-            listItemProperties: addListColors,
+            //itemText: generateLink,
+            listItemProperties: addListItemAttributes,
         }).
         // Adds a "Group"
         addGroup({
             name: "All",
             data: buses,
-            itemText: generateLink,
-            listItemProperties: addListColors,
+            //itemText: generateLink,
+            listItemProperties: addListItemAttributes,
             // Picks all items. By default callback is:
             // callback: function (e) { return e; }
         }).
@@ -150,13 +166,13 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
             ifArrayEmpty(recentBusObjects,
                 function EmptyRecent() {
                     accordion.groups.Recent.changeDataAndRender({
-                        itemText: generateEmptyLink,
+                        listItemProperties: addEmptyListItemAttributes,
                         data: [{name: "No recent buses", recent: true}]
                     });
                 },
                 function NotEmptyRecent(data) {
                     accordion.groups.Recent.changeDataAndRender({
-                        itemText: generateLink,
+                        listItemProperties: addListItemAttributes,
                         data: data
                     });
                 }
@@ -176,13 +192,13 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
                         ifArrayEmpty(favBuses,
                             function EmptyFavorites() {
                                 accordion.groups.Favorites.changeDataAndRender({
-                                    itemText: generateEmptyLink,
+                                    listItemProperties: addEmptyListItemAttributes,
                                     data: [{name: "No favorite buses", favorite: true }]
                                 });
                             },
                             function NotEmptyFavorites(data) {
                                 accordion.groups.Favorites.changeDataAndRender({
-                                    itemText: generateLink,
+                                    listItemProperties: addListItemAttributes,
                                     data: data
                                 });
                             }
@@ -202,10 +218,10 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         settingsObj.insert("recently_viewed_buses", []);
 
 
-        var listLinks = document.querySelectorAll('.list-link');
-        listLinks = Array.prototype.splice.call(listLinks, 0);
-        listLinks.forEach(function (listLink) {
-            closeSideNavForElement(listLink);
+        var listItems = document.querySelectorAll('.list-single');
+        listItems = Array.prototype.splice.call(listItems, 0);
+        listItems.forEach(function (listItem) {
+            closeSideNavForElement(listItem);
         });
 
         var search_list = document.querySelector("#Search_list-group");
