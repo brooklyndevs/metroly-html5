@@ -8,8 +8,9 @@ When do I use it?
 ---------
 Use can use grunt for following things:
 
-- running JSHint to lint files: ```grunt jshint```
-- minifying, linting files for new releases run: ```grunt``` (default command)
+- running JSHint to lint files: ```grunt jshint``` (default command)
+- watching files for changes (JS, CSS, images) and running JSHint ```grunt watch```
+- minifying, linting files for new releases run: ```grunt release```
 - compress files (Zip, GZip) (first modify compress option in Gruntfile) and run: ```grunt compress```
 - preprocess index.html file and the likes - **make sure to check** [grunt preprocess][2] plugin and [the way we use it in index.html (including script tags)][index] ([from Gruntfile's processhtml task (line 110)][Gruntfile]).
 
@@ -23,7 +24,7 @@ How do I install grunt?
 
 Can I add more stuff to grunt?
 --------
-Feel free to install as much of useful pluging to grunt as as you wish! ;p
+Feel free to add as much of useful tasks to Gruntfile as as you can! ;p
 
 
 Notes
@@ -38,10 +39,6 @@ need to install additionally
 ```npm install grunt --save-dev```
 
 ```npm install almond -g```
-
-```npm install karma@0.10.2```
-
-```npm install chai```
 
 
 CSS

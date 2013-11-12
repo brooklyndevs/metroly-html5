@@ -1,11 +1,50 @@
 module.exports = function(grunt) {
 
   "use strict";
-
+  
+  //http://chrisawren.com/posts/Advanced-Grunt-tooling
+  
+  // Outside release project
+  var globalConfig = {
+    OUTSIDE_DISTRIBUTION_FOLDER: '../metroly-dist',
+    dest: 'dev'
+  };
+  
   grunt.initConfig({
 
+    // Watches files for changes
+    watch: {
+      scripts: {
+        files: ['*.js', 'js/**.js'],
+        tasks: ['jshint:all'],
+        options: {
+            livereload: true
+        }
+      },
+      design: {
+        files: ["assets/**.css", "assets/images/**"],
+        options: {
+            livereload: true
+        }
+      },
+      jade: {
+        files: ['assets/templates/**'],
+        options: {
+            livereload: true
+        }
+      },
+      jasmine: {
+        files: ['test/spec/jasmine/**'],
+        tasks: ['jshint:all', 'karma:all']
+      }
+    },
+    
+
     // Wipe out previous builds and test reporting.
-    clean: ["dist/", "test/reports"],
+    clean: {
+        release: ["dist/", "test/reports"],
+        outside: ["<%= globalConfig.OUTSIDE_DISTRIBUTION_FOLDER %>"]
+    },
 
     // Run your source code through JSHint's defaults.
     jshint: ["js/**/*.js"],
@@ -21,7 +60,6 @@ module.exports = function(grunt) {
           include: ["main"],
           insertRequire: ["main"],
           out: "dist/js/main.js",
-          optimize: "uglify2",
           // Since we bootstrap with nested `require` calls this option allows
           // R.js to find them.
           findNestedDependencies: true,
@@ -49,15 +87,18 @@ module.exports = function(grunt) {
         options: {
           // No need for source maps in javacript
           generateSourceMaps: false,
+          optimize: "uglify"
         }
       },
       develop: {
         options: {
           // Generate Source Maps to transfer minified JS to non-minified JS ("optimize" call)
-          generateSourceMaps: true,        
+          generateSourceMaps: true,
+          optimize: "uglify2"
         }
       }
     },
+
 
     // This task simplifies working with CSS inside Backbone Boilerplate
     // projects.  Instead of manually specifying your stylesheets inside the
@@ -140,6 +181,12 @@ module.exports = function(grunt) {
             dest: "dist/" 
           }
         ]
+      },
+      outside: {
+          files: [ {
+              src: "dist/*",
+              dest: "<%= OUTSIDE_DISTRIBUTION_FOLDER %>"
+          }]
       }
     },
 
@@ -299,6 +346,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-cssmin");
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-compress");
+  //grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks("grunt-contrib-watch");
 
   // Third-party tasks.  Karma = Testacular
   grunt.loadNpmTasks("grunt-karma");
@@ -313,11 +362,15 @@ module.exports = function(grunt) {
 
   // When running the default Grunt command, just lint the code.
   grunt.registerTask("default", [
+    "jshint"
+  ]);
+      
+  grunt.registerTask("release", [
 
-    "jshint",			      // Test JavaScript for errors
+    "jshint",           // Test JavaScript for errors
     
-    "clean",            // Clean old Dist folder
-    "copy",             // Copy files to Dist folder
+    "clean:release",    // Clean old Dist folder
+    "copy:release",     // Copy files to Dist folder
     
     "cssmin",           // Unite & Minify CSS file (style.css)
     
@@ -327,6 +380,9 @@ module.exports = function(grunt) {
     
     "processhtml",      // Process HTML - build scripts (ex. combines all references into one), images
 
+    "clean:outside",
+    "copy:outside",
+    
     //"compress"          // gzip js, css - Should be done by Node
     //"server:release"    // Run release server
     //"karma:run"       // Single run of karma testing suite
