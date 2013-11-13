@@ -25,20 +25,6 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
             enforceElement.style.maxHeight = windowHeight;
         };
     },
-    /*
-     * A list item text callback.
-     * Display bus link for each item.
-     */
-     /*
-    generateLink = function (item) {
-        // Assuming HTML5 PushState would work.
-        //'<a href="#' + 'buses/' + item.name + '" class="list-link">' + item.name + '</a>';
-        return item.name;
-    },
-    generateEmptyLink = function (item) {
-        //return '<a class="list-link list-link-empty">' + item.name + '</a>';
-        return item.name;
-    },*/
     
     /*
      * Add list item attributes to list item
