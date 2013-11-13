@@ -15,19 +15,23 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     
-    /*notify: {
-      task_name: {
+    notify: {
+      jshint: {
         options: {
-          // Task-specific options go here.
+          title: "JSHint linting", message: "Done."
         }
       },
-      watch: {
+      cssmin: {
         options: {
-          title: 'Task Complete',  // optional
-          message: 'SASS and Uglify finished running', //required
+          title: "CSS Minification", message: "Done."
+        }
+      },
+      release: {
+        options: {
+          title: "Release", message: "Done."
         }
       }
-    },*/
+    },
 
     // Watches files for changes
     watch: {
@@ -378,7 +382,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-notify');
 
   // This is required if you use any options.
-  grunt.task.run('notify_hooks');
+  //grunt.task.run('notify_hooks');
 
   // Grunt BBB tasks.
   grunt.loadNpmTasks("grunt-bbb-server");
@@ -387,20 +391,23 @@ module.exports = function(grunt) {
 
   // When running the default Grunt command, just lint the code.
   grunt.registerTask("default", [
-    "jshint"
+    "jshint", 
+    "notify:jshint"
   ]);
-      
+  
   grunt.registerTask("release", [
 
     "jshint",           // Test JavaScript for errors
+    "notify:jshint",
     
     "clean:release",    // Clean old Dist folder
     "copy:release",     // Copy files to Dist folder
     
     "cssmin",           // Unite & Minify CSS file (style.css)
-    
+    "notify:cssmin",
+
     "requirejs:release",// Minify JS files using R.js & Require.js & add AMD definition through Almond
-    
+
     "strip",            // Removes console.log, debug statements and such
     
     "processhtml",      // Process HTML - build scripts (ex. combines all references into one), images
@@ -408,6 +415,7 @@ module.exports = function(grunt) {
     "clean:outside",
     "copy:outside",
     
+    "notify:release"
     //"compress"          // gzip js, css - Should be done by Node
     //"server:release"    // Run release server
     //"karma:run"       // Single run of karma testing suite
@@ -416,8 +424,8 @@ module.exports = function(grunt) {
   grunt.registerTask("test-release", [
     "clean:release",
     "copy:release",
-    "cssmin",
+    "cssmin",             "notify:cssmin",
     "requirejs:release",
-    "processhtml"
+    "processhtml",        "notify:release",
   ]);
 };
