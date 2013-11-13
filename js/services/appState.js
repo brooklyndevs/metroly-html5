@@ -26,7 +26,7 @@ define(['jquery', 'storage', 'underscore', 'backbone', 'config', 'busData'], fun
   AppState.prototype.saveBusList = function (buses, cb) {
     var busList = {}, self = this;
     buses.forEach(function (bus) {
-      busList[bus.name.toLowerCase()] = {name: bus.name, color: bus.color, recent: false, favorite: false};
+      busList[bus.name.toLowerCase()] = {id: bus.id, name: bus.name, color: bus.color, recent: false, favorite: false};
     });
 
     var k;

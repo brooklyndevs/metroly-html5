@@ -2,8 +2,9 @@
 
 define([
   'jquery',
-  'underscore'
-], function ($, _) {
+  'underscore',
+  'storage'
+], function ($, _, Storage) {
   "use strict";
 
   // TODO Inject API KEY, no need for hardcoding.
@@ -68,8 +69,11 @@ define([
     API_KEY = apiKey;
   };
 
-  Oba.getBusStops = function (routeId, cb) {
-    var query = "stops-for-route/MTA NYCT_" + routeId.toUpperCase(),
+  Oba.getBusStops = function (busName, cb) {
+    var s = Storage.get('buses');
+    var routeID = s.find(busName.toLowerCase()).id;
+    console.log("OBA CALL RouteID: ", routeID);
+    var query = "stops-for-route/" + routeID,
       url = BASE_URL + query + END_URL + "&includePolylines=false";
 
     ajax(url, function (result) {
