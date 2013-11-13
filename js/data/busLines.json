@@ -1,602 +1,549 @@
-[
-  {
-    "name": "Bx10",
-    "color": "#006CB7"
-  },
-  {
-    "name": "Bx15",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "Bx2",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "Bx24",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "Bx3",
-    "color": "#EE352E"
-  },
-  {
-    "name": "Bx34",
-    "color": "#B933AD"
-  },
-  {
-    "name": "Bx4",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "Bx46",
-    "color": "#EE352E"
-  },
-  {
-    "name": "Bx8",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "BxM18",
-    "color": "#00933C"
-  },
-  {
-    "name": "BxM7",
-    "color": "#00933C"
-  },
-  {
-    "name": "M100",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "M106",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "M15",
-    "color": "#006CB7"
-  },
-  {
-    "name": "M22",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "M34A-SBS",
-    "color": "#006CB7"
-  },
-  {
-    "name": "M50",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "M72",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "M96",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "S44",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "S53",
-    "color": "#EE352E"
-  },
-  {
-    "name": "S59",
-    "color": "#EE352E"
-  },
-  {
-    "name": "S76",
-    "color": "#B933AD"
-  },
-  {
-    "name": "S86",
-    "color": "#B933AD"
-  },
-  {
-    "name": "S93",
-    "color": "#EE352E"
-  },
-  {
-    "name": "X10",
-    "color": "#00933C"
-  },
-  {
-    "name": "X15",
-    "color": "#00933C"
-  },
-  {
-    "name": "X2",
-    "color": "#00933C"
-  },
-  {
-    "name": "X31",
-    "color": "#00933C"
-  },
-  {
-    "name": "X8",
-    "color": "#00933C"
-  },
-  {
-    "name": "B63",
-    "color": "#006CB7"
-  },
-  {
-    "name": "Bx12-SBS",
-    "color": "#006CB7"
-  },
-  {
-    "name": "Bx18",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "Bx22",
-    "color": "#EE352E"
-  },
-  {
-    "name": "Bx28",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "Bx32",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "Bx38",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "Bx41-SBS",
-    "color": "#EE352E"
-  },
-  {
-    "name": "Bx6",
-    "color": "#EE352E"
-  },
-  {
-    "name": "BxM10",
-    "color": "#00933C"
-  },
-  {
-    "name": "BxM4",
-    "color": "#00933C"
-  },
-  {
-    "name": "M1",
-    "color": "#EE352E"
-  },
-  {
-    "name": "M103",
-    "color": "#B933AD"
-  },
-  {
-    "name": "M14A",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "M20",
-    "color": "#EE352E"
-  },
-  {
-    "name": "M31",
-    "color": "#B933AD"
-  },
-  {
-    "name": "M42",
-    "color": "#EE352E"
-  },
-  {
-    "name": "M66",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "M86",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "S40",
-    "color": "#B933AD"
-  },
-  {
-    "name": "S51",
-    "color": "#006CB7"
-  },
-  {
-    "name": "S56",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "S66",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "S81",
-    "color": "#006CB7"
-  },
-  {
-    "name": "S91",
-    "color": "#EE352E"
-  },
-  {
-    "name": "S98",
-    "color": "#EE352E"
-  },
-  {
-    "name": "X12",
-    "color": "#00933C"
-  },
-  {
-    "name": "X17J",
-    "color": "#00933C"
-  },
-  {
-    "name": "X3",
-    "color": "#00933C"
-  },
-  {
-    "name": "X5",
-    "color": "#00933C"
-  },
-  {
-    "name": "B61",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "Bx12",
-    "color": "#006CB7"
-  },
-  {
-    "name": "Bx17",
-    "color": "#006CB7"
-  },
-  {
-    "name": "Bx27",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "Bx21",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "Bx31",
-    "color": "#EE352E"
-  },
-  {
-    "name": "Bx36",
-    "color": "#B933AD"
-  },
-  {
-    "name": "Bx41",
-    "color": "#EE352E"
-  },
-  {
-    "name": "Bx5",
-    "color": "#EE352E"
-  },
-  {
-    "name": "BxM3",
-    "color": "#00933C"
-  },
-  {
-    "name": "BxM9",
-    "color": "#00933C"
-  },
-  {
-    "name": "BxM1",
-    "color": "#00933C"
-  },
-  {
-    "name": "M102",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "M116",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "M2",
-    "color": "#B933AD"
-  },
-  {
-    "name": "M3",
-    "color": "#B933AD"
-  },
-  {
-    "name": "M4",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "M60",
-    "color": "#EE352E"
-  },
-  {
-    "name": "M8",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "Q50",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "S48",
-    "color": "#EE352E"
-  },
-  {
-    "name": "S55",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "S62",
-    "color": "#B933AD"
-  },
-  {
-    "name": "S79-SBS",
-    "color": "#006CB7"
-  },
-  {
-    "name": "S90",
-    "color": "#B933AD"
-  },
-  {
-    "name": "S96",
-    "color": "#006CB7"
-  },
-  {
-    "name": "X11",
-    "color": "#00933C"
-  },
-  {
-    "name": "X17A",
-    "color": "#00933C"
-  },
-  {
-    "name": "X22A",
-    "color": "#00933C"
-  },
-  {
-    "name": "X42",
-    "color": "#00933C"
-  },
-  {
-    "name": "Bx1",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "Bx13",
-    "color": "#006CB7"
-  },
-  {
-    "name": "Bx19",
-    "color": "#B933AD"
-  },
-  {
-    "name": "Bx23",
-    "color": "#B933AD"
-  },
-  {
-    "name": "Bx29",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "Bx33",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "Bx39",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "Bx42",
-    "color": "#EE352E"
-  },
-  {
-    "name": "Bx7",
-    "color": "#EE352E"
-  },
-  {
-    "name": "BxM11",
-    "color": "#00933C"
-  },
-  {
-    "name": "BxM6",
-    "color": "#00933C"
-  },
-  {
-    "name": "M10",
-    "color": "#006CB7"
-  },
-  {
-    "name": "M104",
-    "color": "#B933AD"
-  },
-  {
-    "name": "M14D",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "M21",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "M34-SBS",
-    "color": "#006CB7"
-  },
-  {
-    "name": "M5",
-    "color": "#EE352E"
-  },
-  {
-    "name": "M7",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "M9",
-    "color": "#B933AD"
-  },
-  {
-    "name": "S42",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "S52",
-    "color": "#B933AD"
-  },
-  {
-    "name": "S57",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "S74",
-    "color": "#EE352E"
-  },
-  {
-    "name": "S84",
-    "color": "#EE352E"
-  },
-  {
-    "name": "S92",
-    "color": "#B933AD"
-  },
-  {
-    "name": "X1",
-    "color": "#00933C"
-  },
-  {
-    "name": "X14",
-    "color": "#00933C"
-  },
-  {
-    "name": "X19",
-    "color": "#00933C"
-  },
-  {
-    "name": "X30",
-    "color": "#00933C"
-  },
-  {
-    "name": "X7",
-    "color": "#00933C"
-  },
-  {
-    "name": "Bx11",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "Bx16",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "Bx20",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "Bx40",
-    "color": "#006CB7"
-  },
-  {
-    "name": "Bx30",
-    "color": "#EE352E"
-  },
-  {
-    "name": "Bx4A",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "Bx26",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "Bx9",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "Bx35",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "BxM2",
-    "color": "#00933C"
-  },
-  {
-    "name": "BxM8",
-    "color": "#00933C"
-  },
-  {
-    "name": "M101",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "M11",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "M15-SBS",
-    "color": "#006CB7"
-  },
-  {
-    "name": "M23",
-    "color": "#6CBE45"
-  },
-  {
-    "name": "M35",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "M57",
-    "color": "#00AEEF"
-  },
-  {
-    "name": "M79",
-    "color": "#EE352E"
-  },
-  {
-    "name": "M98",
-    "color": "#EE352E"
-  },
-  {
-    "name": "S46",
-    "color": "#006CB7"
-  },
-  {
-    "name": "S54",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "S61",
-    "color": "#EE352E"
-  },
-  {
-    "name": "S78",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "S89",
-    "color": "#EE352E"
-  },
-  {
-    "name": "S94",
-    "color": "#FAA61A"
-  },
-  {
-    "name": "X10B",
-    "color": "#00933C"
-  },
-  {
-    "name": "X17",
-    "color": "#00933C"
-  },
-  {
-    "name": "X22",
-    "color": "#00933C"
-  },
-  {
-    "name": "X4",
-    "color": "#00933C"
-  },
-  {
-    "name": "X9",
-    "color": "#00933C"
-  }
-]
+[{
+  "id": "MTA NYCT_BX10",
+  "name": "Bx10",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_BX11",
+  "name": "Bx11",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_BX12",
+  "name": "Bx12",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_S55",
+  "name": "S55",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_BX13",
+  "name": "Bx13",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_S54",
+  "name": "S54",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_S53",
+  "name": "S53",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_BX15",
+  "name": "Bx15",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_S52",
+  "name": "S52",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_BX16",
+  "name": "Bx16",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_S59",
+  "name": "S59",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_BX17",
+  "name": "Bx17",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_BX18",
+  "name": "Bx18",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_S57",
+  "name": "S57",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_BX19",
+  "name": "Bx19",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_S56",
+  "name": "S56",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_BX1",
+  "name": "Bx1",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_X22A",
+  "name": "X22A",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_BX5",
+  "name": "Bx5",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_S51",
+  "name": "S51",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_BX4",
+  "name": "Bx4",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_X17A",
+  "name": "X17A",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_BX3",
+  "name": "Bx3",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_BX2",
+  "name": "Bx2",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_X17J",
+  "name": "X17J",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_M42",
+  "name": "M42",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_S42",
+  "name": "S42",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_BX6",
+  "name": "Bx6",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_M34A+",
+  "name": "M34A-SBS",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_BX7",
+  "name": "Bx7",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_S44",
+  "name": "S44",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_BX8",
+  "name": "Bx8",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_BX9",
+  "name": "Bx9",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_S46",
+  "name": "S46",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_X10B",
+  "name": "X10B",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_S48",
+  "name": "S48",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_M14D",
+  "name": "M14D",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_M14A",
+  "name": "M14A",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_S40",
+  "name": "S40",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_M50",
+  "name": "M50",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_M34+",
+  "name": "M34-SBS",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_M15+",
+  "name": "M15-SBS",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_M57",
+  "name": "M57",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_S78",
+  "name": "S78",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_S76",
+  "name": "S76",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_S74",
+  "name": "S74",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_M60",
+  "name": "M60",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_M66",
+  "name": "M66",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_M98",
+  "name": "M98",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_M96",
+  "name": "M96",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_S66",
+  "name": "S66",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_X10",
+  "name": "X10",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_S61",
+  "name": "S61",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_S62",
+  "name": "S62",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_X15",
+  "name": "X15",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_X17",
+  "name": "X17",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_M79",
+  "name": "M79",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_X12",
+  "name": "X12",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_M72",
+  "name": "M72",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_X11",
+  "name": "X11",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_X14",
+  "name": "X14",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_M86",
+  "name": "M86",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_S98",
+  "name": "S98",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_S96",
+  "name": "S96",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_BX4A",
+  "name": "Bx4A",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_X19",
+  "name": "X19",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_S79+",
+  "name": "S79-SBS",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_BX41+",
+  "name": "Bx41-SBS",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_X22",
+  "name": "X22",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_M116",
+  "name": "M116",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_S91",
+  "name": "S91",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_S90",
+  "name": "S90",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_S94",
+  "name": "S94",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_S93",
+  "name": "S93",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_S92",
+  "name": "S92",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_S86",
+  "name": "S86",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_S89",
+  "name": "S89",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_M15",
+  "name": "M15",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_BX46",
+  "name": "Bx46",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_M9",
+  "name": "M9",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_M11",
+  "name": "M11",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_M10",
+  "name": "M10",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_M104",
+  "name": "M104",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_M5",
+  "name": "M5",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_M8",
+  "name": "M8",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_M106",
+  "name": "M106",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_M7",
+  "name": "M7",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_M101",
+  "name": "M101",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_M2",
+  "name": "M2",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_M100",
+  "name": "M100",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_M1",
+  "name": "M1",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_BX41",
+  "name": "Bx41",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_M103",
+  "name": "M103",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_M4",
+  "name": "M4",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_BX40",
+  "name": "Bx40",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_M102",
+  "name": "M102",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_M3",
+  "name": "M3",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_X30",
+  "name": "X30",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_S81",
+  "name": "S81",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_BX42",
+  "name": "Bx42",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_X31",
+  "name": "X31",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_S84",
+  "name": "S84",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_X7",
+  "name": "X7",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_M23",
+  "name": "M23",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_X4",
+  "name": "X4",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_M22",
+  "name": "M22",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_X5",
+  "name": "X5",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_BX39",
+  "name": "Bx39",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_M21",
+  "name": "M21",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_X2",
+  "name": "X2",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_BX38",
+  "name": "Bx38",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_M20",
+  "name": "M20",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_X3",
+  "name": "X3",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_BX36",
+  "name": "Bx36",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_X1",
+  "name": "X1",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_BX35",
+  "name": "Bx35",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_X42",
+  "name": "X42",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_BX34",
+  "name": "Bx34",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_BX33",
+  "name": "Bx33",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_BX32",
+  "name": "Bx32",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_BX31",
+  "name": "Bx31",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_BX30",
+  "name": "Bx30",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_B63",
+  "name": "B63",
+  "color": "#006CB7"
+}, {
+  "id": "MTA NYCT_B61",
+  "name": "B61",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_X9",
+  "name": "X9",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_X8",
+  "name": "X8",
+  "color": "#00933C"
+}, {
+  "id": "MTA NYCT_BX29",
+  "name": "Bx29",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_BX28",
+  "name": "Bx28",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_M35",
+  "name": "M35",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_BX24",
+  "name": "Bx24",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_BX27",
+  "name": "Bx27",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_M31",
+  "name": "M31",
+  "color": "#B933AD"
+}, {
+  "id": "MTA NYCT_BX26",
+  "name": "Bx26",
+  "color": "#FAA61A"
+}, {
+  "id": "MTA NYCT_BX21",
+  "name": "Bx21",
+  "color": "#6CBE45"
+}, {
+  "id": "MTA NYCT_BX20",
+  "name": "Bx20",
+  "color": "#00AEEF"
+}, {
+  "id": "MTA NYCT_BX22",
+  "name": "Bx22",
+  "color": "#EE352E"
+}, {
+  "id": "MTA NYCT_BX12+",
+  "name": "Bx12-SBS",
+  "color": "#006CB7"
+}]
