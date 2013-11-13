@@ -52,7 +52,7 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
     addEmptyListItemAttributes = function () {
         return {
             "class": "list-link-empty"
-        }
+        };
     },
 
     busNamesToRecentBusObjects = function (busNames) {

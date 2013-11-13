@@ -3,7 +3,7 @@ module.exports = function(grunt) {
   "use strict";
   
   //http://chrisawren.com/posts/Advanced-Grunt-tooling
-  
+   
   grunt.initConfig({
     
     globalConfig: {
@@ -14,30 +14,48 @@ module.exports = function(grunt) {
     
     pkg: grunt.file.readJSON('package.json'),
 
+    
+    /*notify: {
+      task_name: {
+        options: {
+          // Task-specific options go here.
+        }
+      },
+      watch: {
+        options: {
+          title: 'Task Complete',  // optional
+          message: 'SASS and Uglify finished running', //required
+        }
+      }
+    },*/
+
     // Watches files for changes
     watch: {
       scripts: {
-        files: ['*.js', 'js/**.js'],
-        tasks: ['jshint:all'],
+        files: ['*.js', 'js/**/*.js'],
+        tasks: ['jshint'],
         options: {
+            message: 'JS files are lint-free',
             livereload: true
         }
       },
       design: {
         files: ["assets/**.css", "assets/images/**"],
         options: {
+            message: 'CSS files changed...',
             livereload: true
         }
       },
       jade: {
         files: ['assets/templates/**'],
         options: {
+            message: 'Templates were changed...',
             livereload: true
         }
       },
       jasmine: {
         files: ['test/spec/jasmine/**'],
-        tasks: ['jshint:all', 'karma:all']
+        tasks: ['jshint', 'karma']
       }
     },
     
@@ -355,6 +373,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-karma-coveralls");
   grunt.loadNpmTasks("grunt-processhtml");
   grunt.loadNpmTasks('grunt-strip');
+
+  // Automatic notifications when tasks fail.
+  grunt.loadNpmTasks('grunt-notify');
+
+  // This is required if you use any options.
+  grunt.task.run('notify_hooks');
 
   // Grunt BBB tasks.
   grunt.loadNpmTasks("grunt-bbb-server");
