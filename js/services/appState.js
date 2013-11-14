@@ -8,6 +8,7 @@ define(['jquery', 'storage', 'underscore', 'backbone', 'config', 'busData'], fun
     console.log('Init the AppState module instance');
     this.appInfoStorage = Storage.get('appInfo');
     this.busesStorage = Storage.get('buses');
+    this.busesLookupByName = {};
   };
 
   AppState.prototype.needsUpdate = function () {
@@ -90,6 +91,17 @@ define(['jquery', 'storage', 'underscore', 'backbone', 'config', 'busData'], fun
 
   AppState.prototype.getBuses = function () {
     return this.busesStorage;
+  };
+
+  AppState.prototype.getBus = function (name) {
+    var self = this;
+    if (_.isEmpty(this.busesLookupByName)) {
+      //cache buses by names
+      _.each(this.getBuses().data, function(i) {
+        self.busesLookupByName[i.name] = i;
+      });
+    }
+    return this.busesLookupByName[name];
   };
 
   AppState.prototype.reload = function () {
