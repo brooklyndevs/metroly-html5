@@ -5,8 +5,9 @@ define([
   'underscore',
   'backbone',
   'busesnyc',
-  'oba'
-], function (_, Backbone, MtaBusTime, OneBusAway) {
+  'oba',
+  'appState'
+], function (_, Backbone, MtaBusTime, OneBusAway, appState) {
 
   var MapModel = Backbone.Model.extend({
     defaults: {
@@ -31,9 +32,14 @@ define([
 
     getBuses: function () {
 
+      console.log("MapModel.getBuses -> mta.getBuses [0]");
+
       var bus = this.get('bus'),
           dir = this.get('direction'),
           self = this;
+
+      console.log("[1] Bus:", bus, "Direction:", dir);
+
 
       if (bus) {
         // why? live spinner? I think it works without it.
@@ -41,7 +47,7 @@ define([
         // Makes more sense to trigger an event to spin/unspin from this model.
         this.trigger('getBuses');
 
-        console.log("getBuses(). Bus: [", bus, '] Direction: ', dir);
+        console.log("getBuses(). Route: [", bus, '] Direction: ', dir);
 
         this.mta.getBuses(bus, dir, function (buses) {
           self.trigger('gotBuses', buses);
@@ -51,14 +57,26 @@ define([
 
     getRoute: function () {
 
+      console.log("MapModel.getRoute -> mta.getRoute [0]");
+
       var bus = this.get('bus'),
-          self = this;
+          self = this,
+          storedBus;
 
       if (bus) {
+
+        storedBus = appState.getBus(bus) || {name: bus};
+        storedBus.color = (storedBus.color ? storedBus.color.substr(1) : "006CB7");
+        storedBus.shortName = storedBus.name;
+        self.set('route', storedBus);
+
         this.mta.getRoute(bus, function (route) {
           route.directions = _.sortBy(route.directions, function (direction) {
             return direction.directionId;
           });
+
+          console.log("MapModel.getRoute -> mta.getRoute [1]. Route:", route);
+
           self.set('route', route);
           self.getStops();
         });
