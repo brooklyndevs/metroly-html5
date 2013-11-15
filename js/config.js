@@ -12,15 +12,16 @@ require.config({
     accordion: 'accordion',
     appState: 'services/appState',
     config: 'config',
-    oba: 'oba'
+    oba: 'oba',
+    eventStack: 'eventStack'
   },
   shim: {
+    underscore: {
+      exports: '_'
+    },
     backbone: {
       deps: ['underscore', 'jquery'],
       exports: 'Backbone'
-    },
-    underscore: {
-      exports: '_'
     },
     handlebars: {
       exports: 'Handlebars',

@@ -13,7 +13,8 @@ define([
     defaults: {
       bus: undefined,
       direction: 0,
-      route: {}
+      route: {},
+      currentStop: null
     },
 
     initialize: function () {
@@ -86,6 +87,7 @@ define([
     getStops: function () {
       var self = this;
       OneBusAway.getBusStops(self.get('bus'), function (stops) {
+        console.log('Got stops:', stops);
         self.trigger('gotStops', stops);
       });
     },
