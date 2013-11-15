@@ -152,10 +152,6 @@ define([
 
     el: '#map',
 
-    events: {
-      'click .switchRouteFromStop': 'changeRouteFromStop'
-    },
-
     initialize: function (options) {
 
       var self = this;
