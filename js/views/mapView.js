@@ -139,15 +139,6 @@ define([
     return array;
   };
 
-  var BusStopEventStack = new EventStack({
-    // should be enough to fetch the stops
-    timer: 700, 
-    // should be enough to just count 700 ms and expect stops to be pre-filled
-    resetOnAdd: false,
-    // panTo the last event in the stack (better be stops :p)
-    which: function (id, item, stack) { return id === stack.length - 1; }
-  });
-
   var MapView = Backbone.View.extend({
 
     el: '#map',
@@ -157,6 +148,8 @@ define([
       var self = this;
 
       this.dispatcher = options.dispatcher;
+      this.router = options.router;
+
       this.initMap();
       $(window).bind("resize", _.bind(this.ensureMapHeight, this));
       this.model.on('change:route', this.cacheRoute, this);
@@ -165,6 +158,14 @@ define([
       this.model.on('gotBuses', this.showBuses, this);
       this.model.on('gotStops', this.cacheStops, this);
       this.initGeoLocate();
+
+      $(document).on('click', '.stop-bubble-link', function (e) {
+        e.preventDefault();
+        var shortName = $(this).data('shortname');
+        if (shortName.toUpperCase() !== self.model.get('bus').toUpperCase()) {
+          self.selectBus(shortName, {silent: true});
+        }
+      });
 
       this.dispatcher.bind("app:isHomeState", function (isHomeState) {
         if (isHomeState) {
@@ -322,7 +323,11 @@ define([
       $("#map").css("height", newHeight);
     },
 
-    selectBus: function (bus) {
+    selectBus: function (bus, options) {
+      var self = this;
+      if (options && options.silent) {
+        self.switchRoutesSilently = true;
+      };
       this.model.set('bus', bus);
     },
 
@@ -408,29 +413,21 @@ define([
     },
 
     cacheStops: function (stopGroups) {
-      var self = this,
+      var prevFocusedStop,
+        currentCircleMarker,
+        self = this,
+        route = self.model.get('route'),
         busStopBubble = H.compile(busStopTpl),
+        routeName = route.shortName,
+        currentStop = self.model.get('currentStop') || {},
         stopCircle = {
           stroke: true,
           color: 'white',
-          fillColor: '#' + this.model.get('route').color,
+          fillColor: '#' + route.color,
           fillOpacity: 0.5,
           weight: 3,
           radius: 7,
           opacity: 0.7
-        },
-        clusterOpts = {
-          showCoverageOnHover: false,
-          zoomToBoundsOnClick: true,
-          spiderfyOnMaxZoom: false,
-          removeOutsideVisibleBounds: true,
-          // disableClusteringAtZoom: 10,
-          maxClusterRadius: 50, // default is 80
-        },
-        setCurrentStop = function () {
-          console.log("Got called:", this, self.model.get('currentStop'));
-          self.model.set('currentStop', this.id);
-          console.log("Model Current Stop:", self.model.get('currentStop'));
         };
 
       StopsLayers.dir0 = new L.LayerGroup();
@@ -439,26 +436,40 @@ define([
       _.each(stopGroups, function (destinationGroup, idx) {
         _.each(destinationGroup, function (stop) {
           var latlng = new L.LatLng(stop.lat, stop.lon),
-          circle = L.circleMarker(latlng, stopCircle);
-          circle.bindPopup(busStopBubble(stop));
-          circle.on("click", setCurrentStop, stop);
-          if (idx === 0) {
-            circle.addTo(StopsLayers.dir0);
-          } else if (idx === 1) {
-            circle.addTo(StopsLayers.dir1);
-          }
-          if (self.model.get('currentStop') == stop.id) {
-            BusStopEventStack.push(function () {
-              console.log("same / current stop, panning to it");
-              self.map.panTo(latlng);
-            });
+            circle = L.circleMarker(latlng, stopCircle);
+
+          circle.bindPopup(busStopBubble({routeName: route.shortName, stop: stop}));
+
+          circle.on("click", function () {
+            self.model.set('currentStop', stop);
+            self.map.panTo(latlng);
+          });
+
+          circle.addTo((idx === 0) ? StopsLayers.dir0 : StopsLayers.dir1);
+
+          if (!prevFocusedStop && currentStop.id === stop.id) {
+            prevFocusedStop = stop;
+            currentCircleMarker = circle;
           }
         });
       });
 
       self.map.removeLayer(CurrentStopsLayer);
       CurrentStopsLayer = StopsLayers.dir0; // default.
+
+      self.model.set('currentStop', currentStop);
       this.determineLayerVisibility();
+
+      if (prevFocusedStop) {
+        self.map.panTo([currentStop.lat, currentStop.lon]);
+        try {
+          currentCircleMarker.openPopup();
+        } catch (error) {
+        // TODO FIX The currentStop might not be in the default direction shown
+        // to the user. Maybe add direction info to the stop?
+          console.log('Marker is not on the current direction layer.');
+        }
+      }
     },
 
     cacheRoute: function () {
@@ -490,13 +501,15 @@ define([
             var midIndex = Math.floor(decodedPoints.length / 2);
             var midPoint = decodedPoints[midIndex];
             var midLatLng = new L.LatLng(midPoint[0], midPoint[1]);
-            BusStopEventStack.push(function () {
+
+            if (!self.switchRoutesSilently) {
               console.log("Panning to Route center");
               self.map.panTo(midLatLng);
-            });
+            }
           }
         });
       });
+      self.switchRoutesSilently = false;
     },
 
     render: function () {

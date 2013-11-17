@@ -24,7 +24,8 @@ define([
   AppView = Backbone.View.extend({
 
     initialize: function (options) {
-      this.dispatcher = options;
+      this.dispatcher = options.dispatcher;
+      this.router = options.router;
 
       // Let all views have a common dispatcher they can subscribe to.
       mapModel = new MapModel({apiKey: apiKey});
@@ -33,7 +34,7 @@ define([
       geoView = new GeoView({model: geoModel, dispatcher: this.dispatcher});
       liveModel = new LiveModel();
       liveView = new LiveView({model: liveModel, dispatcher: this.dispatcher});
-      mapView = new MapView({model: mapModel, liveView: liveView, dispatcher: this.dispatcher});
+      mapView = new MapView({model: mapModel, liveView: liveView, dispatcher: this.dispatcher, router: this.router});
 
       geoModel.on('change:active', this.geoLocate);
       liveModel.on('change:time', this.liveClicked);
