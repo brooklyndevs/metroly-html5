@@ -30,6 +30,7 @@ define([
       'click .dir-sprite': 'selectDirection',
       'click .tracking-status': 'toggleLive',
       'click #menu-btn': 'menuClicked',
+      'click #busStops-btn': 'busStopsMenuClicked',
     },
 
     initialize: function (options) {
