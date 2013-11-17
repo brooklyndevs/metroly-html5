@@ -30,9 +30,19 @@ define([
   };
 
   var sortStopsByDestination = function (data, cb) {
-    var stopGroups, stops, routes, sortedStops = [], dest0 = [], dest1 = [];
+    var stopGroups, group0, group1, stops, routes,
+      sortedStops = [], dest0 = [], dest1 = [];
 
     stopGroups = data.entry.stopGroupings[0].stopGroups;
+
+    _.each(stopGroups, function (stopGroup) {
+      if (stopGroup.id == '0') {
+        group0 = stopGroup;
+      } else if (stopGroup.id == '1') {
+        group1 = stopGroup;
+      }
+    });
+
     stops = data.references.stops;
     routes = data.references.routes;
 
@@ -49,9 +59,9 @@ define([
         });
       });
 
-      if (_.contains(stopGroups[0].stopIds, stopId)) {
+      if (_.contains(group0.stopIds, stopId)) {
         dest0.push(stop);
-      } else if (_.contains(stopGroups[1].stopIds, stopId)) {
+      } else if (_.contains(group1.stopIds, stopId)) {
         dest1.push(stop);
       }
     });
@@ -70,10 +80,9 @@ define([
   };
 
   Oba.getBusStops = function (busName, cb) {
-    var s = Storage.get('buses');
-    var routeID = s.find(busName.toLowerCase()).id;
-    console.log("OBA CALL RouteID: ", routeID);
-    var query = "stops-for-route/" + routeID,
+    var s = Storage.get('buses'),
+      routeID = s.find(busName.toLowerCase()).id,
+      query = "stops-for-route/" + routeID,
       url = BASE_URL + query + END_URL + "&includePolylines=false";
 
     ajax(url, function (result) {
