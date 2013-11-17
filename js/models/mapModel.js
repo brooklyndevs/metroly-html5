@@ -24,7 +24,6 @@ define([
       this.routeChangedCbs = [];
       this.on('change:bus', this.getBuses, this);
       this.on('change:bus', this.getRoute, this);
-      // this.on('change:bus', this.getStops, this);
     },
 
     resetBus: function () {
@@ -68,7 +67,7 @@ define([
 
         storedBus = appState.getBus(bus) || {name: bus};
         storedBus.shortName = storedBus.name;
-        self.set('route', storedBus);
+        // self.set('route', storedBus);
 
         this.mta.getRoute(bus, function (route) {
           route.directions = _.sortBy(route.directions, function (direction) {

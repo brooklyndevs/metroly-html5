@@ -1,8 +1,10 @@
-<h2>Bus Stop</h2>
-<p>{{name}}</p>
+<h2>{{routeName}} Bus Stop</h2>
+<p>{{stop.name}}</p>
 
 <ul>
-  {{#each routes}}
-    <li><strong><a href="#buses/{{this.shortName}}">{{this.shortName}}</a></strong> to {{this.longName}}</li>
+  {{#each stop.routes}}
+    <li>
+      <a href="#" class='stop-bubble-link' data-shortname='{{this.shortName}}'>{{this.shortName}}</a> to {{this.longName}}
+    </li>
   {{/each}}
 </ul>
