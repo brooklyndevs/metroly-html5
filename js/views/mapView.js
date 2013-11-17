@@ -8,11 +8,10 @@ define([
   'leaflet',
   'shortpoll',
   'appState',
-  'markerCluster',
   'handlebars',
   'eventStack',
   'text!../../assets/templates/busStopBubble.html'
-], function ($, _, Backbone, L, ShortPoll, appState, markerCluster, H, EventStack, busStopTpl) {
+], function ($, _, Backbone, L, ShortPoll, appState, H, EventStack, busStopTpl) {
   "use strict";
 
   var RouteLayers = {
@@ -21,8 +20,8 @@ define([
   };
 
   var StopsLayers = {
-    dir0: new L.MarkerClusterGroup(),
-    dir1: new L.MarkerClusterGroup()
+    dir0: new L.LayerGroup(),
+    dir1: new L.LayerGroup()
   };
 
   var CurrentBusLayer   = new L.LayerGroup();
