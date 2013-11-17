@@ -40,10 +40,12 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
       // Listener on the sidebar to close
       $(document).on("click", ".page", function(){
         var pg = document.querySelector('.page');
-        var menuBtn = document.querySelector('#menu-btn');
         if(pg.style.marginLeft === "200px"){
           pg.style.marginLeft = "";
-          menuBtn.style.backgroundPosition = "0 0px";
+          // menuBtn.style.backgroundPosition = "0 0px";
+        }
+        if(pg.style.marginLeft === "-200px"){
+          pg.style.marginLeft = "";
         }
       });
       $(document).on("click", "#map, #header-wrapper", function(){

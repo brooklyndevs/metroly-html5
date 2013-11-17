@@ -6,8 +6,12 @@
   <div id="header-title" class='col-10 center-text {{#if homeState}}logo{{/if}}'>
     {{#if homeState}}Metroly{{else}}{{route.shortName}}{{/if}}
   </div>
-  
-  <div class="col-1" id='app-controls'></div>
+
+  <div class="col-1">
+    {{#unless homeState}}<a href="#" id='busStops-btn' class='btn center center-text'></a>{{/unless}}
+  </div>
+
+<!--   <div class="col-1" id='app-controls'></div> -->
 </div>
 
 {{#unless homeState}}

@@ -46,6 +46,7 @@ define([
     menuClicked: function (e) {
       e.preventDefault();
       e.stopPropagation();
+      $(".busStops-side-nav").hide();
       $(".side-nav").show();
       var pg = document.querySelector('.page');
       pg.style.webkitTransition = "margin-left .4s";
@@ -58,6 +59,23 @@ define([
         pg.style.marginLeft = "200px";
       } 
 
+    },
+
+    busStopsMenuClicked: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $(".side-nav").hide();
+      $(".busStops-side-nav").show();
+      var pg = document.querySelector('.page');
+      pg.style.webkitTransition = "margin-left .4s";
+
+      if (pg.style.marginLeft.trim().length > 0) {
+        // e.target.style.backgroundPosition = "0 0px";
+        pg.style.marginLeft = "";
+      } else {
+        // e.target.style.backgroundPosition = "0 -36px";
+        pg.style.marginLeft = "-200px";
+      } 
     },
 
     favorite: function (e) {
@@ -130,7 +148,7 @@ define([
       var isFav = bus.favorite || false;
       var FavBtnModel = Backbone.Model.extend({defaults: {isActive: isFav}});
       this.favoriteBtn = new FavoriteView({
-        el: "#app-controls",
+        el: "#favContainer",
         model: new FavBtnModel()
       });
       this.favoriteBtn.model.on('change:isActive', this.favorite, this);

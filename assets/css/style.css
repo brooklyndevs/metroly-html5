@@ -153,7 +153,7 @@ html, body {
 }
 
 #menu-btn,
-#fav-btn {
+#busStops-btn {
     position: absolute;
     top: 14px;
     width: 32px;
@@ -167,9 +167,25 @@ html, body {
     background-image: url("../images/icon-list-sprite.svg");
 }
 
-#fav-btn {
+#busStops-btn {
     right: 14px;
+    background: black;
+/*    background-image: url("../images/icon-fav-sprite.svg");*/
+}
+
+#fav-btn {
+    width:32px;
+    height:32px;
+    background-repeat: no-repeat;
     background-image: url("../images/icon-fav-sprite.svg");
+}
+
+#favContainer {
+    background: red;
+    position: absolute;
+    top: 110px;
+    right: 10px;
+    text-decoration: none;
 }
 
 .fav-active {
@@ -275,7 +291,24 @@ html, body {
 
 /*/////////////////////////////////////////////////////////////////////////////*/
 /*/////////////////////////////////////////////////////////////////////////////*/
-/* Side Nav CSS (ACCORDION) */
+/* Bus Stops Side Nav CSS */
+.busStops-side-nav{
+    background-color: #202020;
+    color: #cccccc;
+    overflow-y: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 200px;
+    height:450px;
+    display:none;
+    -webkit-box-shadow: inset -5px 0 15px #000000;
+    -webkit-overflow-scrolling: touch;
+}
+
+/*/////////////////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////////////////*/
+/* Bus Side Nav CSS (ACCORDION) */
 .list-header, .list-group{
     margin: 0;
     padding:0;
