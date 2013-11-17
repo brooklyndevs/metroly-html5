@@ -7,15 +7,6 @@
     var root = this,
         oldAccordion = root.Accordion;
 
-    // __.getAndSetId = (function (prefix) {
-    //   var incrementingId = 0;
-    //   prefix = prefix || "";
-    //   return function (element) {
-    //     if (!element.id) element.id = prefix + incrementingId++;
-    //     return element.id;
-    //   };
-    // })("accordion_");
-
     var Helper = {
         toArray: function (arrayLikeObj, slicing) {
             slicing = slicing || 0;
@@ -46,6 +37,7 @@
             return true;
         },
         // Just like underscore's extend method
+        // destination object, [source1, ...]
         extend: function (obj) {
             Helper.toArray(arguments, 1).forEach(function(source) {
                 if (source) {
@@ -82,7 +74,11 @@
             group_wrapper_class: "list-wrapper",
             group_header_class: "list-header",
             group_item_class: "list-group",
-            group_item_single_class: "list-single"
+            group_item_single_class: "list-single",
+
+            name: "",
+
+            getId: function (setting) { return this.name + "_" + setting; }
         };
         for (var i in stats) {
             // hasOwnProperty ... c'mon
@@ -100,7 +96,6 @@
         var args = Array.prototype.splice.call(arguments, 1),
             applyCallback = function (callback) {
                 // call back the callbacks that were added to PubSub for this action Name.
-                // console.log('Notifying ', actionName, " with these args: ", args);
                 callback.apply(null, args);
             };
 
@@ -128,7 +123,7 @@
         var self = this;
         for (var group in self.groups) {
             if (self.groups.hasOwnProperty(group)) {
-                self.groups[group].changeData(data).renderItems();
+                self.groups[group].changeData(data).renderListItems();
             }
         }
         return this;
@@ -160,7 +155,7 @@
     Accordion.prototype.render = function () {
         for (var group in this.groups) {
             if (this.groups.hasOwnProperty(group)) {
-                this.groups[group].render();
+                this.groups[group].renderGroup();
             }
         }
         // do something else
@@ -196,7 +191,6 @@
     };
 
 
-
     /*
      * IGroup - an "interface" for Group and SearchGroup
      */
@@ -207,13 +201,18 @@
             self.changeData(self.data);
         }
     };
-    IGroup.prototype.render = function () {
-        throw new Error("Mush overwrite this method!");
+    IGroup.prototype.render = function (element, data, rerender) {
+        element.innerHTML = (rerender ? element.innerHTML + data : data);
+        if (this.data.afterRender) this.data.afterRender(this.params, this.data);
+    };
+    IGroup.prototype.renderGroup = function () {
+        throw new Error("Must overwrite this method!");
     };
     IGroup.prototype.addListeners = function () {
         throw new Error("Must overwrite this method!");
     };
     IGroup.prototype.changeData = function (data) {
+
 
         var self = this,
             default_callback = function (e) {
@@ -244,9 +243,9 @@
     };
     IGroup.prototype.changeDataAndRender = function (data) {
         if (this.isImplementation) {
-            return this.changeData(data).renderItems();
+            return this.changeData(data).renderListItems();
         } else {
-            throw new Error("Mush overwrite this method!");
+            throw new Error("Must overwrite this method!");
         }
     };
 
@@ -254,7 +253,7 @@
         if (this.isImplementation) {
             return Helper.haveSameElements(this.data, new_data);
         } else {
-            throw new Error("Mush overwrite this method!");
+            throw new Error("Must overwrite this method!");
         }
     };
 
@@ -275,27 +274,29 @@
         this.data = data;
         
         this.settings = settings;
-        // for now, change later
-        this.params = this.settings.settings;
 
+        this.params = Helper.extend({}, this.settings.settings);
+        
         // 3. Apply miself onto IGroup mate.
         IGroup.apply(this);
+        this.params.name = this.name;
     };
     // 1. Inherit functions throught the prototypal chain
     Group.prototype = new IGroup();
 
-    Group.prototype.render = function () {
-        var self = this,
-            itemsHTML = "";
+    Group.prototype.renderGroup = function () {
+        var itemsHTML = "";
 
-        itemsHTML += "<div class='" + self.params.group_wrapper_class + "' id='" + self.name + "_" + self.params.group_wrapper_class + "'>";
-        itemsHTML += "<p class='" + self.params.group_header_class + "' id='" + self.name + "_" + self.params.group_header_class + "'>" + self.name + "</p>";
-        itemsHTML += "<ul class='" + self.params.group_item_class + "' id='" + self.name + "_" + self.params.group_item_class + "'>";
-        itemsHTML += self.getItemsHTML();
+        if (this.data.beforeRender) this.data.beforeRender(this.params);
+
+        itemsHTML += "<div class='" + this.params.group_wrapper_class + "' id='" + this.params.getId(this.params.group_wrapper_class) + "'>";
+        itemsHTML += "<p class='" + this.params.group_header_class + "' id='" + this.params.getId(this.params.group_header_class) + "'>" + this.name + "</p>";
+        itemsHTML += "<ul class='" + this.params.group_item_class + "' id='" + this.params.getId(this.params.group_item_class) + "'>";
+        itemsHTML += this.getItemsHTML();
         itemsHTML += "</ul>";
         itemsHTML += "</div>";
 
-        Helper.getId(self.params.accordion_id).innerHTML += itemsHTML;
+        this.render(Helper.getId(this.params.accordion_id), itemsHTML, true);
 
         return this;
     };
@@ -320,7 +321,6 @@
                             itemClass += (" " + itemProperties[property]);
                             continue;
                         }
-                        //console.log("Property is:", property,"='", itemProperties[property], "'");
                         itemsHTML += (" " + property + "='" + itemProperties[property] + "' ");
                     }
                 }
@@ -339,8 +339,9 @@
         return itemsHTML;
     };
 
-    Group.prototype.renderItems = function () {
-        Helper.getId(this.name, this.params.group_item_class).innerHTML = this.getItemsHTML();
+    Group.prototype.renderListItems = function () {
+        if (this.data.beforeRender) this.data.beforeRender(this.params);
+        this.render(Helper.getId(this.name, this.params.group_item_class), this.getItemsHTML());
         return this;
     };
 
@@ -357,14 +358,13 @@
     };
 
     Group.prototype.isCollapsed = function () {
-        var self = this;
         // non-cached
-        if (self.isListCollapsed === null || self.isListCollapsed === undefined) {
-            var element = Helper.getId(self.name, self.params.group_item_class).childNodes[0];
+        if (this.isListCollapsed === null || this.isListCollapsed === undefined) {
+            var element = Helper.getId(this.name, this.params.group_item_class).childNodes[0];
             var display = (element ? element.style.display : false);
-            self.isListCollapsed = (display ? false : true);
+            this.isListCollapsed = (display ? false : true);
         }
-        return self.isListCollapsed;
+        return this.isListCollapsed;
     };
 
     /* 
@@ -375,19 +375,18 @@
 
         var self = this,
             display = "block";
-
-        self.isListCollapsed = false;
+        
+        this.isListCollapsed = false;
 
         if (action) {
-            self.isListCollapsed = true;
+            this.isListCollapsed = true;
             display = "";
         }
 
         Helper.iterate(
             Helper.getId(self.name, self.params.group_item_class).childNodes,
-            function (i) {
-                i.style.display = display;
-            });
+            function (i) { i.style.display = display; }
+        );
 
         return this;
     };
@@ -399,38 +398,39 @@
         this.isImplementation = true;
         this.data = data;
         this.settings = settings;
-        // for now, change later
-        this.params = this.settings.settings;
-
+        
+        this.params = Helper.extend({}, this.settings.settings);
+        
         // 3. Apply miself onto IGroup.
         IGroup.apply(this);
+        this.params.name = this.name;
     };
     // 1. Inherit functions throught the prototypal chain
     SearchGroup.prototype = new IGroup();
 
-    SearchGroup.prototype.render = function () {
-        var self = this,
-            groupHTML = "";
+    SearchGroup.prototype.renderGroup = function () {
+        var groupHTML = "";
 
-        groupHTML += "<div class='" + self.params.search_group_wrapper_class + "'>";
-        groupHTML += "<div class='" + self.params.search_group_header_class + "'>";
+        if (this.data.beforeRender) this.data.beforeRender(this.params);
+
+        groupHTML += "<div class='" + this.params.search_group_wrapper_class + "'>";
+        groupHTML += "<div class='" + this.params.search_group_header_class + "'>";
 
         //groupHTML += "<form>";
         groupHTML += "<input type='search' name='" +
-            self.params.search_group_input_name + "' placeholder='Search Buses' id='" + self.name + "_" + self.params.search_group_input_name + "'>";
+            this.params.search_group_input_name + "' placeholder='Search Buses' id='" + this.params.getId(this.params.search_group_input_name) + "'>";
         //groupHTML += "</form>";
 
         // pretty hackish, todo: change later
-        groupHTML += "<a href='#' class='" + self.params.search_group_input_cancel_class + "' id='" + self.name + "_" + self.params.search_group_input_cancel_class + "'>&nbsp;&nbsp;&nbsp;</a>";
-        groupHTML += "<a class='" + self.params.search_group_input_magnifier_class + "' >&nbsp;</a>";
-
+        groupHTML += "<a href='#' class='" + this.params.search_group_input_cancel_class + "' id='" + this.params.getId(this.params.search_group_input_cancel_class) + "'>&nbsp;&nbsp;&nbsp;</a>";
+        groupHTML += "<a class='" + this.params.search_group_input_magnifier_class + "' >&nbsp;</a>";
         groupHTML += "</div>";
-        groupHTML += "<ul class='" + self.params.search_group_list_class + "' id='" + self.name + "_" + self.params.search_group_list_class + "'>";
+        groupHTML += "<ul class='" + this.params.search_group_list_class + "' id='" + this.params.getId(this.params.search_group_list_class) + "'>";
         groupHTML += "</ul>";
         groupHTML += "</div>";
 
-        Helper.getId(self.params.accordion_id).innerHTML += groupHTML;
-
+        this.render(Helper.getId(this.params.accordion_id), groupHTML, true);
+        
         return this;
     };
 
@@ -444,7 +444,7 @@
 
             if (this.value) {
                 collapseAll = false;
-                self.renderItems(this.value);
+                self.renderListItems(this.value);
             }
             self.settings.notify("clickGroupExpand", self.name, collapseAll);
 
@@ -460,8 +460,7 @@
     };
 
     SearchGroup.prototype.getMatchedItems = function (value) {
-        var self = this,
-            searchResults   = [],
+        var searchResults   = [],
             searchResults2  =[],
             tempResults = [],
             regEx = new RegExp("^" + value, "i"),
@@ -476,13 +475,13 @@
             return results;
         }
 
-        searchResults = getMatchResults(regEx, self.items);
+        searchResults = getMatchResults(regEx, this.items);
 
-        var leftToFill = self.data.maxDisplay - searchResults.length;
+        var leftToFill = this.data.maxDisplay - searchResults.length;
 
         //TODO: Optimize: n^2
         if (leftToFill > 0) {
-            searchResults2 = getMatchResults(regEx2, self.items);
+            searchResults2 = getMatchResults(regEx2, this.items);
             tempResults = [];
             searchResults.forEach(function (betterResult) {
                 var match = null;
@@ -515,7 +514,7 @@
             itemClass = "";
 
         items.forEach(function (item) {
-            var match = "<li";
+            var match = "<li ";
 
             itemClass = self.params.search_group_item_single_class + " " + (item.class || "");
 
@@ -547,20 +546,20 @@
         return matches.join("");
     };
 
-    SearchGroup.prototype.renderItems = function (value) {
-        Helper.getId(this.name, this.params.search_group_list_class).innerHTML = this.getSearchItemsHTML(value);
+    SearchGroup.prototype.renderListItems = function (value) {
+        if (this.data.beforeRender) this.data.beforeRender(this.params);
+        this.render(Helper.getId(this.name, this.params.search_group_list_class), this.getSearchItemsHTML(value));
         return this;
     };
 
     SearchGroup.prototype.isCollapsed = function () {
-        var self = this;
         // non-cached
-        if (self.isListCollapsed === null || self.isListCollapsed === undefined) {
-            var element = Helper.getId(self.name, self.params.search_group_list_class).childNodes[0];
+        if (this.isListCollapsed === null || this.isListCollapsed === undefined) {
+            var element = Helper.getId(this.name, this.params.search_group_list_class).childNodes[0];
             var display = (element ? element.style.display : false);
-            self.isListCollapsed = (display ? false : true);
+            this.isListCollapsed = (display ? false : true);
         }
-        return self.isListCollapsed;
+        return this.isListCollapsed;
     };
 
     /* 
@@ -572,10 +571,10 @@
         var self = this,
             display = "block";
 
-        self.isListCollapsed = false;
+        this.isListCollapsed = false;
 
         if (action) {
-            self.isListCollapsed = true;
+            this.isListCollapsed = true;
             display = "";
         }
 
