@@ -67,7 +67,6 @@ define([
       if (bus) {
 
         storedBus = appState.getBus(bus) || {name: bus};
-        storedBus.color = (storedBus.color ? storedBus.color.substr(1) : "006CB7");
         storedBus.shortName = storedBus.name;
         self.set('route', storedBus);
 
