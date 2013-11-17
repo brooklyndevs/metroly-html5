@@ -163,6 +163,7 @@ define([
         e.preventDefault();
         var shortName = $(this).data('shortname');
         if (shortName.toUpperCase() !== self.model.get('bus').toUpperCase()) {
+          self.router.navigate('/buses/' + shortName);
           self.selectBus(shortName, {silent: true});
         }
       });
