@@ -30,7 +30,9 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
      * Add list item attributes to list item
      */
     addListItemAttributes = function (item) {
-        return { 
+        // clears color issues if present
+        //var color = "#" + ("000000" + item.color).replace("#","").split("").slice(-6).join("");
+        return {
             "style": 'border-left-color:' + item.color,
             "data-href": '#buses/' + item.name
         };
@@ -49,20 +51,26 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         return busesArr;
     },
 
+    /* Close Side Nav when clicking on list links */
+    closeSideNavForListElements = function (params) {
+        Array.prototype.slice.call(
+            document.querySelectorAll("#" + params.getId(params.group_item_class) + " ." + params.search_group_item_single_class), 0
+            ).forEach(function(i) {
 
-
-    /* Close Side Nav when clicking on links */
-    closeSideNavForElement = function (element) {
-        element.addEventListener('click', function (e) {
-            var listItemHref = element.getAttribute("data-href");
-            if (listItemHref) {
-                window.location.href = listItemHref;
-            }
-            if (!(e.currentTarget.className && e.currentTarget.className.match('list-link-empty'))) {
-                document.querySelector('#menu-btn').click();
-            }
-            e.stopPropagation();
-            return false;
+            i.addEventListener('click', function (e) {
+                var elementClicked = e.target,
+                    listItemHref = elementClicked.getAttribute("data-href");
+                if (listItemHref) {
+                    // switch route if element is a route
+                    window.location.href = listItemHref;
+                }
+                if (!(elementClicked.className && elementClicked.className.match('list-link-empty'))) {
+                    // if not an empty link, close the side-nav
+                    document.querySelector('#menu-btn').click();
+                }
+                e.stopPropagation();
+                return false;
+            });
         });
     };
 
@@ -90,7 +98,8 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
             data: buses,
             //itemText: generateLink,
             listItemProperties: addListItemAttributes,
-            maxDisplay: 6
+            maxDisplay: 6,
+            afterRender: closeSideNavForListElements
         }).
         // Adds a "Group"
         addGroup({
@@ -99,7 +108,8 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
             // Pick items that have recent property
             callback: function (e) { return e.recent; },
             //itemText: generateLink,
-            listItemProperties: addListItemAttributes
+            listItemProperties: addListItemAttributes,
+            afterRender: closeSideNavForListElements
         }).
         // Adds a "Group"
         addGroup({
@@ -109,6 +119,7 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
             callback: function (e) { return e.favorite; },
             //itemText: generateLink,
             listItemProperties: addListItemAttributes,
+            afterRender: closeSideNavForListElements
         }).
         // Adds a "Group"
         addGroup({
@@ -118,6 +129,7 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
             listItemProperties: addListItemAttributes,
             // Picks all items. By default callback is:
             // callback: function (e) { return e; }
+            afterRender: closeSideNavForListElements
         }).
         // Draw both "Group"s and "SearchGroup"s
         render().
@@ -202,20 +214,5 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
         busesObj.trigger("*", {saved: true});
         // settingsObj.trigger("recently_viewed_buses");
         settingsObj.insert("recently_viewed_buses", []);
-
-
-        var listItems = document.querySelectorAll('.list-single');
-        listItems = Array.prototype.splice.call(listItems, 0);
-        listItems.forEach(function (listItem) {
-            closeSideNavForElement(listItem);
-        });
-
-        var search_list = document.querySelector("#Search_list-group");
-        var recent_list = document.querySelector("#Recent_list-group");
-        var favorite_list = document.querySelector("#Favorites_list-group");
-        
-        closeSideNavForElement(search_list);
-        closeSideNavForElement(recent_list);
-        closeSideNavForElement(favorite_list);
     });
 });
