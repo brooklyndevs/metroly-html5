@@ -428,7 +428,8 @@ define([
           weight: 3,
           radius: 7,
           opacity: 0.7
-        };
+        },
+        direction = self.model.get('direction');
 
       StopsLayers.dir0 = new L.LayerGroup();
       StopsLayers.dir1 = new L.LayerGroup();
@@ -455,7 +456,12 @@ define([
       });
 
       self.map.removeLayer(CurrentStopsLayer);
-      CurrentStopsLayer = StopsLayers.dir0; // default.
+      
+      if (direction === 0) {
+        CurrentStopsLayer = StopsLayers.dir0; // default.
+      } else {
+        CurrentStopsLayer = StopsLayers.dir1;
+      }
 
       self.model.set('currentStop', currentStop);
       this.determineLayerVisibility();
@@ -475,6 +481,7 @@ define([
     cacheRoute: function () {
       var self = this,
         route = this.model.get('route'),
+        directionId = this.model.get('direction'),
         directions = route.directions;
 
       RouteLayers.dir0 = new L.LayerGroup();
@@ -492,9 +499,12 @@ define([
 
           RouteLayers['dir' + dirId].addLayer(leafletPoly);
 
-          // Show dir 0 by default.
           self.map.removeLayer(CurrentRouteLayer);
-          CurrentRouteLayer = RouteLayers.dir0;
+          if (directionId === 0) {
+            CurrentRouteLayer = RouteLayers.dir0;
+          } else {
+            CurrentRouteLayer = RouteLayers.dir1;
+          }
           self.map.addLayer(CurrentRouteLayer);
 
           if (decodedPoints.length > 0) {
