@@ -50,7 +50,7 @@ define([
         console.log("getBuses(). Route: [", bus, '] Direction: ', dir);
 
         this.mta.getBuses(bus, dir, function (buses) {
-          self.trigger('gotBuses', buses);
+          self.trigger('showBuses', buses);
         });
       }
     },

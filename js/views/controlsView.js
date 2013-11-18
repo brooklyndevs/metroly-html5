@@ -104,6 +104,7 @@ define([
       var ctx = {};
       ctx.route = this.model.get('route');      
       ctx.direction = this.model.get('direction');
+
       var currBus = this.model.get('bus');
 
       if (!ctx.route || !currBus) {
@@ -111,6 +112,8 @@ define([
       }
 
       if (ctx.route.directions) {
+        //Resettimg the direction name
+        this.directionName = ctx.route.directions[ctx.direction].destination.split('via')[0];
         _.each(ctx.route.directions, function (direction) {
           if (direction.destination) {
             var editedDestination = direction.destination.split('via')[0];
@@ -123,7 +126,13 @@ define([
       this.renderHeader(ctx);
 
       // SET BUS DIRECTION 0 BY DEFAULT
-      Helpers.visuallySelectRoute($('[data-direction="0"]'));
+      if(ctx.direction){
+        Helpers.visuallySelectRoute($('[data-direction="1"]'));
+      }else{
+        Helpers.visuallySelectRoute($('[data-direction="0"]'));
+      }
+      $(".route-name").text(this.directionName);
+
 
       // RENDER FAVORITE BUTTON
       var bus = storage.find(currBus.toLowerCase());

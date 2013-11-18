@@ -154,7 +154,7 @@ define([
       this.model.on('change:route', this.cacheRoute, this);
       this.model.on('change:direction', this.changeDirection, this);
       this.model.on('getBuses', this.options.liveView.startSpin, this);
-      this.model.on('gotBuses', this.showBuses, this);
+      this.model.on('showBuses', this.showBuses, this);
       this.model.on('gotStops', this.cacheStops, this);
       this.initGeoLocate();
 
