@@ -13,10 +13,10 @@
 {{#unless homeState}}
   <div id="slider-direction" class="no-flick">
     {{#each route.directions}}
-      <div class='col-2 center center-text route-direction' data-direction="{{directionId}}"><a href="#" class="dir-sprite" data-direction="{{directionId}}"></a></div>
+      <div class='col-2 center center-text route-direction'><a href="#" class="dir-sprite" data-direction="{{directionId}}"></a></div>
       {{#unless @index}}
         <div class='col-8 center-text route-name'>
-          {{destination}}
+          {{../../routeName}}
         </div>
       {{/unless}}
     {{/each}}
