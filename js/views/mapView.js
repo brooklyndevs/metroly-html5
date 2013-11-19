@@ -327,7 +327,7 @@ define([
       var self = this;
       if (options && options.silent) {
         self.switchRoutesSilently = true;
-      };
+      }
       this.model.set('bus', bus);
     },
 
