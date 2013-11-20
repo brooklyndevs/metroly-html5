@@ -1,25 +1,34 @@
-define(['oba'], function (Oba) {
+define(['oba', 'appState'], function (Oba, appState) {
 
   describe('The OneBusAway Wrapper', function () {
 
-    var callbacks;
-
     beforeEach(function () {
-      callbacks = {
-        gotStops: function (stops) {
-          return stops;
+      appState.init();
+    });
+
+    it('Gets bus stops', function () {
+      var stops;
+
+      var cbs = {
+        handleStops: function (data) {
+          console.log('got this data', data);
+          stops = data;
         }
       };
 
-      spyOn(callbacks, 'gotStops');
-    });
+      spyOn(cbs, 'handleStops');
 
-    // Following wont work because oba is coupled to localStorage.
-    // TODO Decouple it.
-    // it('Gets bus stops', function () {
-    //   Oba.getBusStops('b63', callbacks.gotStops);
-    //   expect(callbacks.gotStops).toHaveBeenCalled();
-    // });
+      Oba.getBusStops('b63', cbs.handleStops);
+
+      waitsFor(function() {
+          return cbs.handleStops.callCount > 0;
+      });
+
+      runs(function() {
+          expect(cbs.handleStops).toHaveBeenCalled();
+      });
+
+    });
 
   });
 

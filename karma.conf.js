@@ -16,7 +16,9 @@ module.exports = function(config) {
     files: [
       'spec/test-main.js',
       {pattern: 'js/**/*.js', included: false},
+      {pattern: 'js/**/*.json', included: false},
       {pattern: 'assets/libs/**/*.js', included: false},
+      {pattern: 'assets/tempaltes/**/*.html', included: false},
       {pattern: 'spec/**/*Spec.js', included: false}
     ],
 
@@ -42,7 +44,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_ERROR,
 
 
     // enable / disable watching file and executing tests whenever any file changes
