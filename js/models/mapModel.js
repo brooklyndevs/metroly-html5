@@ -24,7 +24,6 @@ define([
       this.routeChangedCbs = [];
       this.on('change:bus', this.getBuses, this);
       this.on('change:bus', this.getRoute, this);
-      // this.on('change:bus', this.getStops, this);
     },
 
     resetBus: function () {
@@ -51,7 +50,7 @@ define([
         console.log("getBuses(). Route: [", bus, '] Direction: ', dir);
 
         this.mta.getBuses(bus, dir, function (buses) {
-          self.trigger('gotBuses', buses);
+          self.trigger('showBuses', buses);
         });
       }
     },
@@ -67,9 +66,8 @@ define([
       if (bus) {
 
         storedBus = appState.getBus(bus) || {name: bus};
-        storedBus.color = (storedBus.color ? storedBus.color.substr(1) : "006CB7");
         storedBus.shortName = storedBus.name;
-        self.set('route', storedBus);
+        // self.set('route', storedBus);
 
         this.mta.getRoute(bus, function (route) {
           route.directions = _.sortBy(route.directions, function (direction) {

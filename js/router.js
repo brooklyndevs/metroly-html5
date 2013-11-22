@@ -48,6 +48,7 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
           pg.style.marginLeft = "";
         }
       });
+
       $(document).on("click", "#map, #header-wrapper", function(){
         if($(".liveBubble").hasClass("shown")){
           $(".liveBubble").removeClass("shown");
@@ -59,7 +60,7 @@ define(['jquery', 'backbone', 'domReady', 'appState'], function ($, Backbone, do
         console.log('App required');
 
         var dispatcher = _.clone(Backbone.Events);
-        var app = new App(dispatcher);
+        var app = new App({dispatcher: dispatcher, router: router});
 
         router.on('route:homeState', function () {
 
