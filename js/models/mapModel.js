@@ -38,16 +38,14 @@ define([
           dir = this.get('direction'),
           self = this;
 
-      console.log("[1] Bus:", bus, "Direction:", dir);
-
-
+      
       if (bus) {
         // why? live spinner? I think it works without it.
         // TODO Find the other place that causes the spinner to spin.
         // Makes more sense to trigger an event to spin/unspin from this model.
         this.trigger('getBuses');
 
-        console.log("getBuses(). Route: [", bus, '] Direction: ', dir);
+        console.log("MapModel.getBuses -> mta.getBuses [1] Bus route: [", bus, '] Direction: ', dir);
 
         this.mta.getBuses(bus, dir, function (buses) {
           self.trigger('showBuses', buses);

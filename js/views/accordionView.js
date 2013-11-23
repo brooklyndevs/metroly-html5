@@ -44,9 +44,11 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
     },
 
     busNamesToRecentBusObjects = function (busNames) {
-        var busesArr = [];
+        var busesArr = [],
+            busObj;
         _.each(busNames, function (recentBus) {
-            busesArr.push({name: recentBus, recent: true, color: busesObj.data[recentBus.toLowerCase()].color });
+            busObj = busesObj.data[recentBus.toLowerCase()];
+            busesArr.push({name: recentBus, recent: true, color: (busObj ? busObj.color : "000000") });
         });
         return busesArr;
     },

@@ -53,7 +53,8 @@ define([
 
     selectBus: function (bus) {
       this.dispatcher.trigger("app:isHomeState", false);
-      console.log('App.selectBus -> MapModel.set.bus = ', bus);
+      console.log('App.selectBus: => MapModel.set.bus => ', bus);
+      
       mapModel.set('bus', bus);
     },
 
