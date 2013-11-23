@@ -23,8 +23,7 @@
         },
         haveSameElements: function (a, b, sortParam) {
             if (a === b) return true;
-            if ((a === null || a === undefined) || (b === null || b === undefined)) return false;
-            if (a.length != b.length) return false;
+            if ((a === null || a === undefined) || (b === null || b === undefined) || (a.length != b.length)) return false;
 
             // If you don't care about the order of the elements inside
             // the array, you should sort both arrays here.
@@ -135,12 +134,14 @@
     };
 
     Accordion.prototype.addGroup = function (group) {
-        // Object with name, data, callback 
+        if (this.groups[group.name]) throw new Error("Group " + group.name + " already exists");
+        // Object with name, data, callback
         this.groups[group.name] = new Group(group, this.settings);
         return this;
     };
 
     Accordion.prototype.addSearchGroup = function (group) {
+        if (this.groups[group.name]) throw new Error("Search Group " + group.name + " already exists");
         // Object with name, data, callback 
         this.groups[group.name] = new SearchGroup(group, this.settings);
         return this;
@@ -251,7 +252,7 @@
 
     IGroup.prototype.isSameData = function (new_data) {
         if (this.isImplementation) {
-            return Helper.haveSameElements(this.data, new_data);
+            return Helper.haveSameElements(this.data.data, new_data);
         } else {
             throw new Error("Must overwrite this method!");
         }
@@ -263,6 +264,17 @@
             self.settings = Helper.extend.apply(undefined, [self.settings, e]);
         });
         if (this.settings.settings) this.params = this.settings.settings;
+    };
+
+    IGroup.prototype.isCollapsed = function () {
+        // non-cached
+        if (this.isListCollapsed === null || this.isListCollapsed === undefined) {
+            var element = Helper.getId(this.name, this.params.group_item_class),
+                children = (element ? element.childNodes[0] : false),
+                display = (element ? element.style.display : false);
+            this.isListCollapsed = (display ? false : true);
+        }
+        return this.isListCollapsed;
     };
 
 
@@ -355,16 +367,6 @@
         }, false);
 
         return this;
-    };
-
-    Group.prototype.isCollapsed = function () {
-        // non-cached
-        if (this.isListCollapsed === null || this.isListCollapsed === undefined) {
-            var element = Helper.getId(this.name, this.params.group_item_class).childNodes[0];
-            var display = (element ? element.style.display : false);
-            this.isListCollapsed = (display ? false : true);
-        }
-        return this.isListCollapsed;
     };
 
     /* 
@@ -552,15 +554,6 @@
         return this;
     };
 
-    SearchGroup.prototype.isCollapsed = function () {
-        // non-cached
-        if (this.isListCollapsed === null || this.isListCollapsed === undefined) {
-            var element = Helper.getId(this.name, this.params.search_group_list_class).childNodes[0];
-            var display = (element ? element.style.display : false);
-            this.isListCollapsed = (display ? false : true);
-        }
-        return this.isListCollapsed;
-    };
 
     /* 
      * Collapse/Expand based on isListCollapsible
