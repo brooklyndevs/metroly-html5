@@ -6,12 +6,8 @@ define([
   'underscore',
   'backbone',
   'handlebars',
-  'text!../../assets/templates/controls.html',
-  'views/favoriteView',
-  'appState'
-], function ($, _, Backbone, H, controlsTpl, FavoriteView, appState) {
-
-  var storage = appState.getBuses();
+  'text!../../assets/templates/controls.html'
+], function ($, _, Backbone, H, controlsTpl) {
 
   var Helpers = {
     visuallySelectRoute: function (jqTarget) {
@@ -30,6 +26,7 @@ define([
       'click .dir-sprite': 'selectDirection',
       'click .tracking-status': 'toggleLive',
       'click #menu-btn': 'menuClicked',
+      'click #busStops-btn': 'busStopsMenuClicked'
     },
 
     initialize: function (options) {
@@ -46,27 +43,31 @@ define([
     menuClicked: function (e) {
       e.preventDefault();
       e.stopPropagation();
+      $(".busStops-side-nav").hide();
       $(".side-nav").show();
       var pg = document.querySelector('.page');
       pg.style.webkitTransition = "margin-left .4s";
 
       if (pg.style.marginLeft.trim().length > 0) {
-        // e.target.style.backgroundPosition = "0 0px";
         pg.style.marginLeft = "";
       } else {
-        // e.target.style.backgroundPosition = "0 -36px";
         pg.style.marginLeft = "200px";
       } 
 
     },
+    busStopsMenuClicked: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $(".side-nav").hide();
+      $(".busStops-side-nav").show();
+      var pg = document.querySelector('.page');
+      pg.style.webkitTransition = "margin-left .4s";
 
-    favorite: function (e) {
-      var selectedBus = this.model.get('bus');
-      console.log('SelectedBus: ', selectedBus);
-      var busData = storage.data[selectedBus.toLowerCase()];
-      busData.favorite = !busData.favorite;
-      storage.save();
-      console.log('State of storage: ', storage.data);
+      if (pg.style.marginLeft.trim().length > 0) {
+        pg.style.marginLeft = "";
+      } else {
+        pg.style.marginLeft = "-200px";
+      } 
     },
 
     selectDirection: function (e) {
@@ -99,9 +100,7 @@ define([
       var ctx = {};
       ctx.route = this.model.get('route');
       ctx.direction = this.model.get('direction');
-      var currBus = this.model.get('bus');
-
-      if (!ctx.route || !currBus) {
+      if (!ctx.route) {
         return false;
       }
 
@@ -125,17 +124,6 @@ define([
       }else{
         Helpers.visuallySelectRoute($('[data-direction="0"]'));
       }
-
-      // RENDER FAVORITE BUTTON
-      var bus = storage.find(currBus.toLowerCase());
-      var isFav = bus.favorite || false;
-      var FavBtnModel = Backbone.Model.extend({defaults: {isActive: isFav}});
-      this.favoriteBtn = new FavoriteView({
-        el: "#app-controls",
-        model: new FavBtnModel()
-      });
-      this.favoriteBtn.model.on('change:isActive', this.favorite, this);
-      this.favoriteBtn.render();
 
       return this;
     },

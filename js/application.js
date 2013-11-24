@@ -10,15 +10,17 @@ define([
   'models/geoModel',
   'views/liveView',
   'models/liveModel',
-  'views/accordionView'
-], function (Backbone, MapView, ControlsView, MapModel, GeoView, GeoModel, LiveView, LiveModel, AccordionView) {
+  'views/accordionView',
+  'views/favoriteView',
+  'models/favoriteModel'
+], function (Backbone, MapView, ControlsView, MapModel, GeoView, GeoModel, LiveView, LiveModel, AccordionView, FavoriteView, FavoriteModel) {
   "use strict";
 
   console.log('inside of Application.js');
   var AppView,
     apiKey = '36ad9e86-f0b4-4831-881c-55c8d44473b3',
     mapModel, geoModel, liveModel, 
-    mapView, controlsView, geoView, liveView;
+    mapView, controlsView, geoView, liveView, favView, favModel;
 
 
   AppView = Backbone.View.extend({
@@ -34,6 +36,9 @@ define([
       geoView = new GeoView({model: geoModel, dispatcher: this.dispatcher});
       liveModel = new LiveModel();
       liveView = new LiveView({model: liveModel, dispatcher: this.dispatcher});
+      // Create fav view and model here
+      favModel = new FavoriteModel();
+      favView = new FavoriteView({model: mapModel, favModel:favModel, dispatcher: this.dispatcher});
       mapView = new MapView({model: mapModel, liveView: liveView, dispatcher: this.dispatcher, router: this.router});
 
       geoModel.on('change:active', this.geoLocate);
