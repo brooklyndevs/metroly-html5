@@ -1,7 +1,7 @@
 /*jslint nomen: true, unparam: true, indent: 4, quotmark:false */
 /* global define */
 
-define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domReady, Accordion, appState) {
+define(['underscore', 'domReady', 'accordion', 'appState','views/favoriteView'], function (_, domReady, Accordion, appState, FavoriteView) {
 
     'use strict';
 
@@ -72,6 +72,46 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
                 return false;
             });
         });
+    },
+    addFavoriteButton= function (params){
+        console.log("Adding FAV BTN: ");
+        Array.prototype.slice.call(
+            document.querySelectorAll("#" + params.getId(params.group_item_class) + " ." + params.search_group_item_single_class), 0
+            ).forEach(function(i) {
+                // Creating the Dom for fav BTN
+                var favBtnContainer = document.createElement("div");
+                favBtnContainer.classList.add("favContainer");
+                var favBtn = document.createElement("a");
+                favBtn.classList.add("btn", "fav-btn", "center", "center-text");
+                favBtnContainer.appendChild(favBtn);
+                i.appendChild(favBtnContainer);
+
+                //Check on storage
+                var storage = appState.getBuses();
+                var bus = storage.find(i.textContent.toLowerCase());
+   
+                if(bus.favorite){
+                    favBtn.classList.add("fav-active");
+                }  
+               
+                //Add listener
+                favBtnContainer.addEventListener('click', function (e) {
+                    // console.log(e.target.classList.contains("fav-active"));
+                    if(e.target.classList.contains("fav-active")){
+                        e.target.classList.remove("fav-active");
+                    }else{
+                        e.target.classList.add("fav-active");
+                    }
+                    var b = e.target.parentElement.parentElement.textContent.trim();
+                    var busData = storage.data[b.toLowerCase()];
+                    busData.favorite = !busData.favorite;
+                    storage.save();
+                    // console.log(e.target.parentElement.parentElement.textContent.trim());
+
+                    e.stopPropagation();
+                    return false;
+                });
+            });
     };
 
 
@@ -126,6 +166,7 @@ define(['underscore', 'domReady', 'accordion', 'appState'], function (_, domRead
             name: "All",
             data: buses,
             //itemText: generateLink,
+            favoriteButton: addFavoriteButton,
             listItemProperties: addListItemAttributes,
             // Picks all items. By default callback is:
             // callback: function (e) { return e; }

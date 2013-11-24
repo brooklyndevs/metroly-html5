@@ -173,19 +173,19 @@ html, body {
 /*    background-image: url("../images/icon-fav-sprite.svg");*/
 }
 
-#fav-btn {
+.fav-btn {
     width:32px;
     height:32px;
     background-repeat: no-repeat;
     background-image: url("../images/icon-fav-sprite.svg");
 }
 
-#favContainer {
-    background: red;
+.favContainer {
+/*    background: red;*/
+/*    padding-left:15px;*/
     position: absolute;
-    top: 110px;
-    right: 10px;
-    text-decoration: none;
+    margin-top:-25px;
+    right:15px;
 }
 
 .fav-active {
@@ -358,9 +358,7 @@ html, body {
     background-position: 23px 17px;
     line-height: 21px;
 }
-
 .list-single {
-/*  padding-left: 25px;*/
     letter-spacing: .08em;
     display: none;
     border-left-style:solid;

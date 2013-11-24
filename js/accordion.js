@@ -204,6 +204,7 @@
     IGroup.prototype.render = function (element, data, rerender) {
         element.innerHTML = (rerender ? element.innerHTML + data : data);
         if (this.data.afterRender) this.data.afterRender(this.params, this.data);
+        if (this.data.favoriteButton) this.data.favoriteButton(this.params, this.data);
     };
     IGroup.prototype.renderGroup = function () {
         throw new Error("Must overwrite this method!");
@@ -325,6 +326,7 @@
                     }
                 }
             }
+
             itemClass = (" class='" + itemClass + "'");
             itemsHTML += (itemClass + ">");
 

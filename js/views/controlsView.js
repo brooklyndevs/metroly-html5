@@ -79,14 +79,14 @@ define([
       } 
     },
 
-    favorite: function (e) {
-      var selectedBus = this.model.get('bus');
-      console.log('SelectedBus: ', selectedBus);
-      var busData = storage.data[selectedBus.toLowerCase()];
-      busData.favorite = !busData.favorite;
-      storage.save();
-      console.log('State of storage: ', storage.data);
-    },
+    // favorite: function (e) {
+    //   var selectedBus = this.model.get('bus');
+    //   console.log('SelectedBus: ', selectedBus);
+    //   var busData = storage.data[selectedBus.toLowerCase()];
+    //   busData.favorite = !busData.favorite;
+    //   storage.save();
+    //   console.log('State of storage: ', storage.data);
+    // },
 
     selectDirection: function (e) {
       e.preventDefault();
@@ -144,17 +144,6 @@ define([
       }else{
         Helpers.visuallySelectRoute($('[data-direction="0"]'));
       }
-
-      // RENDER FAVORITE BUTTON
-      var bus = storage.find(currBus.toLowerCase());
-      var isFav = bus.favorite || false;
-      var FavBtnModel = Backbone.Model.extend({defaults: {isActive: isFav}});
-      this.favoriteBtn = new FavoriteView({
-        el: "#favContainer",
-        model: new FavBtnModel()
-      });
-      this.favoriteBtn.model.on('change:isActive', this.favorite, this);
-      this.favoriteBtn.render();
 
       return this;
     },

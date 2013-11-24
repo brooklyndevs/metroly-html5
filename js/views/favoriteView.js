@@ -12,22 +12,22 @@ define([
   var FavoriteView = Backbone.View.extend({
     template: H.compile(favBtnTpl),
 
-    events: {
-      'click': 'favBtnClicked'
-    },
+    // events: {
+    //   'click': 'favBtnClicked'
+    // },
 
     initialize: function () { },
 
-    favBtnClicked: function (e) {
-      e.preventDefault();
-      var isActive = this.model.get('isActive');
-      this.model.set('isActive', !isActive);
-      this.render();
-    },
+    // favBtnClicked: function (e) {
+    //   e.preventDefault();
+    //   // var isActive = this.model.get('isActive');
+    //   // this.model.set('isActive', !isActive);
+    //   // this.render();
+    // },
 
     render: function () {
       var html, ctx = {};
-      ctx.isActive = this.model.get('isActive');
+      // ctx.isActive = this.model.get('isActive');
       html = this.template(ctx);
       this.$el.html(html);
       return this;
