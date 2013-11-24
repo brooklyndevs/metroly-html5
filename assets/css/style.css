@@ -153,7 +153,7 @@ html, body {
 }
 
 #menu-btn,
-#fav-btn {
+#busStops-btn {
     position: absolute;
     top: 14px;
     width: 32px;
@@ -167,13 +167,10 @@ html, body {
     background-image: url("../images/icon-list-sprite.svg");
 }
 
-#fav-btn {
+#busStops-btn {
     right: 14px;
-    background-image: url("../images/icon-fav-sprite.svg");
-}
-
-.fav-active {
-    background-position:0 -32px !important;
+    background: black;
+/*    background-image: url("../images/icon-fav-sprite.svg");*/
 }
 
 /*/////////////////////////////////////////////////////////////////////////////*/
@@ -271,6 +268,23 @@ html, body {
 .body-text {
     font-size: 12px;
     line-height: 21px;
+}
+
+/*/////////////////////////////////////////////////////////////////////////////*/
+/*/////////////////////////////////////////////////////////////////////////////*/
+/* Bus Stops Side Nav CSS */
+.busStops-side-nav{
+    background-color: #202020;
+    color: #cccccc;
+    overflow-y: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 200px;
+    height:450px;
+    display:none;
+    -webkit-box-shadow: inset -5px 0 15px #000000;
+    -webkit-overflow-scrolling: touch;
 }
 
 /*/////////////////////////////////////////////////////////////////////////////*/
@@ -413,7 +427,8 @@ input[type=search] {
 
 /* Containers */
 #liveContainer,
-#geoContainer {
+#geoContainer,
+#favContainer {
     position: absolute;
     bottom: 14px;
     text-decoration: none;
@@ -512,6 +527,12 @@ input[type=search] {
     right: 14px;
 }
 
+#favContainer {
+    width:40px;
+    right: 60px;
+    padding-bottom: 2px;
+}
+
 #geo-btn,
 #geo-active {
     background-image: url("../images/icon-geo-sprite.svg");
@@ -528,6 +549,17 @@ input[type=search] {
     background-position:0 -36px !important;
 }
 
+#fav-btn {
+    background-image: url("../images/icon-fav-sprite.svg");
+    background-repeat: no-repeat;
+    width:32px;
+    height:32px;
+/*    background: black;*/
+}
+
+.fav-active {
+    background-position:0 -32px !important;
+}
 
 /*/////////////////////////////////////////////////////////////////////////////*/
 /*/////////////////////////////////////////////////////////////////////////////*/
