@@ -33,11 +33,16 @@ define([
       var self = this;
       this.dispatcher = options.dispatcher;
 
-      this.model.on('change:bus', this.render, this);
-      this.model.on('change:route', this.render, this);
+      // Get corresponding models
+      this.mapModel = this.model.toJSON().mapModel;
+      this.busModel = this.model.toJSON().busModel
+
+      this.busModel.on('change:bus', this.render, this);
+      this.mapModel.on('change:route', this.render, this);
       this.dispatcher.on("app:isHomeState", function (isHomeState) {
         if (isHomeState) self.renderHomeState();
       });
+
     },
 
     menuClicked: function (e) {
@@ -77,7 +82,7 @@ define([
       Helpers.visuallySelectRoute(target);
 
       console.log('Selected direction', direction);
-      this.model.set('direction', direction);
+      this.busModel.set('direction', direction);
 
       return this.render();
     },
@@ -98,8 +103,8 @@ define([
 
       // CONTROL HEADER PARAMETERS
       var ctx = {};
-      ctx.route = this.model.get('route');
-      ctx.direction = this.model.get('direction');
+      ctx.route = this.mapModel.get('route');
+      ctx.direction = this.busModel.get('direction');
       if (!ctx.route) {
         return false;
       }

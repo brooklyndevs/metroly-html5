@@ -11,58 +11,28 @@ define([
 
   var MapModel = Backbone.Model.extend({
     defaults: {
-      bus: undefined,
-      direction: 0,
-      route: {},
-      currentStop: null
+      bus: undefined, // Bus id
+      route: {}, // Bus routes (uptown and downtown)
+      stops: {} // All the stops for the current bus
     },
 
+    // Initialize MapModel
     initialize: function () {
       var apiKey = this.get('apiKey');
       this.mta = new MtaBusTime(apiKey);
-      this.busesChangedCbs = [];
       this.routeChangedCbs = [];
-      this.on('change:bus', this.getBuses, this);
       this.on('change:bus', this.getRoute, this);
     },
 
-    resetBus: function () {
-      this.unset('bus');
-    },
 
-    getBuses: function () {
-
-      console.log("MapModel.getBuses -> mta.getBuses [0]");
-
-      var bus = this.get('bus'),
-          dir = this.get('direction'),
-          self = this;
-
-      
-      if (bus) {
-        // why? live spinner? I think it works without it.
-        // TODO Find the other place that causes the spinner to spin.
-        // Makes more sense to trigger an event to spin/unspin from this model.
-        this.trigger('getBuses');
-
-        console.log("MapModel.getBuses -> mta.getBuses [1] Bus route: [", bus, '] Direction: ', dir);
-
-        this.mta.getBuses(bus, dir, function (buses) {
-          self.trigger('showBuses', buses);
-        });
-      }
-    },
-
+    // Get Route from "MtaBusTime"
     getRoute: function () {
-
-      console.log("MapModel.getRoute -> mta.getRoute [0]");
-
+      console.log("MapModel.getRoute -> mta.getRoute");
       var bus = this.get('bus'),
           self = this,
           storedBus;
 
       if (bus) {
-
         storedBus = appState.getBus(bus) || {name: bus};
         storedBus.shortName = storedBus.name;
         // self.set('route', storedBus);
@@ -80,23 +50,13 @@ define([
       }
     },
 
+    // Get bus stops for "OneBusAway"
     getStops: function () {
       var self = this;
       OneBusAway.getBusStops(self.get('bus'), function (stops) {
         console.log('Got stops:', stops);
         self.trigger('gotStops', stops);
       });
-    },
-
-    onBusesChanged: function (cb, ctx) {
-      this.busesChangedCbs.push(_.bind(cb, ctx));
-    },
-
-    notifyBusesChanged: function (buses) {
-      var i, cbs = this.busesChangedCbs, cbsLength = cbs.length;
-      for (i = 0; i < cbsLength; i += 1) {
-        cbs[i](buses);
-      }
     }
 
   });

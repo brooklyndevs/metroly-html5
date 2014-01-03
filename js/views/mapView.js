@@ -149,19 +149,23 @@ define([
       this.dispatcher = options.dispatcher;
       this.router = options.router;
 
+      // Get corresponding models
+      this.mapModel = this.model.toJSON().mapModel;
+      this.busModel = this.model.toJSON().busModel
+
       this.initMap();
       $(window).bind("resize", _.bind(this.ensureMapHeight, this));
-      this.model.on('change:route', this.cacheRoute, this);
-      this.model.on('change:direction', this.changeDirection, this);
-      this.model.on('getBuses', this.options.liveView.startSpin, this);
-      this.model.on('showBuses', this.showBuses, this);
-      this.model.on('gotStops', this.cacheStops, this);
+      this.mapModel.on('change:route', this.cacheRoute, this);
+      this.busModel.on('change:direction', this.changeDirection, this);
+      this.busModel.on('getBuses', this.options.liveView.startSpin, this);
+      this.busModel.on('showBuses', this.showBuses, this);
+      this.mapModel.on('gotStops', this.cacheStops, this);
       this.initGeoLocate();
 
       $(document).on('click', '.stop-bubble-link', function (e) {
         e.preventDefault();
         var shortName = $(this).data('shortname');
-        if (shortName.toUpperCase() !== self.model.get('bus').toUpperCase()) {
+        if (shortName.toUpperCase() !== self.busModel.get('bus').toUpperCase()) {
           self.router.navigate('/buses/' + shortName);
           self.selectBus(shortName, {silent: true});
         }
@@ -169,7 +173,7 @@ define([
 
       this.dispatcher.bind("app:isHomeState", function (isHomeState) {
         if (isHomeState) {
-          self.model.resetBus();
+          self.busModel.resetBus();
           self.showHomeScreen(true);
         } else {
           self.showHomeScreen(false);
@@ -213,7 +217,7 @@ define([
       });
 
       this.map.on("locationfound", function(locData) {
-
+        console.log("GeoLocation Found");
         var currentMapZoom = self.map.getZoom(),
             currentMapBounds = self.map.getBounds();
 
@@ -225,24 +229,15 @@ define([
           panToAndRestoreSpinner(locData.latlng);
 
         } else {
+          setTimeout(function () {
+            panToAndRestoreSpinner(locData.latlng, function () {
 
-          self.map.on("zoomend", function zoomOnLcationFound (e) {
-
-            self.map.off("zoomend", zoomOnLcationFound);
-
-            setTimeout(function () {
-
-              panToAndRestoreSpinner(locData.latlng, function () {
-
-                self.map.setZoom(currentMapZoom, {
-                  animate: true
-                });
+              self.map.setZoom(currentMapZoom, {
+                animate: true
               });
+            });
 
-            }, 800);
-
-          });
-
+          }, 800);
           self.map.setZoom(11, {animate: true});
         }
 
@@ -328,7 +323,7 @@ define([
       if (options && options.silent) {
         self.switchRoutesSilently = true;
       }
-      this.model.set('bus', bus);
+      this.busModel.set('bus', bus);
     },
 
     startBusTracking: function () {
@@ -344,7 +339,7 @@ define([
       }
 
       var getBuses = function () {
-        self.model.getBuses();
+        self.busModel.getBuses();
       };
       this.poll.start(getBuses);
     },
@@ -354,10 +349,10 @@ define([
     },
 
     changeDirection: function () {
-      var direction = this.model.get('direction');
+      var direction = this.busModel.get('direction');
 
       // Fire request for live bus positions.
-      this.model.getBuses();
+      this.busModel.getBuses();
 
       // Show the cached route for this direction.
       this.map.removeLayer(CurrentRouteLayer);
@@ -416,10 +411,10 @@ define([
       var prevFocusedStop,
         currentCircleMarker,
         self = this,
-        route = self.model.get('route'),
+        route = self.mapModel.get('route'),
         busStopBubble = H.compile(busStopTpl),
         routeName = route.shortName,
-        currentStop = self.model.get('currentStop') || {},
+        currentStop = self.busModel.get('currentStop') || {},
         stopCircle = {
           stroke: true,
           color: 'white',
@@ -429,7 +424,7 @@ define([
           radius: 7,
           opacity: 0.7
         },
-        direction = self.model.get('direction');
+        direction = self.busModel.get('direction');
 
       StopsLayers.dir0 = new L.LayerGroup();
       StopsLayers.dir1 = new L.LayerGroup();
@@ -442,7 +437,7 @@ define([
           circle.bindPopup(busStopBubble({routeName: route.shortName, stop: stop}));
 
           circle.on("click", function () {
-            self.model.set('currentStop', stop);
+            self.busModel.set('currentStop', stop);
             self.map.panTo(latlng);
           });
 
@@ -463,7 +458,7 @@ define([
         CurrentStopsLayer = StopsLayers.dir1;
       }
 
-      self.model.set('currentStop', currentStop);
+      self.busModel.set('currentStop', currentStop);
       this.determineLayerVisibility();
 
       if (prevFocusedStop) {
@@ -480,8 +475,8 @@ define([
 
     cacheRoute: function () {
       var self = this,
-        route = this.model.get('route'),
-        directionId = this.model.get('direction'),
+        route = this.mapModel.get('route'),
+        directionId = this.busModel.get('direction'),
         directions = route.directions;
 
       RouteLayers.dir0 = new L.LayerGroup();
