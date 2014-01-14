@@ -7,9 +7,22 @@ html, body {
     overflow: hidden;
     margin:0;
     font-family: 'Open Sans', sans-serif;
+
     -webkit-backface-visibility: hidden;
+    -moz-border-visibility: hidden; 
+    -ms-border-visibility: hidden;
+    border-visibility: hidden;
+
     -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -moz-tap-highlight-color: rgba(0,0,0,0);
+    -ms-tap-highlight-color: rgba(0,0,0,0);
+    tap-highlight-color: rgba(0,0,0,0);
+
     -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+
 }
 
 /*/////////////////////////////////////////////////////////////////////////////*/
@@ -87,13 +100,29 @@ html, body {
 
 .no-flick{
     -webkit-perspective: 1000;
+    -moz-perspective: 1000;
+    -ms-perspective: 1000;
+    perspective: 1000;
+
     -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+
     -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 .page{
     position: relative;
     width:100%;
+
+    -webkit-transition: margin-left .4s;
+    -moz-transition: margin-left .4s;
+    -ms-transition: margin-left .4s;
+    transition: margin-left .4s;
 }
 
 /* XX If possible, remove through leaflet */
@@ -185,9 +214,11 @@ html, body {
 .route-name{
     font-size: 12px;
     height:45px;
-    display:-webkit-box;
-    -webkit-box-pack:center;
-    -webkit-box-align:center;
+
+    /* Center text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .dir-sprite{
@@ -283,8 +314,16 @@ html, body {
     width: 200px;
     height:450px;
     display:none;
+
     -webkit-box-shadow: inset -5px 0 15px #000000;
+    -moz-box-shadow: inset -5px 0 15px #000000;
+    -ms-box-shadow: inset -5px 0 15px #000000;
+    box-shadow: inset -5px 0 15px #000000;
+
     -webkit-overflow-scrolling: touch;
+    -moz-overflow-scrolling: touch;
+    -ms-overflow-scrolling: touch;
+    overflow-scrolling: touch;
 }
 
 /*/////////////////////////////////////////////////////////////////////////////*/
@@ -303,14 +342,22 @@ html, body {
     background-color: #202020;
     width: 200px;
     color: #cccccc;
-    overflow-y: auto;
+    overflow-x: hidden;
     position: absolute;
     font-size:12px;
     left: 0;
     top: 0;
     display:none;
+
     -webkit-box-shadow: inset -5px 0 15px #000000;
+    -moz-box-shadow: inset -5px 0 15px #000000;
+    -ms-box-shadow: inset -5px 0 15px #000000;
+    box-shadow: inset -5px 0 15px #000000;
+
     -webkit-overflow-scrolling: touch;
+    -moz-overflow-scrolling: touch;
+    -ms-overflow-scrolling: touch;
+    overflow-scrolling: touch;
 }
 
 .list-header {
@@ -348,8 +395,12 @@ html, body {
     border-left-width: 3px;
     border-left-color: #000000;
     background-color: #121212;
-    -webkit-box-shadow: inset 0 1px 0 #212121;
     padding: 15px 15px 15px 40px;
+
+    -webkit-box-shadow: inset 0 1px 0 #212121;
+    -moz-box-shadow: inset 0 1px 0 #212121;
+    -ms-box-shadow: inset 0 1px 0 #212121;
+    box-shadow: inset 0 1px 0 #212121;
 }
 .list-link,
 .list-link-empty {
@@ -410,13 +461,19 @@ input[type=search] {
     background-color: #121212;
     color: #cccccc;
     -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
     border-radius: 15px;
+
     -webkit-box-shadow:inset 0 1px 3px #000000;
+    -moz-box-shadow:inset 0 1px 3px #000000;
+    -ms-box-shadow:inset 0 1px 3px #000000;
     box-shadow:inset 0 1px 3px #000000;
+
     padding-left: 25px;
     padding-right: 8px;
     outline: 0;
-    width: 100%;
+/*    width: 80%;*/
     border: 1px solid #333333;
     height: 30px;
 }
@@ -474,6 +531,9 @@ input[type=search] {
     bottom:10px;
     visibility:hidden;
     -webkit-transition:all .2s;
+    -moz-transition:all .2s;
+    -ms-transition:all .2s;
+    transition:all .2s;
 }
 
 .liveBubbleList{
@@ -565,10 +625,10 @@ input[type=search] {
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* Animations CSS */
 .spin360 {
-    -webkit-animation-name: spin;
-    -webkit-animation-duration: 1.5s;
-    -webkit-animation-iteration-count: Infinite;
-    -webkit-animation-timing-function: linear;
+    -webkit-animation: spin 1.5s infinite linear;
+    -moz-animation: spin 1.5s infinite linear;
+    -ms-animation: spin 1.5s infinite linear;
+    animation: spin 1.5s infinite linear;
 }
 
 @-webkit-keyframes spin {
@@ -577,5 +637,29 @@ input[type=search] {
     }
     to {
         -webkit-transform: rotate(360deg);
+    }
+}
+@-moz-keyframes spin {
+    from {
+        -moz-transform: rotate(0deg);
+    }
+    to {
+        -moz-transform: rotate(360deg);
+    }
+}
+@-ms-keyframes spin {
+    from {
+        -ms-transform: rotate(0deg);
+    }
+    to {
+        -ms-transform: rotate(360deg);
+    }
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }

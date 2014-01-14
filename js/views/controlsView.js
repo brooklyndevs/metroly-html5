@@ -46,8 +46,6 @@ define([
       $(".busStops-side-nav").hide();
       $(".side-nav").show();
       var pg = document.querySelector('.page');
-      pg.style.webkitTransition = "margin-left .4s";
-
       if (pg.style.marginLeft.trim().length > 0) {
         pg.style.marginLeft = "";
       } else {
@@ -61,8 +59,6 @@ define([
       $(".side-nav").hide();
       $(".busStops-side-nav").show();
       var pg = document.querySelector('.page');
-      pg.style.webkitTransition = "margin-left .4s";
-
       if (pg.style.marginLeft.trim().length > 0) {
         pg.style.marginLeft = "";
       } else {
