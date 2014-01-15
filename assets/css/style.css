@@ -663,3 +663,17 @@ input[type=search] {
         transform: rotate(360deg);
     }
 }
+
+
+/* Ouch!!! Temporary "fix" to push this out! */
+#busStops-btn {
+    display: none;
+}
+
+#favContainer {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    z-index: 1000;
+    height: 35px;
+}
