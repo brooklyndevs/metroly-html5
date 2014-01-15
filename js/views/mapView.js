@@ -61,7 +61,7 @@ define([
 
   var BusStopIcon = L.Icon.extend({
     options: {
-      iconUrl: 'assets/images/icon_set/icon-stop.svg',
+      iconUrl: 'assets/images/icon-stop.svg',
       iconSize: [26, 40],
       shadowSize: [13, 29],
       iconAnchor: [13, 40],
