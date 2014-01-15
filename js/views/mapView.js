@@ -225,37 +225,37 @@ define([
 
       this.map.on("locationfound", function(locData) {
 
-        var currentMapZoom = self.map.getZoom(),
-            currentMapBounds = self.map.getBounds();
+        // var currentMapZoom = self.map.getZoom(),
+        //     currentMapBounds = self.map.getBounds();
 
 
         //IF Not Useful, just comment out Else Block
         // and leave If condition's code
-        if (currentMapBounds.contains(locData.latlng)) {
+        // if (currentMapBounds.contains(locData.latlng)) {
 
           panToAndRestoreSpinner(locData.latlng);
 
-        } else {
+        // } else {
 
-          self.map.on("zoomend", function zoomOnLcationFound (e) {
+        //   self.map.on("zoomend", function zoomOnLcationFound (e) {
 
-            self.map.off("zoomend", zoomOnLcationFound);
+        //     self.map.off("zoomend", zoomOnLcationFound);
 
-            setTimeout(function () {
+        //     setTimeout(function () {
 
-              panToAndRestoreSpinner(locData.latlng, function () {
+        //       panToAndRestoreSpinner(locData.latlng, function () {
 
-                self.map.setZoom(currentMapZoom, {
-                  animate: true
-                });
-              });
+        //         self.map.setZoom(currentMapZoom, {
+        //           animate: true
+        //         });
+        //       });
 
-            }, 800);
+        //     }, 800);
 
-          });
+        //   });
 
-          self.map.setZoom(11, {animate: true});
-        }
+        //   self.map.setZoom(11, {animate: true});
+        // }
 
         function panToAndRestoreSpinner(LatLng, callback) {
 
@@ -278,12 +278,12 @@ define([
 
           $("#geo-btn").removeClass("disabled");
 
-          function restoreSpinnerAndCallback() {
+          // function restoreSpinnerAndCallback() {
 
             $("#geo-btn").removeClass("geo-active");
             $("#geo-btn").removeClass("spin360");
 
-            if (callback) callback();
+            // if (callback) callback();
 
             var popup = L.popup({
               closeButton: false,
@@ -295,9 +295,9 @@ define([
 
             console.log(popup);
 
-          }
+          // }
 
-          setTimeout(restoreSpinnerAndCallback, 800);
+          // setTimeout(restoreSpinnerAndCallback, 800);
 
         }
 

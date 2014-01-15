@@ -215,10 +215,14 @@ html, body {
     font-size: 12px;
     height:45px;
 
-    /* Center text */
+    /* Center text other browser*/
     display: flex;
     justify-content: center;
     align-items: center;
+
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
 }
 
 .dir-sprite{
