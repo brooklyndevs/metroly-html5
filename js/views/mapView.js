@@ -408,7 +408,7 @@ define([
         lng = bus.VehicleLocation.Longitude;
         bearing = bus.Bearing;
         locatorIcon = createLocatorIcon(bearing);
-        marker = L.marker([lat, lng], {icon: locatorIcon});
+        marker = L.marker([lat, lng], {icon: locatorIcon, zIndexOffset: 1000});
         // TODO FUTURE Swap this out for a handlebars template.
         markerInfo = "<p><strong>" + bus.PublishedLineName + "</strong> &rarr; " + bus.DestinationName + "</p>";
         marker.bindPopup(markerInfo);
