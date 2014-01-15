@@ -59,6 +59,17 @@ define([
     }
   });
 
+  var BusStopIcon = L.Icon.extend({
+    options: {
+      iconUrl: '//s3.amazonaws.com/uploads.hipchat.com/57014/390545/mJeJU7EYtYBiclE/icon-stop.svg',
+      iconSize: [26, 40],
+      shadowSize: [13, 29],
+      iconAnchor: [13, 40],
+      shadowAnchor: [-1, 29],
+      popupAnchor: [1, -40]
+    }
+  });
+
   var imagesBasePath = 'assets/images/icon_set/';
   var locators = {
     n: new LocatorIcon({iconUrl: imagesBasePath + 'icon_n.svg'}),
@@ -437,7 +448,7 @@ define([
       _.each(stopGroups, function (destinationGroup, idx) {
         _.each(destinationGroup, function (stop) {
           var latlng = new L.LatLng(stop.lat, stop.lon),
-            circle = L.circleMarker(latlng, stopCircle);
+            circle = L.marker(latlng, {icon: BusStopIcon});
 
           circle.bindPopup(busStopBubble({routeName: route.shortName, stop: stop}));
 
