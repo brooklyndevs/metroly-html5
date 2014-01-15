@@ -448,7 +448,7 @@ define([
       _.each(stopGroups, function (destinationGroup, idx) {
         _.each(destinationGroup, function (stop) {
           var latlng = new L.LatLng(stop.lat, stop.lon),
-            circle = L.marker(latlng, {icon: new BusStopIcon});
+            circle = L.marker(latlng, {icon: new BusStopIcon()});
 
           circle.bindPopup(busStopBubble({routeName: route.shortName, stop: stop}));
 
