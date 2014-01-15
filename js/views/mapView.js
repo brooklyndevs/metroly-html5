@@ -61,7 +61,7 @@ define([
 
   var BusStopIcon = L.Icon.extend({
     options: {
-      iconUrl: '//s3.amazonaws.com/uploads.hipchat.com/57014/390545/mJeJU7EYtYBiclE/icon-stop.svg',
+      iconUrl: 'assets/images/icon_set/icon-stop.svg',
       iconSize: [26, 40],
       shadowSize: [13, 29],
       iconAnchor: [13, 40],
@@ -448,7 +448,7 @@ define([
       _.each(stopGroups, function (destinationGroup, idx) {
         _.each(destinationGroup, function (stop) {
           var latlng = new L.LatLng(stop.lat, stop.lon),
-            circle = L.marker(latlng, {icon: BusStopIcon});
+            circle = L.marker(latlng, {icon: new BusStopIcon});
 
           circle.bindPopup(busStopBubble({routeName: route.shortName, stop: stop}));
 
